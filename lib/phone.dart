@@ -17,10 +17,11 @@ class PhoneNumberEntryPage extends StatelessWidget {
 
 
       body:
+
       Stack(
 
         children: [
-          
+
 
 
           phone_number(),
@@ -50,24 +51,41 @@ class _phone_numberState extends State<phone_number> {
 
 
 
-      Padding(
-        padding: const EdgeInsets.all(0.0),
-        child: Column(
+      Column(
 
-          children: [
-            Expanded(child:
-            Lottie.asset('assets/background_animation.json',
-              alignment: Alignment.topCenter,
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.fitWidth,
+        children: [
+          Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+              alignment: Alignment.topLeft,
+               child:
+               IconButton(
+                  icon: const Icon(Icons.arrow_back, color: Colors.black),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    }
+                  )
+                 )
+                ]
+               ),
 
-            ),
-            ),
+          Expanded(child:
+          Lottie.asset('assets/background_animation.json',
+            alignment: Alignment.topCenter,
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.fill,
 
-            const Text('Sajilo Yatayat',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-            const Text('Everything you need for travel',style: TextStyle(fontSize: 20),),
-            Center(
+          ),
+          ),
+
+          const Text('Sajilo Yatayat',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
+          const Text('Everything you need for travel',style: TextStyle(fontSize: 20),),
+          SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: Center(
 
               child: InternationalPhoneNumberInput(
 
@@ -79,38 +97,71 @@ class _phone_numberState extends State<phone_number> {
                 },
                 inputDecoration: const InputDecoration(
                   labelText: 'Phone Number',
-                  border: OutlineInputBorder(),
+                  border:UnderlineInputBorder(),
                 ),
               ),
 
             ),
+          ),
+             const SizedBox(height: 10),
 
 
-               Column(
-                  // crossAxisAlignment: CrossAxisAlignment.end,
-                 children: [
+             Column(
+                // crossAxisAlignment: CrossAxisAlignment.end,
+               children: [
 
-                   ElevatedButton(
+                 Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: SizedBox(
+                     width: double.infinity,
+                     height: 50,
+                     child: ElevatedButton(
+                       style: ElevatedButton.styleFrom(
+                       shape:
+                       RoundedRectangleBorder(
+                         borderRadius: BorderRadius.circular(10), // BorderRadius of the button
+                       ),
+                         backgroundColor: Colors.green
+                       ),
 
 
-                    onPressed: () {
+                      onPressed: () {
 
-                      // Do something with the entered phone number
-                      print('Entered Phone Number: $pNum');
-                    },
-                    child: const Text('Submit'),
-                                 ),
-                 ],
-               ),
+                        // Do something with the entered phone number
+                        print('Entered Phone Number: $pNum');
+                      },
+                      child: const Text('Login',style: TextStyle(color: Colors.white),),
+                                   ),
+                   ),
+                 ),
 
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.asset('assets/semi.png'),
-              ],
-            ),
-          ],
+               ],
+             ),
+
+      Center(
+        child: RichText(
+          text: const TextSpan(
+            text: 'By signing in,you accept our ',
+            style: TextStyle(color: Colors.black),
+            children: [
+              TextSpan(
+                text: 'terms & policies.',
+                style: TextStyle(color: Colors.blue),
+              ),
+            ],
+          ),
         ),
+      ),
+
+
+
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset('assets/semi.png'),
+            ],
+          ),
+        ],
       ),
     );
   }

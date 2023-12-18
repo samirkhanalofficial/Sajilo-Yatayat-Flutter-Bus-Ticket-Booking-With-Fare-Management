@@ -28,6 +28,7 @@ class RoleSelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
 
 
       body: Column(
@@ -66,7 +67,7 @@ class RoleSelectionPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10), // BorderRadius of the button
                 side: const BorderSide(color: Colors.green, width: 2), // Border color and width
                    ),
-                padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 195 ),
+
                  ),
 
             onPressed: () {
@@ -78,7 +79,7 @@ class RoleSelectionPage extends StatelessWidget {
                 ),
               );
             },
-            child: const Text('Passenger',style: TextStyle(color: Colors.green,fontSize: 20)),
+            child: const Text('Passenger',style: TextStyle(color: Colors.green,fontSize: 20),textAlign: TextAlign.center,),
           ),
           const SizedBox(height: 20),
 
@@ -90,7 +91,6 @@ class RoleSelectionPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10), // BorderRadius of the button
                 side: const BorderSide(color: Colors.green, width: 2), // Border color and width
               ),
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 195),
             )
 
             ,
@@ -103,7 +103,7 @@ class RoleSelectionPage extends StatelessWidget {
                 ),
               );
             },
-            child: const Text('Bus Owner',style: TextStyle(color: Colors.green,fontSize: 20),),
+            child: const Text('Bus Owner',style: TextStyle(color: Colors.green,fontSize: 20),textAlign: TextAlign.center,),
           ),
 
 
