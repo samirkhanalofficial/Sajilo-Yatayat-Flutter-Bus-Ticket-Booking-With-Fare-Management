@@ -1,17 +1,9 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
-import 'verify_otp.dart';
 import 'package:lottie/lottie.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:get/get.dart';
-
-class PhoneNumberController extends GetxController {
-  final RxString phoneNumber = ''.obs; // Observe changes in phone number
-  void updatePhoneNumber(String number) {
-    phoneNumber.value = number;
-  }
-}
-
-final phoneNumberController = PhoneNumberController(); // Singleton instance
 
 class PhoneNumberEntryPage extends StatelessWidget {
   final String role;
@@ -40,90 +32,74 @@ class phone_number extends StatefulWidget {
 }
 
 class _phone_numberState extends State<phone_number> {
-  String pNum = '';
-  final PhoneNumberController phoneController =
-      Get.put(PhoneNumberController());
-
-  void updatePhoneNumber(String phoneNumber) {
-    setState(() {
-      pNum = phoneNumber;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
+    const Color green = Color(0xFF0ACF83);
+
     return Column(
       children: [
         Lottie.asset(
-          'assets/background_animation.json',
+          'assets/lottie/background_animation.json',
           alignment: Alignment.topCenter,
           width: screenWidth,
           height: screenHeight * 0.33,
           fit: BoxFit.fill,
         ),
-        Column(
-          children: [
-            const Text(
-              'Sajilo Yatayat',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-            ),
-            const Text('Everything you need for travel',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            SizedBox(
-              width: screenWidth * 0.9,
-              height: screenHeight * 0.09,
-              child: Center(
-                child: InternationalPhoneNumberInput(
-                  maxLength: 10,
-                  onInputChanged: (PhoneNumber number) {
-                    phoneController.updatePhoneNumber(number.phoneNumber!);
-                    print(number
-                        .phoneNumber); // You can store the entered phone number
-                    setState(() {
-                      pNum = number.phoneNumber!;
-                    });
-                  },
-                  inputDecoration: const InputDecoration(
-                    labelText: 'Phone Number',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+        Container(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                const Text(
+                  'Sajilo Yatayat',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                ),
+                const Text('Everything you need for travel',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                SizedBox(
+                  height: screenHeight * 0.09,
+                  child: Center(
+                    child: InternationalPhoneNumberInput(
+                      maxLength: 10,
+                      onInputChanged: (PhoneNumber number) {
+                        setState(() {
+                        });
+                      },
+                      inputDecoration: const InputDecoration(
+                        labelText: 'Phone Number',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            SizedBox(
-              width: screenWidth * 0.9,
-              height: screenHeight * 0.05,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(10), // BorderRadius of the button
+                const SizedBox(height: 5),
+                SizedBox(
+                  width: double.infinity,
+                  height: screenHeight * 0.05,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            10), // BorderRadius of the button
+                      ),
+                      backgroundColor: green,
+                    ),
+                    onPressed: () {
+                      Get.toNamed('/otp');
+                    },
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                  backgroundColor: Colors.green,
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => verify_otp(
-                              pNum: '',
-                              enteredPhoneNumber: '',
-                            )),
-                  );
-                },
-                child: const Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ],
-        ),
+              ],
+            )),
         const SizedBox(height: 10),
         Center(
           child: RichText(
@@ -148,7 +124,7 @@ class _phone_numberState extends State<phone_number> {
                 height: screenWidth * 0.5, // Adjust the size as needed
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.green, // Replace with your desired color
+                  color: green, // Replace with your desired color
                 ),
               ),
             )),
