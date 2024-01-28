@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tryapp/roleselection.dart';
+import 'package:tryapp/verify_otp.dart';
 import 'phone.dart';
-import 'package:lottie/lottie.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,114 +13,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => const RoleSelectionPage()),
+        GetPage(
+            name: '/phone',
+            page: () => const PhoneNumberEntryPage(role: 'Passenger')),
+        GetPage(
+            name: '/phone',
+            page: () => const PhoneNumberEntryPage(role: 'Owner')),
+        GetPage(
+            name: '/otp',
+            page: () => const verifyotp()),
+        // GetPage(name: '/register', page: ()=> register()),
+      ],
       debugShowCheckedModeBanner: false,
       title: 'Sajilo Yatayat',
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const RoleSelectionPage(),
     );
   }
 }
-
-class RoleSelectionPage extends StatelessWidget {
-  const RoleSelectionPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-
-      body: Column(
-
-        children: [
-          Expanded(child:
-          Lottie.asset('assets/background_animation.json',
-            alignment: Alignment.topCenter,
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.fill,
-
-          ),
-          ),
-
-          const Text('Sajilo Yatayat',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-          const Text('Everything you need for travel',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Row(
-
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Choose your role:',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),)
-              ],
-            ),
-          ),
-
-
-          ElevatedButton(
-               style: ElevatedButton.styleFrom(
-                 primary: Colors.white,
-                shape:
-                RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10), // BorderRadius of the button
-                side: const BorderSide(color: Colors.green, width: 2), // Border color and width
-                   ),
-                padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 195 ),
-                 ),
-
-            onPressed: () {
-              // Navigate to the phone number entry page for passengers
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PhoneNumberEntryPage(role: 'Passenger'),
-                ),
-              );
-            },
-            child: const Text('Passenger',style: TextStyle(color: Colors.green,fontSize: 20)),
-          ),
-          const SizedBox(height: 20),
-
-
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape:
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10), // BorderRadius of the button
-                side: const BorderSide(color: Colors.green, width: 2), // Border color and width
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 195),
-            )
-
-            ,
-            onPressed: () {
-              // Navigate to the phone number entry page for bus owner
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PhoneNumberEntryPage(role: 'Bus Owner'),
-                ),
-              );
-            },
-            child: const Text('Bus Owner',style: TextStyle(color: Colors.green,fontSize: 20),),
-          ),
-
-
-
-
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              Image.asset('assets/semi.png'),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
