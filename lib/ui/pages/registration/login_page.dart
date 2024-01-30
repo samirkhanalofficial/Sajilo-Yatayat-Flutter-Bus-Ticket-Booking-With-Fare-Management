@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import 'package:lottie/lottie.dart';
-import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/ui/widgets/global/phone_input.dart';
+import 'package:tryapp/api/login_function.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+  static String verify = '';
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final phoneNumberData = TextEditingController();
+  @override
+  void dispose() {
+    phoneNumberData.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +65,15 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                const NepalFlagInputField(),
+                NepalFlagInputField(
+                  phoneNumberData: phoneNumberData,
+                ),
                 const SizedBox(
                   height: 19,
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Get.toNamed(RoutesNames.otpVerificationPage);
+                    loginFucntion(phoneNumberData);
                   },
                   child: const Text('Login'),
                 ),
