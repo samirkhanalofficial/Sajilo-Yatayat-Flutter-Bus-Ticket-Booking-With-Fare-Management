@@ -20,7 +20,6 @@ class verify_otp extends StatelessWidget {
 }
 
 class verifyotp extends StatefulWidget {
-
   const verifyotp({super.key});
 
   @override
@@ -28,7 +27,6 @@ class verifyotp extends StatefulWidget {
 }
 
 class _verifyotpState extends State<verifyotp> {
-
   @override
   Widget build(BuildContext context) {
     List<TextEditingController> pinControllers =
@@ -37,7 +35,6 @@ class _verifyotpState extends State<verifyotp> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     const Color green = Color(0xFF0ACF83);
-
 
     return Stack(children: [
       Stack(children: [
@@ -75,7 +72,7 @@ class _verifyotpState extends State<verifyotp> {
       Column(
         children: [
           Lottie.asset(
-            'assets/lottie/otp.json',
+            'asset/animations/otp.json',
             alignment: Alignment.center,
             width: screenWidth * 0.5,
             height: screenWidth * 0.5,
@@ -148,7 +145,8 @@ class _verifyotpState extends State<verifyotp> {
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     backgroundColor: green),
                 onPressed: () {
                   Get.toNamed('/register');
