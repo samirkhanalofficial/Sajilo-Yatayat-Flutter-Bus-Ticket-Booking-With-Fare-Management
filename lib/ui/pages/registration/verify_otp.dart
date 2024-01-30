@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
 import 'package:tryapp/ui/pages/registration/login_page.dart';
-import 'package:tryapp/ui/pages/registration/user/user_profile.dart';
+import 'package:tryapp/ui/pages/registration/user/user_registration.dart';
 
 class VerifyOTP extends StatefulWidget {
   const VerifyOTP({super.key});
@@ -138,7 +138,8 @@ class _VerifyOTPState extends State<VerifyOTP> {
                         var token = await users!.getIdToken();
                         debugPrint(token);
                         Get.to(
-                          () => const UserProfile(),
+                          () => const UserRegistration(),
+                          arguments: token,
                         );
                       } catch (e) {
                         Get.snackbar('Error', '$e');
