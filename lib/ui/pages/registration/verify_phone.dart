@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:lottie/lottie.dart';
+import 'package:tryapp/ui/pages/registration/verify_otp.dart';
 import 'package:tryapp/ui/widgets/global/phone_input.dart';
 
 class VerifyPhoneNumber extends StatelessWidget {
@@ -56,7 +59,11 @@ class VerifyPhoneNumber extends StatelessWidget {
                   height: 19,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(
+                      const OtpVerification(),
+                    );
+                  },
                   child: const Text('Login'),
                 ),
                 const SizedBox(

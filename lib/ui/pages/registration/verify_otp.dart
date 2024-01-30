@@ -1,163 +1,122 @@
-// ignore_for_file: camel_case_types
-
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart' show Lottie;
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+import 'package:pinput/pinput.dart';
 
-class verify_otp extends StatelessWidget {
-  const verify_otp({super.key});
+class OtpVerification extends StatelessWidget {
+  const OtpVerification({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final defaultPinTheme = PinTheme(
+      width: 50,
+      height: 55,
+      textStyle: const TextStyle(
+          fontSize: 20, color: Color(0xFF0ACF83), fontWeight: FontWeight.w600),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF1F0EE),
+        border: Border.all(
+          color: const Color(0xFFF1F0EE),
+        ),
+        borderRadius: BorderRadius.circular(16),
+      ),
+    );
+    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
+      border: Border.all(color: Theme.of(context).primaryColor),
+      borderRadius: BorderRadius.circular(16),
+    );
+
+    final submittedPinTheme = defaultPinTheme.copyWith(
+      decoration: defaultPinTheme.decoration?.copyWith(
+        color: const Color(0xFFF1F0EE),
+      ),
+    );
     return Scaffold(
-      body: ListView(
-        children: const [
-          verifyotp(),
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        children: [
+          Positioned(
+            top: -90,
+            right: -100,
+            child: Hero(
+              tag: 'circle',
+              child: Container(
+                width: 330,
+                height: 250,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).primaryColor),
+              ),
+            ),
+          ),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            body: ListView(
+              padding: const EdgeInsets.all(16.0),
+              children: [
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: TextButton(
+                    onPressed: () {
+                      Get.off(const OtpVerification());
+                    },
+                    child: const Text('< Back'),
+                  ),
+                ),
+                const SizedBox(
+                  height: 180,
+                ),
+                Lottie.asset(
+                  'asset/animations/otp.json',
+                  height: MediaQuery.of(context).size.height * 0.22,
+                  animate: true,
+                  repeat: true,
+                ),
+                const SizedBox(
+                  height: 60,
+                ),
+                Text('Verify', style: Theme.of(context).textTheme.titleLarge),
+                const SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  'Enter the otp sent to your mobile',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                const Text(
+                  '+977 9804838340',
+                  style: TextStyle(color: Colors.blue),
+                ),
+                const SizedBox(
+                  height: 19,
+                ),
+                Pinput(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  defaultPinTheme: defaultPinTheme,
+                  focusedPinTheme: focusedPinTheme,
+                  submittedPinTheme: submittedPinTheme,
+                  pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                  showCursor: true,
+                  length: 6,
+                ),
+                const SizedBox(
+                  height: 19,
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Verify'),
+                ),
+                const SizedBox(
+                  height: 19,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
-  }
-}
-
-class verifyotp extends StatefulWidget {
-  const verifyotp({super.key});
-
-  @override
-  State<verifyotp> createState() => _verifyotpState();
-}
-
-class _verifyotpState extends State<verifyotp> {
-  @override
-  Widget build(BuildContext context) {
-    List<TextEditingController> pinControllers =
-        List.generate(6, (index) => TextEditingController());
-
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double screenWidth = MediaQuery.of(context).size.width;
-    const Color green = Color(0xFF0ACF83);
-
-    return Stack(children: [
-      Stack(children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: IconButton(
-            icon: const Row(children: [
-              Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-              ),
-              Text(
-                'Back',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )
-            ]),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-        ),
-        Align(
-            alignment: Alignment.topRight,
-            child: FractionalTranslation(
-                translation: const Offset(0.5, -0.5),
-                child: Container(
-                  width: screenWidth * 0.9, // Adjust the size as needed
-                  height: screenWidth * 0.8, // Adjust the size as needed
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: green, // Replace with your desired color
-                  ),
-                ))),
-      ]),
-      Column(
-        children: [
-          Lottie.asset(
-            'asset/animations/otp.json',
-            alignment: Alignment.center,
-            width: screenWidth * 0.5,
-            height: screenWidth * 0.5,
-            fit: BoxFit.fill,
-          ),
-          SizedBox(
-            width: screenWidth * 0.9,
-            child: const Text(
-              'Verify',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(
-            width: screenWidth * 0.9,
-            child: const Text(
-              'Enter otp:',
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
-          // Row(
-          //   children: [
-          //     SizedBox(
-          //       child: Text(phoneNumber='', style: TextStyle(color: Colors.black),),
-          //     ),
-          //   ],
-          // ),
-          // SizedBox(
-          //     width: screenWidth * 0.9,
-          //     child: Row(
-          //       children: List.generate(
-          //         6,
-          //         (index) => Expanded(
-          //           child: Padding(
-          //             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          //             child: TextField(
-          //                 controller: pinControllers[index],
-          //                 keyboardType: TextInputType.number,
-          //                 maxLength: 1,
-          //                 obscureText: true,
-          //                 textAlign: TextAlign.center,
-          //                 decoration: InputDecoration(
-          //                   contentPadding: const EdgeInsets.all(10),
-          //                   counterText: '',
-          //                   border: OutlineInputBorder(
-          //                     borderRadius: BorderRadius.circular(20),
-          //                   ),
-          //                 ),
-          //                 onChanged: (String value) {
-          //                   if (value.length == 1) {
-          //                     if (index < 5) {
-          //                       FocusScope.of(context).nextFocus();
-          //                     } else {
-          //                       // Keep focus on the last TextField until the correct length is reached
-          //                       if (pinControllers[5].text.isNotEmpty) {
-          //                         FocusScope.of(context).unfocus();
-          //                       }
-          //                     }
-          //                   }
-          //                 }),
-          //           ),
-          //         ),
-          //       ),
-          //     )),
-          const SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            width: screenWidth * 0.9,
-            height: screenHeight * 0.05,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    backgroundColor: green),
-                onPressed: () {
-                  Get.toNamed('/register');
-                },
-                child: const Text(
-                  'Verify',
-                  style: TextStyle(color: Colors.white),
-                )),
-          )
-        ],
-      )
-    ]);
   }
 }
