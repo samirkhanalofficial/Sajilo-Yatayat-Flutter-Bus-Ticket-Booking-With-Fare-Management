@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
-import 'package:tryapp/ui/pages/registration/user/user_home.dart';
 
 class VerifyOTP extends StatelessWidget {
   const VerifyOTP({super.key});
