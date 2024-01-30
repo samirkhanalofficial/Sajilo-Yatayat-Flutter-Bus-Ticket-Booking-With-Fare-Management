@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 TextTheme textThemeData() {
   return const TextTheme(
+
     titleLarge: TextStyle(
       fontSize: 40,
       fontWeight: FontWeight.w400,

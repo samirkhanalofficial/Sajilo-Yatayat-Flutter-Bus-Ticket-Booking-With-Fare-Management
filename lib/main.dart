@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:tryapp/config/elevated_button_theme.dart';
-import 'package:tryapp/config/input_decoration_theme.dart';
-import 'package:tryapp/config/text_theme.dart';
-import 'package:tryapp/ui/pages/global/verify_phone.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:tryapp/config/theme/elevated_button_theme.dart';
+import 'package:tryapp/config/theme/input_decoration_theme.dart';
+import 'package:tryapp/config/routes/app_routes.dart';
+import 'package:tryapp/config/routes/routes_names.dart';
+import 'package:tryapp/config/theme/text_theme.dart';
+import 'package:tryapp/ui/pages/registration/verify_phone.dart';
 
 void main() {
   runApp(
@@ -18,27 +21,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: '/',
-      getPages: [
-        GetPage(
-          name: '/',
-          page: () => const VerifyPhoneNumber(),
-        )
-      ],
+      initialRoute: RoutesNames.homePage,
+      getPages: appRoutes,
       title: 'Sajilo Yatatt',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: const Color.fromRGBO(10, 207, 131, 1),
+        primaryColor: const Color(0xFF0ACF83),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromRGBO(10, 207, 131, 1),
-          primary: const Color.fromRGBO(10, 207, 131, 1),
+          seedColor: const Color(0xFF0ACF83),
+          primary: const Color(0xFF0ACF83),
         ),
-        textTheme: textThemeData(),
+        textTheme: GoogleFonts.robotoTextTheme(textThemeData()),
         elevatedButtonTheme: elevatedButtonThemeData(),
         inputDecorationTheme: inputDecorationThemeData(),
         useMaterial3: false,
       ),
-      home: const VerifyPhoneNumber(),
     );
   }
 }
