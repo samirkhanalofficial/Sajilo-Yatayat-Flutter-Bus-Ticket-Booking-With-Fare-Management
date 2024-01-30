@@ -1,16 +1,28 @@
-# tryapp
+# Sajilo Yatayat Flutter
 
-A new Flutter project.
+Minor project done by the following team members:
+
+- Sumit Ray
+- Ritesh Karmacharya
+- Babita Shrestha
+- Samir Khanal
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. clone the project
 
-A few resources to get you started if this is your first Flutter project:
+   ```terminal
+   git clone git@github.com:samirkhanal077/sajilo-yatayat-flutter.git
+   ```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+2. download dependiencies
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+   ```terminal
+   flutter pub get
+   ```
+
+3. Run The project
+
+   ```terminal
+   flutter run
+   ```
