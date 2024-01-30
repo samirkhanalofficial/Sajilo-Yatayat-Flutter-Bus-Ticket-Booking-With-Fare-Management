@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 TextTheme textThemeData() {
   return const TextTheme(
-
     titleLarge: TextStyle(
       fontSize: 40,
       fontWeight: FontWeight.w400,
+      fontFamily: 'Righteous',
     ),
     titleMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
     titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
@@ -15,7 +15,6 @@ TextTheme textThemeData() {
     bodyMedium: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w400,
-      color: Color.fromRGBO(183, 181, 181, 1),
     ), //user profile name
     bodySmall: TextStyle(
       fontSize: 16,
