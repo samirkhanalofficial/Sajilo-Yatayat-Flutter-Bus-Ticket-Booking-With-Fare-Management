@@ -38,7 +38,12 @@ dependencies:
   lottie: ^3.0.0
   google_fonts: ^6.1.0
   pinput: ^3.0.1
+<<<<<<< HEAD
   iconsax: ^0.0.8
+=======
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.16.0
+>>>>>>> 30b57210f8ecb86281914f255189b365b2e7df22
 
 dev_dependencies:
   flutter_test:

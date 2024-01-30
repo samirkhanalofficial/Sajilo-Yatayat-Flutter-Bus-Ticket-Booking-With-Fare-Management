@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:lottie/lottie.dart';
-import 'package:tryapp/ui/pages/registration/verify_otp.dart';
+import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/ui/widgets/global/phone_input.dart';
 
-class VerifyPhoneNumber extends StatelessWidget {
-  const VerifyPhoneNumber({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +60,7 @@ class VerifyPhoneNumber extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Get.to(
-                      const LoginPage(),
-                    );
+                    Get.toNamed(RoutesNames.otpVerificationPage);
                   },
                   child: const Text('Login'),
                 ),

@@ -6,17 +6,32 @@ import 'package:tryapp/config/theme/input_decoration_theme.dart';
 import 'package:tryapp/config/routes/app_routes.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/config/theme/text_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
   runApp(
     const MyApp(),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    WidgetsFlutterBinding.ensureInitialized();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
