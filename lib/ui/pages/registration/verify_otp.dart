@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
 
-class OtpVerification extends StatelessWidget {
-  const OtpVerification({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class OtpVerification extends StatelessWidget {
                   alignment: Alignment.bottomLeft,
                   child: TextButton(
                     onPressed: () {
-                      Get.off(const OtpVerification());
+                      Get.off(const LoginPage());
                     },
                     child: const Text('< Back'),
                   ),

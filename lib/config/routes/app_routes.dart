@@ -10,6 +10,6 @@ List<GetPage> appRoutes = [
   ),
   GetPage(
     name: RoutesNames.otpVerificationPage,
-    page: () => const OtpVerification(),
+    page: () => const LoginPage(),
   )
 ];

@@ -1,4 +1,4 @@
 class RoutesNames {
   static const homePage = '/';
-  static const otpVerificationPage = '/OtpVerification';
+  static const otpVerificationPage = '/Otp-verification';
 }

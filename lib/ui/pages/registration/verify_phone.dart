@@ -61,7 +61,7 @@ class VerifyPhoneNumber extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     Get.to(
-                      const OtpVerification(),
+                      const LoginPage(),
                     );
                   },
                   child: const Text('Login'),
