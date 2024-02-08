@@ -1,10 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
+import 'package:tryapp/ui/pages/registration/login_page.dart';
+import 'package:tryapp/ui/pages/registration/user/user_registration.dart';
 
-class VerifyOTP extends StatelessWidget {
+class VerifyOTP extends StatefulWidget {
   const VerifyOTP({super.key});
+
+  @override
+  State<VerifyOTP> createState() => _VerifyOTPState();
+}
+
+class _VerifyOTPState extends State<VerifyOTP> {
+  final otp = TextEditingController();
+  @override
+  void dispose() {
+    otp.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +46,8 @@ class VerifyOTP extends StatelessWidget {
         color: const Color(0xFFF1F0EE),
       ),
     );
+
+    FirebaseAuth auth = FirebaseAuth.instance;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -87,9 +104,9 @@ class VerifyOTP extends StatelessWidget {
                   const SizedBox(
                     height: 5,
                   ),
-                  const Text(
-                    '+977 9804838340',
-                    style: TextStyle(color: Colors.blue),
+                  Text(
+                    '${Get.arguments}',
+                    style: const TextStyle(color: Colors.blue),
                   ),
                   const SizedBox(
                     height: 19,
@@ -102,12 +119,32 @@ class VerifyOTP extends StatelessWidget {
                     pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                     showCursor: true,
                     length: 6,
+                    controller: otp,
                   ),
                   const SizedBox(
                     height: 19,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      try {
+                        PhoneAuthCredential credential =
+                            PhoneAuthProvider.credential(
+                          verificationId: LoginPage.verify,
+                          smsCode: otp.text,
+                        );
+                        // Sign the user in (or link) with the credential
+                        await auth.signInWithCredential(credential);
+                        User? users = auth.currentUser;
+                        var token = await users!.getIdToken();
+                        debugPrint(token);
+                        Get.to(
+                          () => const UserRegistration(),
+                          arguments: token,
+                        );
+                      } catch (e) {
+                        Get.snackbar('Error', '$e');
+                      }
+                    },
                     child: const Text('Verify'),
                   ),
                   const SizedBox(

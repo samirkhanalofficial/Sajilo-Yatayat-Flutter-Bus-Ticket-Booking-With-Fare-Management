@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class NepalFlagInputField extends StatelessWidget {
-  const NepalFlagInputField({super.key});
+  const NepalFlagInputField({super.key, required this.phoneNumberData});
+  final TextEditingController phoneNumberData;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,9 +25,10 @@ class NepalFlagInputField extends StatelessWidget {
           const Text(
             "+977 |",
           ),
-          const Expanded(
+          Expanded(
             child: TextField(
-              decoration: InputDecoration(
+              controller: phoneNumberData,
+              decoration: const InputDecoration(
                 border: InputBorder.none,
               ),
               keyboardType: TextInputType.phone,
