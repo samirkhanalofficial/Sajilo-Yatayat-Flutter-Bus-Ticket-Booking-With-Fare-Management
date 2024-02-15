@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
-import 'package:tryapp/ui/pages/registration/login_page.dart';
-import 'package:tryapp/ui/pages/registration/user/user_registration.dart';
+import 'package:tryapp/api/login_functions.dart';
 
 class VerifyOTP extends StatefulWidget {
   const VerifyOTP({super.key});
@@ -23,6 +21,8 @@ class _VerifyOTPState extends State<VerifyOTP> {
 
   @override
   Widget build(BuildContext context) {
+    final LoginFucntions loginController = Get.put(LoginFucntions());
+
     final defaultPinTheme = PinTheme(
       width: 50,
       height: 55,
@@ -47,8 +47,6 @@ class _VerifyOTPState extends State<VerifyOTP> {
       ),
     );
 
-    FirebaseAuth auth = FirebaseAuth.instance;
-    bool isLoading = false;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -125,37 +123,17 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   const SizedBox(
                     height: 19,
                   ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        setState(() {
-                          isLoading = true;
-                        });
-                        PhoneAuthCredential credential =
-                            PhoneAuthProvider.credential(
-                          verificationId: LoginPage.verify,
-                          smsCode: otp.text,
-                        );
-                        // Sign the user in (or link) with the credential
-                        await auth.signInWithCredential(credential);
-                        User? users = auth.currentUser;
-                        var token = await users!.getIdToken();
-                        debugPrint(token);
-                        Get.to(
-                          () => const UserRegistration(),
-                          arguments: token,
-                        );
-                      } catch (e) {
-                        Get.snackbar('Error', '$e');
-                      } finally {
-                        setState(() {
-                          isLoading = false;
-                        });
-                      }
-                    },
-                    child: isLoading
-                        ? CircularProgressIndicator.adaptive()
-                        :const Text('Verify'),
+                  Obx(
+                    () => ElevatedButton(
+                      onPressed: () {
+                        loginController.verifyOtpFunction(otp);
+                      },
+                      child: loginController.isLoading.value
+                          ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : const Text('Verify'),
+                    ),
                   ),
                   const SizedBox(
                     height: 19,

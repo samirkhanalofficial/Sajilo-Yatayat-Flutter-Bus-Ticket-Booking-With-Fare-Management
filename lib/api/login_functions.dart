@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tryapp/ui/pages/registration/login_page.dart';
 
-
 class LoginFucntions extends GetxController {
   var isLoading = false.obs;
+  FirebaseAuth auth = FirebaseAuth.instance;
   void login(
     TextEditingController phoneNumberData,
   ) async {
@@ -35,6 +35,32 @@ class LoginFucntions extends GetxController {
     } catch (e) {
       Get.snackbar('Error', '$e');
 
+      isLoading(false);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void verifyOtpFunction(TextEditingController otp) async {
+    try {
+      isLoading(true);
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: LoginPage.verify,
+        smsCode: otp.text,
+      );
+      // Sign the user in (or link) with the credential
+      await auth.signInWithCredential(credential);
+      User? users = auth.currentUser;
+      var token = await users?.getIdToken();
+      debugPrint(token);
+      Get.toNamed(
+        '/otp-verification',
+        arguments: token,
+      );
+    } catch (e) {
+      Get.snackbar('Error', '$e');
+      isLoading(false);
+    } finally {
       isLoading(false);
     }
   }
