@@ -48,6 +48,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
     );
 
     FirebaseAuth auth = FirebaseAuth.instance;
+    bool isLoading = false;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -127,6 +128,9 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   ElevatedButton(
                     onPressed: () async {
                       try {
+                        setState(() {
+                          isLoading = true;
+                        });
                         PhoneAuthCredential credential =
                             PhoneAuthProvider.credential(
                           verificationId: LoginPage.verify,
@@ -143,9 +147,15 @@ class _VerifyOTPState extends State<VerifyOTP> {
                         );
                       } catch (e) {
                         Get.snackbar('Error', '$e');
+                      } finally {
+                        setState(() {
+                          isLoading = false;
+                        });
                       }
                     },
-                    child: const Text('Verify'),
+                    child: isLoading
+                        ? CircularProgressIndicator.adaptive()
+                        :const Text('Verify'),
                   ),
                   const SizedBox(
                     height: 19,

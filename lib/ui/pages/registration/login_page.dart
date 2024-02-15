@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tryapp/api/login_functions.dart';
 import 'package:tryapp/ui/widgets/global/phone_input.dart';
-import 'package:tryapp/api/login_function.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,6 +14,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final phoneNumberData = TextEditingController();
+  final LoginFucntions loginController = Get.put(LoginFucntions());
+
   @override
   void dispose() {
     phoneNumberData.dispose();
@@ -71,11 +74,17 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 19,
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    loginFucntion(phoneNumberData);
-                  },
-                  child: const Text('Login'),
+                Obx(
+                  () => ElevatedButton(
+                    onPressed: () {
+                      loginController.login(phoneNumberData);
+                    },
+                    child: loginController.isLoading.value
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : const Text('Login'),
+                  ),
                 ),
                 const SizedBox(
                   height: 19,
