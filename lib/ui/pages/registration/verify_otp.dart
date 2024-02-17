@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
-import 'package:tryapp/api/login_functions.dart';
+import 'package:tryapp/api/auth_controller.dart';
+import 'package:tryapp/ui/pages/registration/arguments/verify_page_argument.dart';
 
 class VerifyOTP extends StatefulWidget {
   const VerifyOTP({super.key});
@@ -21,7 +22,8 @@ class _VerifyOTPState extends State<VerifyOTP> {
 
   @override
   Widget build(BuildContext context) {
-    final LoginFucntions loginController = Get.put(LoginFucntions());
+    final AuthController loginController = Get.put(AuthController());
+    VerifyPageArguments verifyPageArguments = Get.arguments;
 
     final defaultPinTheme = PinTheme(
       width: 50,
@@ -104,7 +106,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     height: 5,
                   ),
                   Text(
-                    '${Get.arguments}',
+                    '+977 ${verifyPageArguments.phoneNumber}',
                     style: const TextStyle(color: Colors.blue),
                   ),
                   const SizedBox(
@@ -125,9 +127,12 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   ),
                   Obx(
                     () => ElevatedButton(
-                      onPressed: () {
-                        loginController.verifyOtpFunction(otp);
-                      },
+                      onPressed: loginController.isLoading.value
+                          ? null
+                          : () {
+                              loginController.verifyOtpFunction(
+                                  otp.text, verifyPageArguments.vId);
+                            },
                       child: loginController.isLoading.value
                           ? const CircularProgressIndicator(
                               color: Colors.white,

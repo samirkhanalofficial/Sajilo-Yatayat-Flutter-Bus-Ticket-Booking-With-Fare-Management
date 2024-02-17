@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:tryapp/api/login_functions.dart';
+import 'package:tryapp/api/auth_controller.dart';
 import 'package:tryapp/ui/widgets/global/phone_input.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
-  static String verify = '';
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -14,7 +13,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final phoneNumberData = TextEditingController();
-  final LoginFucntions loginController = Get.put(LoginFucntions());
+  final AuthController authController = Get.put(AuthController());
+  final String verify = '';
 
   @override
   void dispose() {
@@ -76,10 +76,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Obx(
                   () => ElevatedButton(
-                    onPressed: () {
-                      loginController.login(phoneNumberData);
-                    },
-                    child: loginController.isLoading.value
+                    onPressed: authController.isLoading.value
+                        ? null
+                        : () {
+                            authController.login(phoneNumberData.text);
+                          },
+                    child: authController.isLoading.value
                         ? const CircularProgressIndicator(
                             color: Colors.white,
                           )

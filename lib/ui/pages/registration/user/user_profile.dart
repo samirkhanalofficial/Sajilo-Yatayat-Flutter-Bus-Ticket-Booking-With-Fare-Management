@@ -1,8 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tryapp/api/auth_controller.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -12,32 +12,12 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  dynamic userProfileData;
+  final AuthController authController = Get.put(AuthController());
+
   @override
   void initState() {
     super.initState();
-    getUserProfile();
-  }
-
-  void getUserProfile() async {
-    try {
-      var response = await Dio().get(
-        "https://sajiloyatayatbackend.samirk.com.np/user/mydetails",
-        options: Options(headers: {
-          "Authorization": Get.arguments,
-          "Content-Type": "application/json",
-        }),
-      );
-      if (response.statusCode == 200) {
-        setState(() {
-          userProfileData = response.data;
-        });
-      } else {
-        Get.snackbar('${response.statusCode}', '${response.statusMessage}');
-      }
-    } catch (e) {
-      Get.snackbar('Error', '$e');
-    }
+    authController.getUserProfile();
   }
 
   @override
@@ -118,7 +98,8 @@ class _UserProfileState extends State<UserProfile> {
                     height: 2,
                   ),
                   Text(
-                    '${userProfileData['name']}',
+                    '',
+                    // '${userProfileData['name']}',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(
@@ -132,7 +113,8 @@ class _UserProfileState extends State<UserProfile> {
                     height: 2,
                   ),
                   Text(
-                    '${userProfileData['gender']}',
+                    '',
+                    // '${userProfileData['gender']}',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(
@@ -146,7 +128,8 @@ class _UserProfileState extends State<UserProfile> {
                     height: 2,
                   ),
                   Text(
-                    '${userProfileData['mobile']}',
+                    '',
+                    // '${userProfileData['mobile']}',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(
@@ -160,7 +143,8 @@ class _UserProfileState extends State<UserProfile> {
                     height: 2,
                   ),
                   Text(
-                    '${userProfileData['dob']}',
+                    '',
+                    // '${userProfileData['dob']}',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(
@@ -174,7 +158,8 @@ class _UserProfileState extends State<UserProfile> {
                     height: 2,
                   ),
                   Text(
-                    '${userProfileData['address']}',
+                    '',
+                    // '${userProfileData['address']}',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],

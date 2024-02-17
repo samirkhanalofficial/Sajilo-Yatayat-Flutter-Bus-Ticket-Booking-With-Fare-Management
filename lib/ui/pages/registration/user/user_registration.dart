@@ -1,7 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tryapp/api/register_function.dart';
 
 class UserRegistration extends StatefulWidget {
   const UserRegistration({super.key});
@@ -22,34 +22,36 @@ class _UserRegistrationState extends State<UserRegistration> {
     super.dispose();
   }
 
-  void registerNewUser() async {
-    try {
-      var response = await Dio().post(
-        "https://sajiloyatayatbackend.samirk.com.np/user/create",
-        data: {
-          "name": nameController.text,
-          "address": addressController.text,
-          "dob": dobController.text,
-          "gender": gender
-        },
-        options: Options(
-          headers: {
-            "Authorization": Get.arguments,
-            "Content-Type": "application/json",
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        Get.snackbar('${response.statusCode}', '${response.statusMessage}');
-      } else {
-        Get.snackbar('${response.statusCode}', '${response.statusMessage}');
-      }
-    } catch (e) {
-      Get.snackbar('Error', '$e');
-    }
-  }
-
   String gender = 'male';
+  final RegisterFuctions registerController = Get.put(RegisterFuctions());
+
+  // void registerNewUser() async {
+  //   try {
+  //     var response = await Dio().post(
+  //       "https://sajiloyatayatbackend.samirk.com.np/user/create",
+  //       data: {
+  //         "name": nameController.text,
+  //         "address": addressController.text,
+  //         "dob": dobController.text,
+  //         "gender": gender
+  //       },
+  //       options: Options(
+  //         headers: {
+  //           "Authorization": Get.arguments,
+  //           "Content-Type": "application/json",
+  //         },
+  //       ),
+  //     );
+  //     if (response.statusCode == 201) {
+  //       Get.snackbar('${response.statusCode}', '${response.statusMessage}');
+  //     } else {
+  //       Get.snackbar('${response.statusCode}', '${response.statusMessage}');
+  //     }
+  //   } catch (e) {
+  //     Get.snackbar('Error', '$e');
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -245,11 +247,23 @@ class _UserRegistrationState extends State<UserRegistration> {
                     ],
                   ),
                   const SizedBox(height: 22),
-                  ElevatedButton(
-                    onPressed: () {
-                      registerNewUser();
-                    },
-                    child: const Text('Finish'),
+                  Obx(
+                    () => ElevatedButton(
+                      onPressed: registerController.isLoading.value
+                          ? null
+                          : () {
+                              registerController.registerNewUser(
+                                  nameController.text,
+                                  addressController.text,
+                                  dobController.text,
+                                  gender);
+                            },
+                      child: registerController.isLoading.value
+                          ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : const Text('Finish'),
+                    ),
                   ),
                 ],
               ),
