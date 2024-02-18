@@ -10,20 +10,27 @@ import 'package:tryapp/models/show_user_details.dart';
 class GetUserDetailsController extends GetxController {
   // ignore: unnecessary_cast
   final Rx<UserDetails?> userDetails = (null as UserDetails?).obs;
-  void getUserDetail() async {
-    var response = await http.get(
-      Uri.parse(getUserDetailsUrls),
-      headers: await getHeader(),
-    );
+  var isLoading = false.obs;
 
-    if (response.statusCode == 200) {
-      userDetails.value = UserDetails.fromJson(json.decode(response.body));
-    } else {
+  void getUserDetail() async {
+    try {
+      isLoading.value = true;
+      var response = await http.get(
+        Uri.parse(getUserDetailsUrls),
+        headers: await getHeader(),
+      );
+
+      if (response.statusCode == 200) {
+        userDetails.value = UserDetails.fromJson(json.decode(response.body));
+      }
+    } catch (e) {
       QuickAlert.show(
         context: Get.context!,
         type: QuickAlertType.error,
-        title: '${response.statusCode} ${response.body}',
+        title: e.toString(),
       );
+    } finally {
+      isLoading.value = false;
     }
   }
 }
