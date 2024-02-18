@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
-import 'package:tryapp/api/auth_controller.dart';
+
+import 'package:tryapp/controllers/get_user_details_controller.dart';
+import 'package:tryapp/ui/widgets/global/user_details.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -12,12 +14,13 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  final AuthController authController = Get.put(AuthController());
+  final GetUserDetailsController getUserDetailsController =
+      Get.put(GetUserDetailsController());
 
   @override
   void initState() {
+    getUserDetailsController.getUserDetail();
     super.initState();
-    authController.getUserProfile();
   }
 
   @override
@@ -26,7 +29,7 @@ class _UserProfileState extends State<UserProfile> {
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16),
-          children: <Widget>[
+          children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,85 +88,39 @@ class _UserProfileState extends State<UserProfile> {
             const SizedBox(
               height: 18,
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Full Name',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  Text(
-                    '',
-                    // '${userProfileData['name']}',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(
-                    height: 13,
-                  ),
-                  Text(
-                    'Gender',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  Text(
-                    '',
-                    // '${userProfileData['gender']}',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(
-                    height: 13,
-                  ),
-                  Text(
-                    'Mobile Number',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  Text(
-                    '',
-                    // '${userProfileData['mobile']}',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(
-                    height: 13,
-                  ),
-                  Text(
-                    'Date of Birth (AD)',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  Text(
-                    '',
-                    // '${userProfileData['dob']}',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(
-                    height: 13,
-                  ),
-                  Text(
-                    'Address',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  Text(
-                    '',
-                    // '${userProfileData['address']}',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
-              ),
+            Obx(
+              () {
+                return UserDetailsFields(
+                  title: 'Full Name',
+                  value: getUserDetailsController.userDetails.value?.name ?? '',
+                );
+              },
+            ),
+            Obx(
+              () {
+                return UserDetailsFields(
+                  title: 'Mobile Number',
+                  value:
+                      getUserDetailsController.userDetails.value?.mobile ?? '',
+                );
+              },
+            ),
+            Obx(
+              () {
+                return UserDetailsFields(
+                  title: 'Date of Birth (AD)',
+                  value: getUserDetailsController.userDetails.value?.dob ?? "",
+                );
+              },
+            ),
+            Obx(
+              () {
+                return UserDetailsFields(
+                  title: 'Address',
+                  value:
+                      getUserDetailsController.userDetails.value?.address ?? "",
+                );
+              },
             ),
           ],
         ),

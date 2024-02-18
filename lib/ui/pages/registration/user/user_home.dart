@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:tryapp/ui/pages/registration/user/user_profile.dart';
 
 class UserHome extends StatelessWidget {
   const UserHome({super.key});
@@ -68,7 +70,11 @@ class UserHome extends StatelessWidget {
               height: 34,
             ),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Get.to(
+                  () => const UserProfile(),
+                );
+              },
               icon: const Icon(Iconsax.search_normal),
               label: const Text('Search'),
             )

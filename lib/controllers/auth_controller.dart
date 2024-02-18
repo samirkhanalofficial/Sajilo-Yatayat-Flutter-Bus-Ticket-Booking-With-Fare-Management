@@ -1,9 +1,7 @@
-import 'package:dio/dio.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tryapp/config/constants/urls.dart';
-import 'package:tryapp/helper/get_header.dart';
 import 'package:tryapp/ui/pages/registration/arguments/verify_page_argument.dart';
 
 class AuthController extends GetxController {
@@ -15,15 +13,29 @@ class AuthController extends GetxController {
       isLoading.value = true;
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: '+977$phoneNumber',
-        verificationCompleted: (PhoneAuthCredential credential) {},
+        verificationCompleted: (PhoneAuthCredential credential) {
+          isLoading.value = false;
+        },
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
-            Get.snackbar('Error', 'The provided phone number is not valid');
+            isLoading.value = false;
+            QuickAlert.show(
+              context: Get.context!,
+              type: QuickAlertType.error,
+              text: e.message,
+            );
           } else {
-            Get.snackbar('Error', '${e.message}');
+            isLoading.value = false;
+            QuickAlert.show(
+              context: Get.context!,
+              type: QuickAlertType.error,
+              title: 'Oops...',
+              text: e.message,
+            );
           }
         },
         codeSent: (String verificationId, int? resendToken) {
+          isLoading.value = false;
           Get.toNamed(
             '/otp-verification',
             arguments: VerifyPageArguments(phoneNumber, verificationId),
@@ -32,9 +44,13 @@ class AuthController extends GetxController {
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
     } catch (e) {
-      Get.snackbar('Error', '$e');
-    } finally {
       isLoading.value = false;
+      QuickAlert.show(
+        context: Get.context!,
+        type: QuickAlertType.error,
+        title: 'Oops...',
+        text: e.toString(),
+      );
     }
   }
 
@@ -51,29 +67,19 @@ class AuthController extends GetxController {
       User? users = auth.currentUser;
       var token = await users?.getIdToken();
       debugPrint(token);
-      Get.toNamed(
+      Get.offAllNamed(
         '/user-registration',
-        arguments: token,
       );
     } catch (e) {
       Get.snackbar('Error', '$e');
+      QuickAlert.show(
+        context: Get.context!,
+        type: QuickAlertType.error,
+        title: 'Oops...',
+        text: e.toString(),
+      );
     } finally {
-      isLoading.value;
-    }
-  }
-
-  void getUserProfile() async {
-    try {
-      var response = await Dio().get(
-        getUserDetails,
-        options: await getHeader(),
-      );
-      if (response.statusCode == 200) {
-      } else {
-        Get.snackbar('${response.statusCode}', '${response.statusMessage}');
-      }
-    } catch (e) {
-      Get.snackbar('Error', '$e');
+      isLoading.value = false;
     }
   }
 }

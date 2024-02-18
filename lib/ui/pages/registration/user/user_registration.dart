@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:tryapp/api/register_function.dart';
+import 'package:tryapp/controllers/register_controller.dart';
 
 class UserRegistration extends StatefulWidget {
   const UserRegistration({super.key});
@@ -24,33 +24,6 @@ class _UserRegistrationState extends State<UserRegistration> {
 
   String gender = 'male';
   final RegisterFuctions registerController = Get.put(RegisterFuctions());
-
-  // void registerNewUser() async {
-  //   try {
-  //     var response = await Dio().post(
-  //       "https://sajiloyatayatbackend.samirk.com.np/user/create",
-  //       data: {
-  //         "name": nameController.text,
-  //         "address": addressController.text,
-  //         "dob": dobController.text,
-  //         "gender": gender
-  //       },
-  //       options: Options(
-  //         headers: {
-  //           "Authorization": Get.arguments,
-  //           "Content-Type": "application/json",
-  //         },
-  //       ),
-  //     );
-  //     if (response.statusCode == 201) {
-  //       Get.snackbar('${response.statusCode}', '${response.statusMessage}');
-  //     } else {
-  //       Get.snackbar('${response.statusCode}', '${response.statusMessage}');
-  //     }
-  //   } catch (e) {
-  //     Get.snackbar('Error', '$e');
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -155,10 +128,24 @@ class _UserRegistrationState extends State<UserRegistration> {
                   ),
                   TextField(
                     controller: dobController,
+                    enabled: true,
                     keyboardType: TextInputType.datetime,
-                    decoration: const InputDecoration(
-                      hintText: '2000-11-18',
-                    ),
+                    decoration: InputDecoration(
+                        hintText: '2000-11-18',
+                        suffix: IconButton(
+                            onPressed: () {
+                              showDatePicker(
+                                context: context,
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2030),
+                              ).then((value) {
+                                if (value != null) {
+                                  dobController.text =
+                                      '${value.year}-${value.month}-${value.day}';
+                                }
+                              });
+                            },
+                            icon: const Icon(Icons.edit))),
                   ),
                   const SizedBox(
                     height: 16,

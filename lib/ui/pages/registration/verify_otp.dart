@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
-import 'package:tryapp/api/auth_controller.dart';
+import 'package:tryapp/controllers/auth_controller.dart';
 import 'package:tryapp/ui/pages/registration/arguments/verify_page_argument.dart';
 
 class VerifyOTP extends StatefulWidget {
@@ -14,6 +14,7 @@ class VerifyOTP extends StatefulWidget {
 
 class _VerifyOTPState extends State<VerifyOTP> {
   final otp = TextEditingController();
+  VerifyPageArguments verifyPageArguments = Get.arguments;
   @override
   void dispose() {
     otp.dispose();
@@ -23,7 +24,6 @@ class _VerifyOTPState extends State<VerifyOTP> {
   @override
   Widget build(BuildContext context) {
     final AuthController loginController = Get.put(AuthController());
-    VerifyPageArguments verifyPageArguments = Get.arguments;
 
     final defaultPinTheme = PinTheme(
       width: 50,

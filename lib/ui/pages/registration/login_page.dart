@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:tryapp/api/auth_controller.dart';
+import 'package:tryapp/controllers/auth_controller.dart';
 import 'package:tryapp/ui/widgets/global/phone_input.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,6 +15,11 @@ class _LoginPageState extends State<LoginPage> {
   final phoneNumberData = TextEditingController();
   final AuthController authController = Get.put(AuthController());
   final String verify = '';
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {
