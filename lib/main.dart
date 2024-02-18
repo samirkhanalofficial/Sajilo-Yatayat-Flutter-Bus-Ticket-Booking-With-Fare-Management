@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: RoutesNames.homePage,
+      initialRoute: RoutesNames.ownerProfile,
       getPages: appRoutes,
       title: 'Sajilo Yatatt',
       debugShowCheckedModeBanner: false,
