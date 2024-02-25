@@ -2,12 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
+import 'package:tryapp/controllers/auth_controller.dart';
+import 'package:tryapp/ui/pages/registration/arguments/verify_page_argument.dart';
 
-class VerifyOTP extends StatelessWidget {
+class VerifyOTP extends StatefulWidget {
   const VerifyOTP({super.key});
 
   @override
+  State<VerifyOTP> createState() => _VerifyOTPState();
+}
+
+class _VerifyOTPState extends State<VerifyOTP> {
+  final otp = TextEditingController();
+  VerifyPageArguments verifyPageArguments = Get.arguments;
+  @override
+  void dispose() {
+    otp.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final AuthController loginController = Get.put(AuthController());
+
     final defaultPinTheme = PinTheme(
       width: 50,
       height: 55,
@@ -31,6 +48,7 @@ class VerifyOTP extends StatelessWidget {
         color: const Color(0xFFF1F0EE),
       ),
     );
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -87,9 +105,9 @@ class VerifyOTP extends StatelessWidget {
                   const SizedBox(
                     height: 5,
                   ),
-                  const Text(
-                    '+977 9804838340',
-                    style: TextStyle(color: Colors.blue),
+                  Text(
+                    '+977 ${verifyPageArguments.phoneNumber}',
+                    style: const TextStyle(color: Colors.blue),
                   ),
                   const SizedBox(
                     height: 19,
@@ -102,13 +120,25 @@ class VerifyOTP extends StatelessWidget {
                     pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                     showCursor: true,
                     length: 6,
+                    controller: otp,
                   ),
                   const SizedBox(
                     height: 19,
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Verify'),
+                  Obx(
+                    () => ElevatedButton(
+                      onPressed: loginController.isLoading.value
+                          ? null
+                          : () {
+                              loginController.verifyOtpFunction(
+                                  otp.text, verifyPageArguments.vId);
+                            },
+                      child: loginController.isLoading.value
+                          ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : const Text('Verify'),
+                    ),
                   ),
                   const SizedBox(
                     height: 19,

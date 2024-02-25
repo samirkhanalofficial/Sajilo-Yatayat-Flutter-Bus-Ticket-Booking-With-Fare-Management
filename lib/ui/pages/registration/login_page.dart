@@ -1,12 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:lottie/lottie.dart';
-import 'package:tryapp/config/routes/routes_names.dart';
+import 'package:tryapp/controllers/auth_controller.dart';
 import 'package:tryapp/ui/widgets/global/phone_input.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final phoneNumberData = TextEditingController();
+  final AuthController authController = Get.put(AuthController());
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    phoneNumberData.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +72,25 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                const NepalFlagInputField(),
+                NepalFlagInputField(
+                  phoneNumberData: phoneNumberData,
+                ),
                 const SizedBox(
                   height: 19,
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Get.toNamed(RoutesNames.otpVerificationPage);
-                  },
-                  child: const Text('Login'),
+                Obx(
+                  () => ElevatedButton(
+                    onPressed: authController.isLoading.value
+                        ? null
+                        : () {
+                            authController.login(phoneNumberData.text);
+                          },
+                    child: authController.isLoading.value
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : const Text('Login'),
+                  ),
                 ),
                 const SizedBox(
                   height: 19,
