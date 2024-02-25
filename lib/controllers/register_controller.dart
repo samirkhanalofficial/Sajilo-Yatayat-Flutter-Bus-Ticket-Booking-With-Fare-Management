@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:tryapp/config/constants/urls.dart';
+import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/helper/get_header.dart';
+import 'package:tryapp/models/error_format.dart';
 
 class RegisterFuctions extends GetxController {
   var isLoading = false.obs;
@@ -23,20 +25,12 @@ class RegisterFuctions extends GetxController {
             "dob": dob,
             "gender": gender
           }));
-      var body = await json.decode(response.body);
+
       if (response.statusCode == 201) {
-        Get.offAllNamed('/user-home');
-        QuickAlert.show(
-          context: Get.context!,
-          type: QuickAlertType.success,
-          title: '${response.statusCode} UserCreated',
-        );
+        Get.offAllNamed(RoutesNames.userHomePage);
       } else {
-        QuickAlert.show(
-          context: Get.context!,
-          type: QuickAlertType.error,
-          title: '${response.statusCode} ${body["message"]}',
-        );
+        ErrorFormat error = ErrorFormat.fromJson(json.decode(response.body));
+        throw error.message;
       }
     } catch (e) {
       QuickAlert.show(

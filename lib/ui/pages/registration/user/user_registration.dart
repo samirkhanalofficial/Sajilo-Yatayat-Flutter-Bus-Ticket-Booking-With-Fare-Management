@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tryapp/controllers/register_controller.dart';
+import 'package:tryapp/ui/widgets/global/gender_chip.dart';
+import 'package:tryapp/ui/widgets/global/loading_botton.dart';
 
 class UserRegistration extends StatefulWidget {
   const UserRegistration({super.key});
@@ -22,7 +24,7 @@ class _UserRegistrationState extends State<UserRegistration> {
     super.dispose();
   }
 
-  String gender = 'male';
+  String selectedGender = 'male';
   final RegisterFuctions registerController = Get.put(RegisterFuctions());
 
   @override
@@ -80,18 +82,6 @@ class _UserRegistrationState extends State<UserRegistration> {
                   Text(
                     'Let us know more about you.',
                     style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const SizedBox(
-                    height: 19,
-                  ),
-                  const SizedBox(
-                    height: 19,
-                  ),
-                  const SizedBox(
-                    height: 19,
                   ),
                   Text('Full Name',
                       style: Theme.of(context).textTheme.titleSmall),
@@ -156,100 +146,41 @@ class _UserRegistrationState extends State<UserRegistration> {
                   ),
                   Row(
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(
-                            () {
-                              gender = 'male';
-                            },
-                          );
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            color: gender == 'male'
-                                ? Theme.of(context).primaryColor
-                                : const Color(0xFFf4f4f4),
-                            borderRadius: BorderRadius.circular(17),
-                          ),
-                          child: Row(
-                            children: [
-                              const CircleAvatar(
-                                foregroundImage:
-                                    AssetImage('asset/images/male.png'),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                'Male',
-                                style: TextStyle(
-                                    color: gender == 'male'
-                                        ? Colors.white
-                                        : Colors.black),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      GenderChip(
+                          selectedGender: selectedGender,
+                          context: context,
+                          gender: 'male',
+                          onTap: () {
+                            setState(() {
+                              selectedGender = 'male';
+                            });
+                          }),
                       const SizedBox(
                         width: 40,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            gender = 'female';
-                          });
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            color: gender == 'female'
-                                ? Theme.of(context).primaryColor
-                                : const Color(0xFFf4f4f4),
-                            borderRadius: BorderRadius.circular(17),
-                          ),
-                          child: Row(
-                            children: [
-                              const CircleAvatar(
-                                foregroundImage:
-                                    AssetImage('asset/images/female.png'),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                'Female',
-                                style: TextStyle(
-                                    color: gender == 'female'
-                                        ? Colors.white
-                                        : Colors.black),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      GenderChip(
+                          selectedGender: selectedGender,
+                          context: context,
+                          gender: 'female',
+                          onTap: () {
+                            setState(() {
+                              selectedGender = 'female';
+                            });
+                          }),
                     ],
                   ),
                   const SizedBox(height: 22),
                   Obx(
-                    () => ElevatedButton(
-                      onPressed: registerController.isLoading.value
-                          ? null
-                          : () {
-                              registerController.registerNewUser(
-                                  nameController.text,
-                                  addressController.text,
-                                  dobController.text,
-                                  gender);
-                            },
-                      child: registerController.isLoading.value
-                          ? const CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                          : const Text('Finish'),
+                    () => LoadingButton(
+                      buttonName: 'Finish',
+                      loading: registerController.isLoading.value,
+                      onClick: () {
+                        registerController.registerNewUser(
+                            nameController.text,
+                            addressController.text,
+                            dobController.text,
+                            selectedGender);
+                      },
                     ),
                   ),
                 ],

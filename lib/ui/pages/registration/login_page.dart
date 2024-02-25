@@ -14,7 +14,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final phoneNumberData = TextEditingController();
   final AuthController authController = Get.put(AuthController());
-  final String verify = '';
 
   @override
   void initState() {

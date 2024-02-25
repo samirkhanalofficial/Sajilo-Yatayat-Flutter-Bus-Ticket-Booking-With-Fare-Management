@@ -1,7 +1,8 @@
 import 'package:quickalert/quickalert.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tryapp/config/routes/routes_names.dart';
+import 'package:tryapp/controllers/get_user_details_controller.dart';
 import 'package:tryapp/ui/pages/registration/arguments/verify_page_argument.dart';
 
 class AuthController extends GetxController {
@@ -9,49 +10,30 @@ class AuthController extends GetxController {
   void login(
     String phoneNumber,
   ) async {
-    try {
-      isLoading.value = true;
-      await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: '+977$phoneNumber',
-        verificationCompleted: (PhoneAuthCredential credential) {
-          isLoading.value = false;
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          if (e.code == 'invalid-phone-number') {
-            isLoading.value = false;
-            QuickAlert.show(
-              context: Get.context!,
-              type: QuickAlertType.error,
-              text: e.message,
-            );
-          } else {
-            isLoading.value = false;
-            QuickAlert.show(
-              context: Get.context!,
-              type: QuickAlertType.error,
-              title: 'Oops...',
-              text: e.message,
-            );
-          }
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          isLoading.value = false;
-          Get.toNamed(
-            '/otp-verification',
-            arguments: VerifyPageArguments(phoneNumber, verificationId),
-          );
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {},
-      );
-    } catch (e) {
-      isLoading.value = false;
-      QuickAlert.show(
-        context: Get.context!,
-        type: QuickAlertType.error,
-        title: 'Oops...',
-        text: e.toString(),
-      );
-    }
+    isLoading.value = true;
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: '+977$phoneNumber',
+      verificationCompleted: (PhoneAuthCredential credential) {
+        isLoading.value = false;
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        isLoading.value = false;
+        QuickAlert.show(
+          context: Get.context!,
+          type: QuickAlertType.error,
+          title: 'Invalid phone number',
+          text: e.message.toString(),
+        );
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        isLoading.value = false;
+        Get.toNamed(
+          RoutesNames.otpVerificationPage,
+          arguments: VerifyPageArguments(phoneNumber, verificationId),
+        );
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
   }
 
   void verifyOtpFunction(String otp, String vId) async {
@@ -64,19 +46,25 @@ class AuthController extends GetxController {
       );
       // Sign the user in (or link) with the credential
       await auth.signInWithCredential(credential);
-      User? users = auth.currentUser;
-      var token = await users?.getIdToken();
-      debugPrint(token);
-      Get.offAllNamed(
-        '/user-registration',
-      );
+      GetUserDetailsController userDetailsController =
+          Get.put(GetUserDetailsController());
+      bool userExists = await userDetailsController.userExists();
+
+      if (!userExists) {
+        Get.offAllNamed(
+          RoutesNames.userRegistrationPage,
+        );
+      } else {
+        Get.offAllNamed(
+          RoutesNames.userHomePage,
+        );
+      }
     } catch (e) {
-      Get.snackbar('Error', '$e');
       QuickAlert.show(
         context: Get.context!,
         type: QuickAlertType.error,
-        title: 'Oops...',
-        text: e.toString(),
+        title: 'Incorrect OTP',
+        text: 'Please check your sms and enter the correct OTP code',
       );
     } finally {
       isLoading.value = false;
