@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:tryapp/ui/pages/registration/user/search_bus.dart';
+import 'package:tryapp/ui/pages/registration/user/user_booking_details_page.dart';
 import 'package:tryapp/ui/pages/registration/user/user_profile.dart';
+import 'package:tryapp/ui/pages/wallet/wallet_page.dart';
 
 class UserHome extends StatefulWidget {
   const UserHome({super.key});
@@ -14,8 +16,13 @@ class UserHome extends StatefulWidget {
 class _UserHomeState extends State<UserHome> {
   @override
   Widget build(BuildContext context) {
-    int currentPage = 0;
-    final List<Widget> pageList = [const SearchBusPage(), const UserProfile()];
+    int currentPage = 3;
+    final List<Widget> pageList = [
+      const SearchBusPage(),
+      const UserProfile(),
+      const WalletPage(),
+      const UserBookingDetailsPage()
+    ];
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
