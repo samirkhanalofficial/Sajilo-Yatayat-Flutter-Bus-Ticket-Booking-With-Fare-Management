@@ -6,14 +6,14 @@ import 'package:tryapp/controllers/auth_controller.dart';
 import 'package:tryapp/ui/pages/registration/arguments/verify_page_argument.dart';
 import 'package:tryapp/ui/widgets/global/loading_botton.dart';
 
-class VerifyOTP extends StatefulWidget {
-  const VerifyOTP({super.key});
+class VerifyOTPScreen extends StatefulWidget {
+  const VerifyOTPScreen({super.key});
 
   @override
-  State<VerifyOTP> createState() => _VerifyOTPState();
+  State<VerifyOTPScreen> createState() => _VerifyOTPScreenState();
 }
 
-class _VerifyOTPState extends State<VerifyOTP> {
+class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
   final otp = TextEditingController();
   VerifyPageArguments verifyPageArguments = Get.arguments;
   @override
@@ -128,7 +128,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   ),
                   Obx(
                     () => LoadingButton(
-                      onClick: () => loginController.verifyOtpFunction(
+                      onClick: () => loginController.verifyOtp(
                           otp.text, verifyPageArguments.vId),
                       buttonName: "Verify",
                       loading: loginController.isLoading.value,

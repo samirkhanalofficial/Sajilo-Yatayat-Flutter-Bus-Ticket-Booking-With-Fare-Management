@@ -107,26 +107,45 @@ class _UserRegistrationState extends State<UserRegistration> {
                   const SizedBox(
                     height: 16,
                   ),
-                  TextField(
-                    controller: dobController,
-                    enabled: true,
-                    keyboardType: TextInputType.datetime,
-                    decoration: InputDecoration(
-                        hintText: '2000-11-18',
-                        suffix: IconButton(
-                            onPressed: () {
-                              showDatePicker(
-                                context: context,
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime(2030),
-                              ).then((value) {
-                                if (value != null) {
-                                  dobController.text =
-                                      '${value.year}-${value.month}-${value.day}';
-                                }
-                              });
-                            },
-                            icon: const Icon(Icons.edit))),
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(241, 240, 238, 1),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: dobController,
+                            enabled: false,
+                            decoration: const InputDecoration(
+                              fillColor: Colors.transparent,
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            showDatePicker(
+                              context: context,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime(2030),
+                            ).then((value) {
+                              if (value != null) {
+                                dobController.text =
+                                    '${value.year}-${value.month}-${value.day}';
+                              }
+                            });
+                          },
+                          icon: const Icon(Icons.edit),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 16,

@@ -5,14 +5,14 @@ import 'package:tryapp/controllers/auth_controller.dart';
 import 'package:tryapp/ui/widgets/global/loading_botton.dart';
 import 'package:tryapp/ui/widgets/global/phone_input.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginScreenState extends State<LoginScreen> {
   final phoneNumberData = TextEditingController();
   final AuthController authController = Get.put(AuthController());
 

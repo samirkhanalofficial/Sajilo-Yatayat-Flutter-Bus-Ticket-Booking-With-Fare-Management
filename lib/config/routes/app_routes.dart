@@ -3,18 +3,23 @@ import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/ui/pages/registration/user/user_home.dart';
 import 'package:tryapp/ui/pages/registration/user/user_profile.dart';
 import 'package:tryapp/ui/pages/registration/user/user_registration.dart';
-import 'package:tryapp/ui/pages/registration/verify_otp.dart';
-import 'package:tryapp/ui/pages/registration/login_page.dart';
+import 'package:tryapp/ui/pages/auth/verify_otp_screen.dart';
+import 'package:tryapp/ui/pages/auth/login_screen.dart';
+import 'package:tryapp/ui/pages/splash/splash_screen.dart';
 
 List<GetPage> appRoutes = [
   GetPage(
-    name: RoutesNames.homePage,
-    page: () => const LoginPage(),
+    name: RoutesNames.splashScreenPage,
+    page: () => const SplashScreen(),
+  ),
+  GetPage(
+    name: RoutesNames.loginPage,
+    page: () => const LoginScreen(),
   ),
   GetPage(
     name: RoutesNames.otpVerificationPage,
     transitionDuration: const Duration(milliseconds: 800),
-    page: () => const VerifyOTP(),
+    page: () => const VerifyOTPScreen(),
   ),
   GetPage(
     name: RoutesNames.userRegistrationPage,

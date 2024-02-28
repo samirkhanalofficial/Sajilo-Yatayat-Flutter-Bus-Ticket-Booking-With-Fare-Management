@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tryapp/config/routes/routes_names.dart';
 
 import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/widgets/global/user_details.dart';
@@ -46,7 +49,13 @@ class _UserProfileState extends State<UserProfile> {
                             foregroundColor:
                                 MaterialStateProperty.all<Color>(Colors.red),
                           ),
-                          onPressed: () {},
+                          onPressed: () async {
+                            FirebaseAuth.instance.signOut();
+                            SharedPreferences sf =
+                                await SharedPreferences.getInstance();
+                            sf.setBool("isLogginned", false);
+                            Get.offAllNamed(RoutesNames.loginPage);
+                          },
                           icon: const Icon(
                             Iconsax.logout_1,
                             size: 25,

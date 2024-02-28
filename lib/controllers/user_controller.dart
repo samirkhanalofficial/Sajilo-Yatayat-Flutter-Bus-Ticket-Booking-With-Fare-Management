@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tryapp/config/constants/urls.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/helper/api_helper.dart';
@@ -22,6 +23,8 @@ class UserController extends GetxController {
     );
 
     if (apiHelper.successfullResponse.value) {
+      SharedPreferences sf = await SharedPreferences.getInstance();
+      sf.setBool("isLogginned", true);
       Get.offAllNamed(RoutesNames.userHomePage);
     }
     isLoading(false);

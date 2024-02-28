@@ -1,6 +1,7 @@
 import 'package:quickalert/quickalert.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/pages/registration/arguments/verify_page_argument.dart';
@@ -36,7 +37,7 @@ class AuthController extends GetxController {
     );
   }
 
-  void verifyOtpFunction(String otp, String vId) async {
+  void verifyOtp(String otp, String vId) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
       isLoading.value = true;
@@ -53,6 +54,8 @@ class AuthController extends GetxController {
           RoutesNames.userRegistrationPage,
         );
       } else {
+        SharedPreferences sf = await SharedPreferences.getInstance();
+        sf.setBool("isLogginned", true);
         Get.offAllNamed(
           RoutesNames.userHomePage,
         );
