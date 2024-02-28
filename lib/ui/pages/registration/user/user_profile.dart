@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 
-import 'package:tryapp/controllers/get_user_details_controller.dart';
+import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/widgets/global/user_details.dart';
 
 class UserProfile extends StatefulWidget {
@@ -14,12 +14,11 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  final GetUserDetailsController getUserDetailsController =
-      Get.put(GetUserDetailsController());
+  final UserController userController = Get.put(UserController());
 
   @override
   void initState() {
-    getUserDetailsController.getUserDetail();
+    userController.getUserDetail();
     super.initState();
   }
 
@@ -28,7 +27,7 @@ class _UserProfileState extends State<UserProfile> {
     return Scaffold(
       body: Obx(
         () => SafeArea(
-          child: getUserDetailsController.isLoading.value
+          child: userController.isLoading.value
               ? const Center(child: CircularProgressIndicator())
               : ListView(
                   padding: const EdgeInsets.all(16),
@@ -99,9 +98,7 @@ class _UserProfileState extends State<UserProfile> {
                       () {
                         return UserDetailsFields(
                           title: 'Full Name',
-                          value: getUserDetailsController
-                                  .userDetails.value?.name ??
-                              '',
+                          value: userController.userDetails.value?.name ?? '',
                         );
                       },
                     ),
@@ -109,9 +106,7 @@ class _UserProfileState extends State<UserProfile> {
                       () {
                         return UserDetailsFields(
                           title: 'Mobile Number',
-                          value: getUserDetailsController
-                                  .userDetails.value?.mobile ??
-                              '',
+                          value: userController.userDetails.value?.mobile ?? '',
                         );
                       },
                     ),
@@ -129,9 +124,8 @@ class _UserProfileState extends State<UserProfile> {
                       () {
                         return UserDetailsFields(
                           title: 'Address',
-                          value: getUserDetailsController
-                                  .userDetails.value?.address ??
-                              "",
+                          value:
+                              userController.userDetails.value?.address ?? "",
                         );
                       },
                     ),

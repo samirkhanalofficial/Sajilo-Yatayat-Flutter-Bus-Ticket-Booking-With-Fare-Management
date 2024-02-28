@@ -21,7 +21,13 @@ Minor project done by the following team members:
    flutter pub get
    ```
 
-3. Run The project
+3. Build the models
+
+   ```terminal
+   dart run build_runner build
+   ```
+
+4. Run The project
 
    ```terminal
    flutter run

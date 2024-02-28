@@ -2,7 +2,7 @@ import 'package:quickalert/quickalert.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
-import 'package:tryapp/controllers/get_user_details_controller.dart';
+import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/pages/registration/arguments/verify_page_argument.dart';
 
 class AuthController extends GetxController {
@@ -46,10 +46,8 @@ class AuthController extends GetxController {
       );
       // Sign the user in (or link) with the credential
       await auth.signInWithCredential(credential);
-      GetUserDetailsController userDetailsController =
-          Get.put(GetUserDetailsController());
-      bool userExists = await userDetailsController.userExists();
-
+      UserController userController = UserController();
+      bool userExists = await userController.userExists();
       if (!userExists) {
         Get.offAllNamed(
           RoutesNames.userRegistrationPage,

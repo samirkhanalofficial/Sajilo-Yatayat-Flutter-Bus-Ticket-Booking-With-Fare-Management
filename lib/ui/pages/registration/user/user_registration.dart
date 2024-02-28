@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:tryapp/controllers/register_controller.dart';
+import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/widgets/global/gender_chip.dart';
 import 'package:tryapp/ui/widgets/global/loading_botton.dart';
 
@@ -25,7 +25,7 @@ class _UserRegistrationState extends State<UserRegistration> {
   }
 
   String selectedGender = 'male';
-  final RegisterFuctions registerController = Get.put(RegisterFuctions());
+  final UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +53,6 @@ class _UserRegistrationState extends State<UserRegistration> {
               child: ListView(
                 padding: const EdgeInsets.all(16.0),
                 children: [
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: TextButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: const Text('< Back'),
-                    ),
-                  ),
                   const SizedBox(
                     height: 50,
                   ),
@@ -173,9 +164,9 @@ class _UserRegistrationState extends State<UserRegistration> {
                   Obx(
                     () => LoadingButton(
                       buttonName: 'Finish',
-                      loading: registerController.isLoading.value,
+                      loading: userController.isLoading.value,
                       onClick: () {
-                        registerController.registerNewUser(
+                        userController.registerNewUser(
                             nameController.text,
                             addressController.text,
                             dobController.text,
