@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tryapp/controllers/auth_controller.dart';
+import 'package:tryapp/ui/widgets/global/loading_botton.dart';
 import 'package:tryapp/ui/widgets/global/phone_input.dart';
 
 class LoginPage extends StatefulWidget {
@@ -85,18 +86,14 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 19,
                 ),
-                Obx(
-                  () => ElevatedButton(
-                    onPressed: authController.isLoading.value
-                        ? null
-                        : () {
-                            authController.login(phoneNumberData.text);
-                          },
-                    child: authController.isLoading.value
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : const Text('Login'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Obx(
+                    () => LoadingButton(
+                      onClick: () => authController.login(phoneNumberData.text),
+                      buttonName: 'Login',
+                      loading: authController.isLoading.value,
+                    ),
                   ),
                 ),
                 const SizedBox(

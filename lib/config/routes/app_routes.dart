@@ -13,6 +13,7 @@ List<GetPage> appRoutes = [
   ),
   GetPage(
     name: RoutesNames.otpVerificationPage,
+    transitionDuration: const Duration(milliseconds: 800),
     page: () => const VerifyOTP(),
   ),
   GetPage(

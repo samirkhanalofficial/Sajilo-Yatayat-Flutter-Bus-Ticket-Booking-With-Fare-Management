@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tryapp/config/colors/app_color.dart';
 import 'package:tryapp/config/theme/elevated_button_theme.dart';
 import 'package:tryapp/config/theme/input_decoration_theme.dart';
 import 'package:tryapp/config/routes/app_routes.dart';
@@ -40,10 +41,10 @@ class _MyAppState extends State<MyApp> {
       title: 'Sajilo Yatatt',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: const Color(0xFF0ACF83),
+        primaryColor: AppColor().primary,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF0ACF83),
-          primary: const Color(0xFF0ACF83),
+          seedColor: AppColor().primary,
+          primary: AppColor().primary,
         ),
         textTheme: GoogleFonts.robotoTextTheme(textThemeData()),
         elevatedButtonTheme: elevatedButtonThemeData(),

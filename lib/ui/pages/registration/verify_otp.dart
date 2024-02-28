@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
 import 'package:tryapp/controllers/auth_controller.dart';
 import 'package:tryapp/ui/pages/registration/arguments/verify_page_argument.dart';
+import 'package:tryapp/ui/widgets/global/loading_botton.dart';
 
 class VerifyOTP extends StatefulWidget {
   const VerifyOTP({super.key});
@@ -126,18 +127,11 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     height: 19,
                   ),
                   Obx(
-                    () => ElevatedButton(
-                      onPressed: loginController.isLoading.value
-                          ? null
-                          : () {
-                              loginController.verifyOtpFunction(
-                                  otp.text, verifyPageArguments.vId);
-                            },
-                      child: loginController.isLoading.value
-                          ? const CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                          : const Text('Verify'),
+                    () => LoadingButton(
+                      onClick: () => loginController.verifyOtpFunction(
+                          otp.text, verifyPageArguments.vId),
+                      buttonName: "Verify",
+                      loading: loginController.isLoading.value,
                     ),
                   ),
                   const SizedBox(
