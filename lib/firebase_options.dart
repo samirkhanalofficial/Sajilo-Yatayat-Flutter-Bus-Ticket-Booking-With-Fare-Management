@@ -44,38 +44,37 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCjeYg5u6exU2OUqnb3RUwiH1g9OwKKP9M',
-    appId: '1:580212007323:web:3429b7341e7a45e8b0813e',
-    messagingSenderId: '580212007323',
-    projectId: 'sajilo-yatayat-248b4',
-    authDomain: 'sajilo-yatayat-248b4.firebaseapp.com',
-    storageBucket: 'sajilo-yatayat-248b4.appspot.com',
-    measurementId: 'G-V0JZKRYLQL',
+    apiKey: 'AIzaSyDeRL1sDLZnNd8pfBVJWFabCDZcNkv5YfI',
+    appId: '1:770487677240:web:a4ad9b452b4a15890451cd',
+    messagingSenderId: '770487677240',
+    projectId: 'new-sajilo-yatayat',
+    authDomain: 'new-sajilo-yatayat.firebaseapp.com',
+    storageBucket: 'new-sajilo-yatayat.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCFNZ3rtfItJgV7f-g-mwqXrFIRuaDXq9M',
-    appId: '1:580212007323:android:3e73563ac5f397d6b0813e',
-    messagingSenderId: '580212007323',
-    projectId: 'sajilo-yatayat-248b4',
-    storageBucket: 'sajilo-yatayat-248b4.appspot.com',
+    apiKey: 'AIzaSyDPRHJ-iurvJgMZu-cdosKdFTMZDO7hD3Y',
+    appId: '1:770487677240:android:833a55458f38ac540451cd',
+    messagingSenderId: '770487677240',
+    projectId: 'new-sajilo-yatayat',
+    storageBucket: 'new-sajilo-yatayat.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBKNJ0bs5N-qR3GcI3i3YSdoL0zsMcnW6k',
-    appId: '1:580212007323:ios:3408c4f8ee5ab066b0813e',
-    messagingSenderId: '580212007323',
-    projectId: 'sajilo-yatayat-248b4',
-    storageBucket: 'sajilo-yatayat-248b4.appspot.com',
+    apiKey: 'AIzaSyAbJm7z4wCYeqUZv4hkfQMMkSD6DHIbUVE',
+    appId: '1:770487677240:ios:a0014ae5c36c3f120451cd',
+    messagingSenderId: '770487677240',
+    projectId: 'new-sajilo-yatayat',
+    storageBucket: 'new-sajilo-yatayat.appspot.com',
     iosBundleId: 'com.example.tryapp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBKNJ0bs5N-qR3GcI3i3YSdoL0zsMcnW6k',
-    appId: '1:580212007323:ios:014c744363306081b0813e',
-    messagingSenderId: '580212007323',
-    projectId: 'sajilo-yatayat-248b4',
-    storageBucket: 'sajilo-yatayat-248b4.appspot.com',
+    apiKey: 'AIzaSyAbJm7z4wCYeqUZv4hkfQMMkSD6DHIbUVE',
+    appId: '1:770487677240:ios:ed50fcea3ceaab5f0451cd',
+    messagingSenderId: '770487677240',
+    projectId: 'new-sajilo-yatayat',
+    storageBucket: 'new-sajilo-yatayat.appspot.com',
     iosBundleId: 'com.example.tryapp.RunnerTests',
   );
 }

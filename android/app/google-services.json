@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "580212007323",
-    "project_id": "sajilo-yatayat-248b4",
-    "storage_bucket": "sajilo-yatayat-248b4.appspot.com"
+    "project_number": "770487677240",
+    "project_id": "new-sajilo-yatayat",
+    "storage_bucket": "new-sajilo-yatayat.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:580212007323:android:3e73563ac5f397d6b0813e",
+        "mobilesdk_app_id": "1:770487677240:android:833a55458f38ac540451cd",
         "android_client_info": {
           "package_name": "com.sajiloyatayat"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCFNZ3rtfItJgV7f-g-mwqXrFIRuaDXq9M"
+          "current_key": "AIzaSyDPRHJ-iurvJgMZu-cdosKdFTMZDO7hD3Y"
         }
       ],
       "services": {
