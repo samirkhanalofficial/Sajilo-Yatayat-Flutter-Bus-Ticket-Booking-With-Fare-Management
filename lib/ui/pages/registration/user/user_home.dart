@@ -29,14 +29,20 @@ class UserHome extends StatelessWidget {
                   width: 34,
                 ),
                 const SizedBox(width: 11.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Ticket Booking',
-                        style: Theme.of(context).textTheme.titleMedium),
-                    Text('Book long distance tickets of desired bus.',
-                        style: Theme.of(context).textTheme.bodyMedium),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Ticket Booking',
+                          style: Theme.of(context).textTheme.titleMedium),
+                      Text(
+                        'Book long distance tickets of desired bus.',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

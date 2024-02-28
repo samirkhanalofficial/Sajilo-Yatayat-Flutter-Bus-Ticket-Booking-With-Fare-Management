@@ -58,11 +58,15 @@ class _LoginPageState extends State<LoginPage> {
                   animate: true,
                   repeat: true,
                 ),
-                Text('Sajilo Yatayat',
-                    style: Theme.of(context).textTheme.titleLarge),
-                Text(
-                  'Everything you need for Travel.',
-                  style: Theme.of(context).textTheme.bodySmall,
+                Center(
+                  child: Text('Sajilo Yatayat',
+                      style: Theme.of(context).textTheme.titleLarge),
+                ),
+                Center(
+                  child: Text(
+                    'Everything you need for Travel.',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                 ),
                 const SizedBox(
                   height: 33,
@@ -72,8 +76,11 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 16,
                 ),
-                NepalFlagInputField(
-                  phoneNumberData: phoneNumberData,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: NepalFlagInputField(
+                    phoneNumberData: phoneNumberData,
+                  ),
                 ),
                 const SizedBox(
                   height: 19,
