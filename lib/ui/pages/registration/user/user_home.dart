@@ -1,92 +1,74 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:tryapp/ui/pages/registration/user/search_bus.dart';
 import 'package:tryapp/ui/pages/registration/user/user_profile.dart';
 
-class UserHome extends StatelessWidget {
+class UserHome extends StatefulWidget {
   const UserHome({super.key});
 
   @override
+  State<UserHome> createState() => _UserHomeState();
+}
+
+class _UserHomeState extends State<UserHome> {
+  @override
   Widget build(BuildContext context) {
+    int currentPage = 0;
+    final List<Widget> pageList = [const SearchBusPage(), const UserProfile()];
     return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(16),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
+        child: const Icon(Iconsax.scan),
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        elevation: 20,
+        shadowColor: Theme.of(context).primaryColor,
+        height: 70,
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Welcome,',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            Text('Sumit Ray', style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              children: [
-                Image.asset(
-                  'asset/images/logo.png',
-                  height: 42,
-                  width: 34,
-                ),
-                const SizedBox(width: 11.0),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Ticket Booking',
-                          style: Theme.of(context).textTheme.titleMedium),
-                      Text(
-                        'Book long distance tickets of desired bus.',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text('From', style: Theme.of(context).textTheme.titleSmall),
-            const SizedBox(
-              height: 16,
-            ),
-            const TextField(
-              decoration: InputDecoration(
-                hintText: 'Kathmandu',
-                prefixIcon: Icon(Iconsax.bus5),
-              ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Text('To', style: Theme.of(context).textTheme.titleSmall),
-            const SizedBox(
-              height: 16,
-            ),
-            const TextField(
-              decoration: InputDecoration(
-                hintText: 'Jaleshwor',
-                prefixIcon: Icon(Iconsax.bus5),
-              ),
-            ),
-            const SizedBox(
-              height: 34,
-            ),
-            ElevatedButton.icon(
+            IconButton(
               onPressed: () {
-                Get.to(
-                  () => const UserProfile(),
-                );
+                setState(() {
+                  currentPage = 0;
+                });
               },
-              icon: const Icon(Iconsax.search_normal),
-              label: const Text('Search'),
-            )
+              icon: const Icon(
+                Iconsax.home_15,
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Iconsax.wallet_35,
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Iconsax.ticket5,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  currentPage = 1;
+                });
+              },
+              icon: const Icon(
+                Iconsax.profile_circle5,
+              ),
+            ),
           ],
         ),
       ),
+      body: pageList[currentPage],
     );
   }
 }
