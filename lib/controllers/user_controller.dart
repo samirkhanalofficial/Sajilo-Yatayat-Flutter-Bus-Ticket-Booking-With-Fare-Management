@@ -25,7 +25,17 @@ class UserController extends GetxController {
     if (apiHelper.successfullResponse.value) {
       SharedPreferences sf = await SharedPreferences.getInstance();
       sf.setBool("isLogginned", true);
-      Get.offAllNamed(RoutesNames.userHomePage);
+      String role = sf.getString("role") ?? "Passenger";
+      if (role == "Passenger") {
+        sf.setBool("isLogginned", true);
+        Get.offAllNamed(
+          RoutesNames.userHomePage,
+        );
+      } else {
+        Get.offAllNamed(
+          RoutesNames.addBusPage,
+        );
+      }
     }
     isLoading(false);
   }

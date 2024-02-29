@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
+import 'package:tryapp/controllers/bus_controller.dart';
 import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/pages/registration/arguments/verify_page_argument.dart';
 
@@ -47,6 +49,7 @@ class AuthController extends GetxController {
       );
       // Sign the user in (or link) with the credential
       await auth.signInWithCredential(credential);
+      debugPrint(await auth.currentUser!.getIdToken());
       UserController userController = UserController();
       bool userExists = await userController.userExists();
       if (!userExists) {
@@ -55,10 +58,27 @@ class AuthController extends GetxController {
         );
       } else {
         SharedPreferences sf = await SharedPreferences.getInstance();
-        sf.setBool("isLogginned", true);
-        Get.offAllNamed(
-          RoutesNames.userHomePage,
-        );
+        String role = sf.getString("role") ?? "Passenger";
+        if (role == "Passenger") {
+          sf.setBool("isLogginned", true);
+          Get.offAllNamed(
+            RoutesNames.userHomePage,
+          );
+        } else {
+          BusController busController = BusController();
+          await busController.getMyBuses();
+          if (busController.myBuses.isEmpty) {
+            Get.offAllNamed(
+              RoutesNames.addBusPage,
+            );
+          } else {
+            sf.setBool("isLogginned", true);
+            sf.setString("myBusId", busController.myBuses[0].id);
+            Get.offAllNamed(
+              RoutesNames.userHomePage,
+            );
+          }
+        }
       }
     } catch (e) {
       QuickAlert.show(

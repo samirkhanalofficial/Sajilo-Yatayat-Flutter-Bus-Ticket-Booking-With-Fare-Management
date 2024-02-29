@@ -27,23 +27,18 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-        () => SafeArea(
-          child: userController.isLoading.value
+    return SafeArea(
+      child: Scaffold(
+        body: Obx(
+          () => userController.isLoading.value
               ? const Center(child: CircularProgressIndicator())
               : ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        TextButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            child: const Text('< Back')),
                         TextButton.icon(
                           style: ButtonStyle(
                             foregroundColor:
@@ -54,7 +49,7 @@ class _UserProfileState extends State<UserProfile> {
                             SharedPreferences sf =
                                 await SharedPreferences.getInstance();
                             sf.setBool("isLogginned", false);
-                            Get.offAllNamed(RoutesNames.loginPage);
+                            Get.offAllNamed(RoutesNames.splashScreenPage);
                           },
                           icon: const Icon(
                             Iconsax.logout_1,
@@ -68,7 +63,7 @@ class _UserProfileState extends State<UserProfile> {
                       'asset/animations/user.json',
                       height: MediaQuery.of(context).size.height * 0.33,
                       animate: true,
-                      reverse: true,
+                      reverse: false,
                       repeat: true,
                     ),
                     Row(

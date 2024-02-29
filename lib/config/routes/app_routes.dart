@@ -1,5 +1,7 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
+import 'package:tryapp/ui/pages/auth/role_screen.dart';
+import 'package:tryapp/ui/pages/bus/add_bus_page.dart';
 import 'package:tryapp/ui/pages/registration/user/user_home.dart';
 import 'package:tryapp/ui/pages/registration/user/user_profile.dart';
 import 'package:tryapp/ui/pages/registration/user/user_registration.dart';
@@ -13,6 +15,10 @@ List<GetPage> appRoutes = [
     page: () => const SplashScreen(),
   ),
   GetPage(
+    name: RoutesNames.roleSelectionPage,
+    page: () => const RoleScreen(),
+  ),
+  GetPage(
     name: RoutesNames.loginPage,
     page: () => const LoginScreen(),
   ),
@@ -24,6 +30,10 @@ List<GetPage> appRoutes = [
   GetPage(
     name: RoutesNames.userRegistrationPage,
     page: () => const UserRegistration(),
+  ),
+  GetPage(
+    name: RoutesNames.addBusPage,
+    page: () => const AddBusPage(),
   ),
   GetPage(
     name: RoutesNames.userHomePage,

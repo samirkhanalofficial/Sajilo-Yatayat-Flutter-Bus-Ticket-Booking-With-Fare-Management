@@ -4,6 +4,7 @@ import 'package:tryapp/ui/pages/registration/user/search_bus.dart';
 import 'package:tryapp/ui/pages/registration/user/user_booking_details_page.dart';
 import 'package:tryapp/ui/pages/registration/user/user_profile.dart';
 import 'package:tryapp/ui/pages/wallet/wallet_page.dart';
+import 'package:tryapp/ui/widgets/global/nav_bar.dart';
 
 class UserHome extends StatefulWidget {
   const UserHome({super.key});
@@ -13,16 +14,17 @@ class UserHome extends StatefulWidget {
 }
 
 class _UserHomeState extends State<UserHome> {
+  int currentPage = 0;
+  final List<Widget> pageList = [
+    const SearchBusPage(),
+    const WalletPage(),
+    const UserBookingDetailsPage(),
+    const UserProfile(),
+  ];
   @override
   Widget build(BuildContext context) {
-    int currentPage = 3;
-    final List<Widget> pageList = [
-      const SearchBusPage(),
-      const UserProfile(),
-      const WalletPage(),
-      const UserBookingDetailsPage()
-    ];
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(Iconsax.scan),
@@ -34,47 +36,16 @@ class _UserHomeState extends State<UserHome> {
         elevation: 20,
         shadowColor: Theme.of(context).primaryColor,
         height: 70,
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  currentPage = 0;
-                });
-              },
-              icon: const Icon(
-                Iconsax.home_15,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Iconsax.wallet_35,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Iconsax.ticket5,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  currentPage = 1;
-                });
-              },
-              icon: const Icon(
-                Iconsax.profile_circle5,
-              ),
-            ),
-          ],
+        child: NavBar(
+          selectedIndex: currentPage,
+          onIndexChange: (int index) {
+            setState(() {
+              currentPage = index;
+            });
+          },
         ),
       ),
-      body: pageList[currentPage],
+      body: IndexedStack(index: currentPage, children: pageList),
     );
   }
 }

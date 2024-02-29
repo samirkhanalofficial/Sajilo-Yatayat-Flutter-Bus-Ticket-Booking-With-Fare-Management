@@ -52,12 +52,15 @@ class _LoginScreenState extends State<LoginScreen> {
             body: ListView(
               padding: const EdgeInsets.all(16.0),
               children: [
-                Lottie.asset(
-                  'asset/animations/themeanimation.json',
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  animate: true,
-                  repeat: true,
+                Hero(
+                  tag: 'busanimation',
+                  child: Lottie.asset(
+                    'asset/animations/themeanimation.json',
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    animate: true,
+                    repeat: true,
+                  ),
                 ),
                 Center(
                   child: Text('Sajilo Yatayat',

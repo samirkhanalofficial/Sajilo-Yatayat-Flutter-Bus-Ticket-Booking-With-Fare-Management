@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
       );
     } else {
       Get.offAllNamed(
-        RoutesNames.loginPage,
+        RoutesNames.roleSelectionPage,
       );
     }
   }
