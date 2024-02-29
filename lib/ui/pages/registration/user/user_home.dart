@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:tryapp/ui/pages/bus/avilable_bus_page.dart';
-import 'package:tryapp/ui/pages/registration/user/search_bus.dart';
 import 'package:tryapp/ui/pages/registration/user/user_booking_details_page.dart';
 import 'package:tryapp/ui/pages/registration/user/user_profile.dart'; 
 import 'package:tryapp/ui/pages/wallet/wallet_page.dart';

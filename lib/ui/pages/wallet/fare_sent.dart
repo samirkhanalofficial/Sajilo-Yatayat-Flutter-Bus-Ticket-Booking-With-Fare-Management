@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tryapp/ui/widgets/global/payment/fare_sent_card.dart';
+import 'package:tryapp/ui/widgets/global/wallet/fare_sent_card.dart';
 
 class FareSentPage extends StatelessWidget {
   const FareSentPage({super.key});
