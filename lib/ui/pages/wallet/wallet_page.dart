@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tryapp/ui/widgets/global/wallet_transaction_card.dart';
+import 'package:tryapp/ui/widgets/global/payment/wallet_transaction_card.dart';
 
 class WalletPage extends StatelessWidget {
   const WalletPage({super.key});
