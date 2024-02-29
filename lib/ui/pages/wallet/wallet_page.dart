@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tryapp/ui/widgets/global/wallet/current_fare_card.dart';
 import 'package:tryapp/ui/widgets/global/wallet/my_balance_card.dart';
 import 'package:tryapp/ui/widgets/global/wallet/wallet_transaction_card.dart';
 
@@ -51,7 +52,6 @@ class WalletPage extends StatelessWidget {
           const SizedBox(
             height: 25,
           ),
-          const MyBalanceCard()
         ],
       ),
     ));
