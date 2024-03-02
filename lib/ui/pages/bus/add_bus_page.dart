@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tryapp/config/colors/app_color.dart';
 import 'package:tryapp/controllers/bus_controller.dart';
 import 'package:tryapp/ui/widgets/global/loading_botton.dart';
 
@@ -138,38 +138,29 @@ class _AddBusPageState extends State<AddBusPage> {
                   ),
                   Text('Features',
                       style: Theme.of(context).textTheme.titleSmall),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Iconsax.wifi_square),
-                      ),
-                      Image.asset(
-                        'asset/images/logo.png',
-                        height: 42,
-                        width: 34,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Iconsax.monitor),
-                      )
-                    ],
+                  Obx(
+                    () => GridView.count(
+                      shrinkWrap: true,
+                      mainAxisSpacing: 0.1,
+                      crossAxisCount: 3,
+                      children: [
+                        ...busController.busFeatures.map((feature) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColor().primary,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Image.asset(
+                                  feature.imageURl,
+                                  height: 30,
+                                  width: 30,
+                                ),
+                              ),
+                            ))
+                      ],
+                    ),
                   ),
-                  // Obx(
-                  //   () => GridView.count(
-                  //     crossAxisCount: 3,
-                  //     children: List.generate(
-                  //       busController.busFeatures.length,
-                  //       (data) {
-                  //         return Image.asset(
-                  //           'asset/images/logo.png',
-                  //           height: 42,
-                  //           width: 34,
-                  //         );
-                  //       },
-                  //     ),
-                  //   ),
-                  // ),
 
                   const SizedBox(
                     height: 16,
