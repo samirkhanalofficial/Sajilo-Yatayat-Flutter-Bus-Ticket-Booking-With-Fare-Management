@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:tryapp/config/constants/urls.dart';
 import 'package:tryapp/helper/api_helper.dart';
 import 'package:tryapp/models/bus_details.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BusController extends GetxController {
   Rx<bool> isLoading = false.obs;
@@ -43,5 +44,16 @@ class BusController extends GetxController {
           return myBuses;
         });
     isLoading(false);
+  }
+
+  Future<void> setSelectedBus(String busId) async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    sf.setString("myBusId", busId);
+  }
+
+  Future<String> getSelectedBus() async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    String selectedBus = sf.getString("myBusId") ?? "";
+    return selectedBus;
   }
 }

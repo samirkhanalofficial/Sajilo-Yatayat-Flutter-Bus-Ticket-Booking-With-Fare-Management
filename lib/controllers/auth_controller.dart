@@ -73,7 +73,7 @@ class AuthController extends GetxController {
             );
           } else {
             sf.setBool("isLogginned", true);
-            sf.setString("myBusId", busController.myBuses[0].id);
+            busController.setSelectedBus(busController.myBuses[0].id);
             Get.offAllNamed(
               RoutesNames.userHomePage,
             );
