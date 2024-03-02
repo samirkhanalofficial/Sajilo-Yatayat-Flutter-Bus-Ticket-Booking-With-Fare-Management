@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:get/get.dart';
+import 'package:tryapp/config/routes/routes_names.dart';
+
 
 class profile extends StatelessWidget {
   const profile({super.key});
@@ -24,7 +26,6 @@ class _my_profileState extends State<my_profile> {
   @override
   Widget build(BuildContext context) {
     const Color green = Color(0xFF0ACF83);
-    const Color grey = Color(0xf1f0ee);
     return Scaffold(
       body: ListView(children: [
         Stack(
@@ -33,7 +34,9 @@ class _my_profileState extends State<my_profile> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(RoutesNames.homePage);
+                    },
                     icon: const Icon(Icons.logout_rounded),
                     label: const Text("Logout")),
               ],
@@ -74,7 +77,9 @@ class _my_profileState extends State<my_profile> {
               Column(
                 children: [
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(RoutesNames.regpage);
+                    },
                     icon: Image.asset('asset/images/edit.png'),
                     label: const Text(
                       "Edit",
@@ -91,10 +96,9 @@ class _my_profileState extends State<my_profile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+               Text(
                 "Full Name",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              ),
+                  style: Theme.of(context).textTheme.bodyMedium              ),
               const SizedBox(
                 height: 5,
               ),
@@ -105,10 +109,9 @@ class _my_profileState extends State<my_profile> {
               const SizedBox(
                 height: 5,
               ),
-              const Text(
+               Text(
                 "Mobile Number",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              ),
+                  style: Theme.of(context).textTheme.bodyMedium              ),
               const SizedBox(
                 height: 5,
               ),
@@ -119,10 +122,9 @@ class _my_profileState extends State<my_profile> {
               const SizedBox(
                 height: 5,
               ),
-              const Text(
+               Text(
                 "Date of Birth",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              ),
+                  style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(
                 height: 5,
               ),
@@ -133,10 +135,9 @@ class _my_profileState extends State<my_profile> {
               const SizedBox(
                 height: 5,
               ),
-              const Text(
+               Text(
                 "Address",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              ),
+                  style: Theme.of(context).textTheme.bodyMedium              ),
               const SizedBox(
                 height: 5,
               ),
@@ -147,10 +148,9 @@ class _my_profileState extends State<my_profile> {
               const SizedBox(
                 height: 5,
               ),
-              const Text(
+               Text(
                 "Bus Number",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              ),
+                  style: Theme.of(context).textTheme.bodyMedium              ),
               const SizedBox(
                 height: 5,
               ),
@@ -161,10 +161,9 @@ class _my_profileState extends State<my_profile> {
               const SizedBox(
                 height: 5,
               ),
-              const Text(
+               Text(
                 "Yatayat",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              ),
+                  style: Theme.of(context).textTheme.bodyMedium              ),
               const SizedBox(
                 height: 5,
               ),
@@ -175,25 +174,28 @@ class _my_profileState extends State<my_profile> {
               const SizedBox(
                 height: 5,
               ),
-              const Text(
+               Text(
                 "Features",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              ),
+                  style: Theme.of(context).textTheme.bodyMedium              ),
               const SizedBox(
                 height: 5,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.asset('asset/images/wifi.png'),
                   Image.asset('asset/images/monitor.png'),
                   Image.asset('asset/images/AC.png'),
                 ],
               ),
-              const Text("Ratings"),
+              const SizedBox(
+                height: 5,
+              ),
+               Text("Ratings", style: Theme.of(context).textTheme.bodyMedium),
               Row(
                 children: [
                   Image.asset('asset/images/star.png'),
-                  const Text("5.0"),
+                   Text("5.0",style: Theme.of(context).textTheme.bodySmall),
                 ],
               ),
               Center(
@@ -211,25 +213,35 @@ class _my_profileState extends State<my_profile> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(RoutesNames.bus);
+                      },
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.white,
                       ),
                       icon: Image.asset('asset/images/home1.png')),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(RoutesNames.wallet);
+                      },
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.white,
                       ),
                       icon: Image.asset('asset/images/wallet1.png')),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(RoutesNames.booking);
+
+                      },
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.white,
                       ),
                       icon: Image.asset('asset/images/ticket.png')),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(RoutesNames.ownerProfile);
+
+                      },
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.white,
                       ),

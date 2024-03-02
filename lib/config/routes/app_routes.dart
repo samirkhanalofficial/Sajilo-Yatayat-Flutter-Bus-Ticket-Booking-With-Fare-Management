@@ -1,6 +1,8 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
+import 'package:tryapp/ui/pages/owner/booking.dart';
 import 'package:tryapp/ui/pages/owner/busstatus.dart';
+import 'package:tryapp/ui/pages/owner/cancelticket.dart';
 import 'package:tryapp/ui/pages/owner/depstatus.dart';
 import 'package:tryapp/ui/pages/owner/owner_profile.dart';
 import 'package:tryapp/ui/pages/owner/owner_reg.dart';
@@ -51,5 +53,13 @@ List<GetPage> appRoutes = [
   GetPage(
     name: RoutesNames.withdraw,
     page: () => const withdraw(),
+  ),
+  GetPage(
+    name: RoutesNames.booking,
+    page: () => const booking(),
+  ),
+  GetPage(
+    name: RoutesNames.cancel,
+    page: () => const cancel(),
   )
 ];

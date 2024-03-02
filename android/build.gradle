@@ -28,3 +28,8 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+    namespace = 'com.sajiloyatayat'
+}

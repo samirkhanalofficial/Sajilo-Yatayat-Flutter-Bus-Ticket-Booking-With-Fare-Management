@@ -13,4 +13,6 @@ class RoutesNames {
   static const dep='/departurestatus';
   static const wallet='/ownerwallet';
   static const withdraw='/withdraw';
+  static const booking='/ownerbookingspage';
+  static const cancel='/cancelticket';
 }

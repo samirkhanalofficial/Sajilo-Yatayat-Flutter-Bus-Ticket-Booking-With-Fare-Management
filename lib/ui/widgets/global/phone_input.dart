@@ -29,6 +29,7 @@ class NepalFlagInputField extends StatelessWidget {
               decoration: InputDecoration(
                 border: InputBorder.none,
               ),
+              maxLength: 10,
               keyboardType: TextInputType.phone,
             ),
           ),

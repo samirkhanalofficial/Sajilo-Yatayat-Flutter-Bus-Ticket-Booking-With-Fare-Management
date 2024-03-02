@@ -348,12 +348,14 @@ class _bus_statusState extends State<bus_status> {
                           ),
                           icon:Image.asset('asset/images/home.png')),
                       IconButton(onPressed:(){
+                        Get.toNamed(RoutesNames.wallet);
                       } ,
                           style: IconButton.styleFrom(
                             backgroundColor: Colors.white,
                           ),
                           icon:Image.asset('asset/images/wallet1.png')),
                       IconButton(onPressed:(){
+                        Get.toNamed(RoutesNames.booking);
                       } ,
                           style: IconButton.styleFrom(
                             backgroundColor: Colors.white,

@@ -22,21 +22,24 @@ class _ownerwalletState extends State<ownerwallet> {
       body: Stack(
         children: [ListView(
           children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              child:  Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Welcome",
-                    style: Theme.of(context).textTheme.titleSmall,
+            Hero(
+              tag: 'name',
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                child:  Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Welcome",
+                      style: Theme.of(context).textTheme.titleSmall,
 
-                  ),
-                  Text(
-                    "Ritesh",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  )
-                ],
+                    ),
+                    Text(
+                      "Ritesh",
+                      style: Theme.of(context).textTheme.titleLarge,
+                    )
+                  ],
+                ),
               ),
             ),
             Stack(children: [
@@ -326,18 +329,22 @@ class _ownerwalletState extends State<ownerwallet> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(onPressed:(){
+                          Get.toNamed(RoutesNames.bus);
+
                         } ,
                             style: IconButton.styleFrom(
                               backgroundColor: Colors.white,
                             ),
-                            icon:Image.asset('asset/images/home.png')),
+                            icon:Image.asset('asset/images/home1.png')),
                         IconButton(onPressed:(){
                         } ,
                             style: IconButton.styleFrom(
                               backgroundColor: Colors.white,
                             ),
-                            icon:Image.asset('asset/images/wallet1.png')),
+                            icon:Image.asset('asset/images/wallet3.png')),
                         IconButton(onPressed:(){
+                          Get.toNamed(RoutesNames.booking);
+
                         } ,
                             style: IconButton.styleFrom(
                               backgroundColor: Colors.white,

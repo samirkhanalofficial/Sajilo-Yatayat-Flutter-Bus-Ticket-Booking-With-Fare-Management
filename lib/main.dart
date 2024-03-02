@@ -35,10 +35,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: RoutesNames.ownerProfile,
+      initialRoute: RoutesNames.cancel,
       getPages: appRoutes,
-      title: 'Sajilo Yatatt',
-      debugShowCheckedModeBanner: false,
+      title: 'Sajilo Yatayat',
+      debugShowCheckedModeBanner: true,
       theme: ThemeData(
         primaryColor: const Color(0xFF0ACF83),
         colorScheme: ColorScheme.fromSeed(

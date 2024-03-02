@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
+import 'package:tryapp/config/routes/routes_names.dart';
+
 
 class VerifyOTP extends StatelessWidget {
   const VerifyOTP({super.key});
@@ -107,7 +109,9 @@ class VerifyOTP extends StatelessWidget {
                     height: 19,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(RoutesNames.regpage);
+                    },
                     child: const Text('Verify'),
                   ),
                   const SizedBox(
