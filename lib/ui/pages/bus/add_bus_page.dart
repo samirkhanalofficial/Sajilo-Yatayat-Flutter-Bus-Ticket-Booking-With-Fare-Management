@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tryapp/controllers/bus_controller.dart';
+import 'package:tryapp/ui/widgets/global/loading_botton.dart';
 
 class AddBusPage extends StatefulWidget {
   const AddBusPage({super.key});
@@ -10,8 +13,16 @@ class AddBusPage extends StatefulWidget {
 }
 
 class _AddBusPageState extends State<AddBusPage> {
+  final BusController busController = Get.put(BusController());
   String? selectedBusType; // Make selectedBusType nullable
-  List<String> busTypes = ['AC', 'DELUXE', 'NORMAL', 'SLEEPER']; // List of bus
+  @override
+  void initState() {
+    busController.getBusTypes();
+
+    busController.getBusFeatures();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,23 +111,26 @@ class _AddBusPageState extends State<AddBusPage> {
                       borderRadius: BorderRadius.circular(16),
                       color: const Color.fromRGBO(241, 240, 238, 1),
                     ),
-                    child: DropdownButton<String>(
-                      dropdownColor: const Color.fromRGBO(241, 240, 238, 1),
-                      borderRadius: BorderRadius.circular(16),
-                      isExpanded: true,
-                      value: selectedBusType,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedBusType = newValue!;
-                        });
-                      },
-                      items: busTypes.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      underline: const SizedBox(),
+                    child: Obx(
+                      () => DropdownButton<String>(
+                        hint: const Text('Choose Bus Type'),
+                        dropdownColor: const Color.fromRGBO(241, 240, 238, 1),
+                        borderRadius: BorderRadius.circular(16),
+                        isExpanded: true,
+                        value: selectedBusType,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedBusType = newValue!;
+                          });
+                        },
+                        items: busController.busTypes.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        underline: const SizedBox(),
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -130,12 +144,33 @@ class _AddBusPageState extends State<AddBusPage> {
                         onPressed: () {},
                         icon: const Icon(Iconsax.wifi_square),
                       ),
+                      Image.asset(
+                        'asset/images/logo.png',
+                        height: 42,
+                        width: 34,
+                      ),
                       IconButton(
                         onPressed: () {},
                         icon: const Icon(Iconsax.monitor),
                       )
                     ],
                   ),
+                  // Obx(
+                  //   () => GridView.count(
+                  //     crossAxisCount: 3,
+                  //     children: List.generate(
+                  //       busController.busFeatures.length,
+                  //       (data) {
+                  //         return Image.asset(
+                  //           'asset/images/logo.png',
+                  //           height: 42,
+                  //           width: 34,
+                  //         );
+                  //       },
+                  //     ),
+                  //   ),
+                  // ),
+
                   const SizedBox(
                     height: 16,
                   ),
@@ -207,18 +242,13 @@ class _AddBusPageState extends State<AddBusPage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 16,
+                    height: 28,
                   ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  const SizedBox(height: 22),
+                  LoadingButton(
+                    onClick: () {},
+                    buttonName: 'Finsish',
+                    loading: busController.isLoading.value,
+                  )
                 ],
               ),
             ),

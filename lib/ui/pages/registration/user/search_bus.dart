@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:tryapp/ui/pages/registration/owner/owner_home_page.dart';
 
 class SearchBusPage extends StatelessWidget {
   const SearchBusPage({
@@ -75,7 +77,9 @@ class SearchBusPage extends StatelessWidget {
             height: 34,
           ),
           ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => const OwnerHomePage());
+            },
             icon: const Icon(Iconsax.search_normal),
             label: const Text('Search'),
           )

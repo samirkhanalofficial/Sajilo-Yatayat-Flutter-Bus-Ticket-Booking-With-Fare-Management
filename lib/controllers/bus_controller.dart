@@ -5,6 +5,8 @@ import 'package:tryapp/models/bus_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BusController extends GetxController {
+  RxList<String> busTypes = RxList([]);
+  RxList<BusFeature> busFeatures = RxList([]);
   Rx<bool> isLoading = false.obs;
   RxList<BusDetails> myBuses = RxList<BusDetails>([]);
   Future<void> addBus(
@@ -56,4 +58,42 @@ class BusController extends GetxController {
     String selectedBus = sf.getString("myBusId") ?? "";
     return selectedBus;
   }
+
+  Future<void> getBusTypes() async {
+    busTypes = RxList(['AC', 'DELUXE', 'NORMAL', 'SLEEPER']);
+  }
+
+  Future<void> getBusFeatures() async {
+    busFeatures = RxList([
+      BusFeature(
+        'WIFI',
+        'asset/images/wifi.png',
+      ),
+      BusFeature(
+        'AC',
+        'asset/images/AC.png',
+      ),
+      BusFeature(
+        'Toilet',
+        'asset/images/toilet.png',
+      ),
+      BusFeature(
+        'TV',
+        'asset/images/TV.png',
+      ),
+      BusFeature(
+        'FOOD',
+        'asset/images/food.png',
+      ),
+      BusFeature(
+        'Fan',
+        'asset/images/fan.png',
+      ),
+    ]);
+  }
+}
+
+class BusFeature {
+  String name, imageURl;
+  BusFeature(this.name, this.imageURl);
 }
