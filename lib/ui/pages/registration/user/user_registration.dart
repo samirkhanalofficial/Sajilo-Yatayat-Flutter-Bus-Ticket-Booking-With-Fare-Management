@@ -133,7 +133,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                           onPressed: () {
                             showDatePicker(
                               context: context,
-                              firstDate: DateTime(1990),
+                              firstDate: DateTime(1900),
                               lastDate: DateTime.now(),
                             ).then((value) {
                               if (value != null) {

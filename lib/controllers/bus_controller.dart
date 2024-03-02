@@ -74,7 +74,7 @@ class BusController extends GetxController {
         'asset/images/AC.png',
       ),
       BusFeature(
-        'Toilet',
+        'TOILET',
         'asset/images/toilet.png',
       ),
       BusFeature(
@@ -86,7 +86,7 @@ class BusController extends GetxController {
         'asset/images/food.png',
       ),
       BusFeature(
-        'Fan',
+        'FAN',
         'asset/images/fan.png',
       ),
     ]);

@@ -14,11 +14,11 @@ class VerifyOTPScreen extends StatefulWidget {
 }
 
 class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
-  final otp = TextEditingController();
+  final otpController = TextEditingController();
   VerifyPageArguments verifyPageArguments = Get.arguments;
   @override
   void dispose() {
-    otp.dispose();
+    otpController.dispose();
     super.dispose();
   }
 
@@ -89,14 +89,14 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                   const SizedBox(
                     height: 19,
                   ),
-                  PinInputFiled(length: 6, controller: otp),
+                  PinInputFiled(length: 6, controller: otpController),
                   const SizedBox(
                     height: 19,
                   ),
                   Obx(
                     () => LoadingButton(
                       onClick: () => loginController.verifyOtp(
-                          otp.text, verifyPageArguments.vId),
+                          otpController.text, verifyPageArguments.vId),
                       buttonName: "Verify",
                       loading: loginController.isLoading.value,
                     ),
