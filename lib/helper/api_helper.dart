@@ -16,7 +16,7 @@ class APIHelper<T> extends GetxController {
   Future<void> fetch({
     required REQMETHOD method,
     required String url,
-    Map<String, String>? body,
+    Map<String, dynamic>? body,
     int successStatusCode = 200,
     required Function parseJsonToObject,
     bool testMode = false,

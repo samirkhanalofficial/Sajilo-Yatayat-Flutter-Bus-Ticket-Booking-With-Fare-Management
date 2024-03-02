@@ -3,3 +3,4 @@ const registerUserUrl = '$baseUrl/user/create';
 const getUserDetailsUrl = '$baseUrl/user/mydetails';
 const addBusUrl = '$baseUrl/bus/add';
 const getmyBusesUrl = '$baseUrl/bus/mybuses';
+const addDepartureUrl = '$baseUrl/departure/add';
