@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:tryapp/ui/pages/bus/avilable_bus_page.dart';
 import 'package:tryapp/ui/pages/registration/user/user_booking_details_page.dart';
-import 'package:tryapp/ui/pages/registration/user/user_profile.dart'; 
+import 'package:tryapp/ui/pages/registration/user/user_profile.dart';
+import 'package:tryapp/ui/pages/wallet/fare_sent_page.dart';
 import 'package:tryapp/ui/pages/wallet/wallet_page.dart';
 import 'package:tryapp/ui/widgets/global/nav_bar.dart';
 
@@ -16,7 +17,7 @@ class UserHome extends StatefulWidget {
 class _UserHomeState extends State<UserHome> {
   int currentPage = 0;
   final List<Widget> pageList = [
-    const AvilableBusPage(),
+    const FareSentPage(),
     const WalletPage(),
     const UserBookingDetailsPage(),
     const UserProfile(),
