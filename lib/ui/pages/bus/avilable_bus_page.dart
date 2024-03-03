@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import 'package:tryapp/controllers/departure_controller.dart';
+import 'package:tryapp/ui/pages/bus/seats/seat_booking_page.dart';
 import 'package:tryapp/ui/widgets/global/bus/bus_details_card.dart';
 
 class AvilableBusPage extends StatefulWidget {
@@ -47,12 +48,10 @@ class _AvilableBusPageState extends State<AvilableBusPage> {
                 height: 40,
               ),
               ...departureController.departures.map(
-                (busData) => InkWell(
-                  onTap: () {},
+                (departureData) => Padding(
+                  padding: const EdgeInsets.only(bottom: 15.0),
                   child: BusDetailsCard(
-                    from: busData.from.name,
-                    to: busData.to.name,
-                    price: busData.amount,
+                    departureDetails: departureData,
                   ),
                 ),
               ),
