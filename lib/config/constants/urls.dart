@@ -1,5 +1,5 @@
 // const baseUrl = 'https://sajiloyatayatbackend.samirk.com.np';
-const baseUrl = 'http://192.168.1.90:3001';
+const baseUrl = 'http://192.168.1.64:3001';
 const registerUserUrl = '$baseUrl/user/create';
 const getUserDetailsUrl = '$baseUrl/user/mydetails';
 

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:tryapp/config/routes/routes_names.dart';
+import 'package:tryapp/controllers/departure_controller.dart';
 import 'package:tryapp/ui/widgets/global/pin_Input_field.dart';
 import 'package:tryapp/ui/widgets/global/wallet/my_balance_card.dart';
 
@@ -8,7 +13,12 @@ class OwnerHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DepartureController departureController =
+        Get.put(DepartureController());
+
     final price = TextEditingController();
+    final fromLocation = TextEditingController();
+    final toLocation = TextEditingController();
     final dateTimeController = TextEditingController();
     String date = "", time = "";
     return Scaffold(
@@ -67,10 +77,19 @@ class OwnerHomePage extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const TextField(
-              decoration: InputDecoration(
-                hintText: 'Kathmandu',
-                prefixIcon: Icon(Iconsax.bus5),
+            InkWell(
+              onTap: () {
+                Get.offAllNamed(
+                  RoutesNames.locationPage,
+                );
+              },
+              child: TextField(
+                enabled: false,
+                controller: fromLocation,
+                decoration: const InputDecoration(
+                  hintText: 'Kathmandu',
+                  prefixIcon: Icon(Iconsax.bus5),
+                ),
               ),
             ),
             const SizedBox(
@@ -80,10 +99,19 @@ class OwnerHomePage extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const TextField(
-              decoration: InputDecoration(
-                hintText: 'Jaleshwor',
-                prefixIcon: Icon(Iconsax.bus5),
+            InkWell(
+              onTap: () {
+                Get.offAllNamed(
+                  RoutesNames.locationPage,
+                );
+              },
+              child: TextField(
+                enabled: false,
+                controller: toLocation,
+                decoration: const InputDecoration(
+                  hintText: 'Jaleshwor',
+                  prefixIcon: Icon(Iconsax.bus5),
+                ),
               ),
             ),
             const SizedBox(
@@ -158,7 +186,11 @@ class OwnerHomePage extends StatelessWidget {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                // Get.to(() => const OwnerHomePage());
+                // departureController.addDeparture(date, fromLocation.text,
+                //     toLocation.text, time, double.parse(price.text));
+                Get.offAllNamed(
+                  RoutesNames.locationPage,
+                );
               },
               icon: const Icon(Iconsax.add),
               label: const Text('Add'),
