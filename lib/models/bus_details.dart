@@ -6,14 +6,14 @@ part 'bus_details.g.dart';
 class BusDetails {
   @JsonKey(name: '_id')
   String id;
-  String busNumber, yatayat, bustype, timestamp;
+  String busnumber, yatayat, bustype, timestamp;
   int leftSeats, rightSeats, lastSeats;
   List<String> images, features;
-  UserDetails owners;
+  List<UserDetails> owners;
 
   BusDetails({
     required this.id,
-    required this.busNumber,
+    required this.busnumber,
     required this.yatayat,
     required this.bustype,
     required this.leftSeats,

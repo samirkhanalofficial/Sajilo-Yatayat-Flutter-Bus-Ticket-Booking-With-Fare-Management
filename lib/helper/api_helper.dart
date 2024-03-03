@@ -44,7 +44,7 @@ class APIHelper<T> extends GetxController {
         default:
           break;
       }
-      Map<String, dynamic> resBody = json.decode(res.body);
+      var resBody = json.decode(res.body);
 
       if (res.statusCode == successStatusCode) {
         successfullResponse(true);

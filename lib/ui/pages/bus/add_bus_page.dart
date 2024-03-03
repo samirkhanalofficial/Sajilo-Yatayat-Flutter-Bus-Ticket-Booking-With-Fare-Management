@@ -261,13 +261,13 @@ class _AddBusPageState extends State<AddBusPage> {
                           images,
                           busNumberController.text,
                           yatayatController.text,
-                          selectedBusType!,
+                          selectedBusType ?? "",
                           leftSeatsController.text,
                           rightSeatsController.text,
                           backSeatsController.text,
                           busFeatures);
                     },
-                    buttonName: 'Finsish',
+                    buttonName: 'Add Bus',
                     loading: busController.isLoading.value,
                   )
                 ],

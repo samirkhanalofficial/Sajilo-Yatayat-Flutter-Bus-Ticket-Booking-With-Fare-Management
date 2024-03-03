@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:tryapp/config/constants/urls.dart';
+import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/helper/api_helper.dart';
 import 'package:tryapp/models/bus_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +25,7 @@ class BusController extends GetxController {
     await apiHelper.fetch(
       method: REQMETHOD.post,
       url: addBusUrl,
+      successStatusCode: 201,
       body: {
         "images": images,
         "busnumber": busNumber,
@@ -37,7 +39,14 @@ class BusController extends GetxController {
       parseJsonToObject: (json) => BusDetails.fromJson(json),
     );
     if (apiHelper.successfullResponse.value) {
+      SharedPreferences sf = await SharedPreferences.getInstance();
       myBuses.add(apiHelper.response.value!);
+      setSelectedBus(apiHelper.response.value!.id);
+      sf.setBool("isLogginned", true);
+
+      Get.offAllNamed(
+        RoutesNames.userHomePage,
+      );
     }
     isLoading(false);
   }
@@ -45,7 +54,7 @@ class BusController extends GetxController {
   Future<void> getMyBuses() async {
     isLoading(true);
     myBuses([]);
-    APIHelper<List<BusDetails>> apiHelper = APIHelper();
+    APIHelper<List<BusDetails>> apiHelper = APIHelper<List<BusDetails>>();
     await apiHelper.fetch(
         method: REQMETHOD.get,
         url: getmyBusesUrl,
@@ -55,6 +64,7 @@ class BusController extends GetxController {
           }
           return myBuses;
         });
+
     isLoading(false);
   }
 

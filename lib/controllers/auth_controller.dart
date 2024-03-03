@@ -82,8 +82,8 @@ class AuthController extends GetxController {
       QuickAlert.show(
         context: Get.context!,
         type: QuickAlertType.error,
-        title: 'Incorrect OTP',
-        text: 'Please check your sms and enter the correct OTP code',
+        title: 'Error Occured',
+        text: e.toString(),
       );
     } finally {
       isLoading.value = false;
