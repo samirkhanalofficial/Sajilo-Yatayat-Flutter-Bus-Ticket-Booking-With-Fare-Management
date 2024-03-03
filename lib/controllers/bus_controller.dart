@@ -24,6 +24,16 @@ class BusController extends GetxController {
     await apiHelper.fetch(
       method: REQMETHOD.post,
       url: addBusUrl,
+      body: {
+        "images": images,
+        "busNumber": busNumber,
+        "yatayat": yatayat,
+        "busType": busType,
+        "leftSeats": leftSeats,
+        "rightSeats": rightSeats,
+        "backSeats": backSeats,
+        "features": features,
+      },
       parseJsonToObject: (json) => BusDetails.fromJson(json),
     );
     if (apiHelper.successfullResponse.value) {
