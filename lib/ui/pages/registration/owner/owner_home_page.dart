@@ -5,12 +5,24 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/controllers/departure_controller.dart';
+import 'package:tryapp/controllers/location_controller.dart';
+import 'package:tryapp/ui/pages/location/location_page.dart';
 import 'package:tryapp/ui/widgets/global/pin_Input_field.dart';
 import 'package:tryapp/ui/widgets/global/wallet/my_balance_card.dart';
 
-class OwnerHomePage extends StatelessWidget {
-  const OwnerHomePage({super.key});
+class OwnerHomePage extends StatefulWidget {
+  final LocationController locationController;
 
+  const OwnerHomePage({
+    super.key,
+    required this.locationController,
+  });
+
+  @override
+  State<OwnerHomePage> createState() => _OwnerHomePageState();
+}
+
+class _OwnerHomePageState extends State<OwnerHomePage> {
   @override
   Widget build(BuildContext context) {
     final DepartureController departureController =
@@ -79,9 +91,8 @@ class OwnerHomePage extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Get.offAllNamed(
-                  RoutesNames.locationPage,
-                );
+                Get.to(LocationPage(
+                    locationController: widget.locationController));
               },
               child: TextField(
                 enabled: false,
@@ -101,8 +112,8 @@ class OwnerHomePage extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Get.offAllNamed(
-                  RoutesNames.locationPage,
+                Get.to(
+                  LocationPage(locationController: widget.locationController),
                 );
               },
               child: TextField(

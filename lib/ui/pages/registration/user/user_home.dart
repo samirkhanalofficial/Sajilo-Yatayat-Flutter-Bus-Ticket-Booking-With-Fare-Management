@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:tryapp/controllers/location_controller.dart';
 import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/pages/registration/owner/owner_home_page.dart';
 import 'package:tryapp/ui/pages/registration/user/search_bus.dart';
@@ -19,12 +20,16 @@ class UserHome extends StatefulWidget {
 class _UserHomeState extends State<UserHome> {
   int currentPage = 0;
   UserController userController = Get.put(UserController());
+  final LocationController locationController = Get.put(LocationController());
+
   List<Widget> pageList = const [Scaffold()];
 
   initializeUI() async {
     if (await userController.isPassenger()) {
       pageList = [
-        const SearchBusPage(),
+        SearchBusPage(
+          locationController: locationController,
+        ),
         const WalletPage(),
         const UserBookingDetailsPage(),
         UserProfile(
@@ -33,7 +38,9 @@ class _UserHomeState extends State<UserHome> {
       ];
     } else {
       pageList = [
-        const OwnerHomePage(),
+        OwnerHomePage(
+          locationController: locationController,
+        ),
         const WalletPage(),
         const UserBookingDetailsPage(),
         UserProfile(

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:tryapp/controllers/location_controller.dart';
 import 'package:tryapp/ui/pages/bus/add_bus_page.dart';
 
 class SearchBusPage extends StatelessWidget {
+  final LocationController locationController;
   const SearchBusPage({
     super.key,
+    required this.locationController,
   });
 
   @override
