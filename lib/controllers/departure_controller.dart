@@ -22,10 +22,11 @@ class DepartureController extends GetxController {
         method: REQMETHOD.post,
         successStatusCode: 201,
         body: {
-          "busId": busId,
+          "bus": busId,
           "from": fromlocationId,
           "to": toLocationId,
           "time": time,
+          "date": date,
           "amount": pricePerSeat,
         },
         url: addDepartureUrl,

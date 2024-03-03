@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:tryapp/controllers/location_controller.dart';
 
 class LocationPage extends StatefulWidget {
   final LocationController locationController;
-  const LocationPage({super.key, required this.locationController});
+  final bool isFromPage;
+  const LocationPage({
+    super.key,
+    required this.locationController,
+    required this.isFromPage,
+  });
 
   @override
   State<LocationPage> createState() => _MyWidgetState();
@@ -35,17 +39,17 @@ class _MyWidgetState extends State<LocationPage> {
             const SizedBox(
               height: 10,
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // IconButton(
-                //   onPressed: () {},
-                //   icon: const Icon(
-                //     Icons.arrow_back_ios,
-                //     size: 40,
-                //   ),
-                // ),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.arrow_back_sharp,
+                    size: 30,
+                  ),
+                ),
                 const Expanded(
                   child: TextField(
                     decoration: InputDecoration(
@@ -64,7 +68,44 @@ class _MyWidgetState extends State<LocationPage> {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             ...widget.locationController.locations.map(
-              (element) => Text(element.name),
+              (element) => GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (widget.isFromPage) {
+                      widget.locationController.selectedFromLocation.value =
+                          element;
+                    } else {
+                      widget.locationController.selectedToLocation.value =
+                          element;
+                    }
+                    Get.back();
+                  });
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: Colors.grey.withOpacity(0.3),
+                      width: 2, // specify the border width here
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        element.name,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const Icon(
+                        (Icons.arrow_forward_ios_rounded),
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ),
             TextButton(
               onPressed: () async {

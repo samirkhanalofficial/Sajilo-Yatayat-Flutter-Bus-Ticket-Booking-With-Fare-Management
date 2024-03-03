@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -29,8 +30,6 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
         Get.put(DepartureController());
 
     final price = TextEditingController();
-    final fromLocation = TextEditingController();
-    final toLocation = TextEditingController();
     final dateTimeController = TextEditingController();
     String date = "", time = "";
     return Scaffold(
@@ -91,15 +90,21 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
             ),
             InkWell(
               onTap: () {
-                Get.to(LocationPage(
-                    locationController: widget.locationController));
+                Get.to(
+                  LocationPage(
+                      locationController: widget.locationController,
+                      isFromPage: true),
+                );
               },
-              child: TextField(
-                enabled: false,
-                controller: fromLocation,
-                decoration: const InputDecoration(
-                  hintText: 'Kathmandu',
-                  prefixIcon: Icon(Iconsax.bus5),
+              child: Obx(
+                () => TextField(
+                  enabled: false,
+                  decoration: InputDecoration(
+                    hintText: widget.locationController.selectedFromLocation
+                            .value?.name ??
+                        'select a location',
+                    prefixIcon: Icon(Iconsax.bus5),
+                  ),
                 ),
               ),
             ),
@@ -113,12 +118,13 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
             InkWell(
               onTap: () {
                 Get.to(
-                  LocationPage(locationController: widget.locationController),
+                  LocationPage(
+                      locationController: widget.locationController,
+                      isFromPage: false),
                 );
               },
               child: TextField(
                 enabled: false,
-                controller: toLocation,
                 decoration: const InputDecoration(
                   hintText: 'Jaleshwor',
                   prefixIcon: Icon(Iconsax.bus5),
@@ -197,11 +203,14 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                // departureController.addDeparture(date, fromLocation.text,
-                //     toLocation.text, time, double.parse(price.text));
-                Get.offAllNamed(
-                  RoutesNames.locationPage,
-                );
+                departureController.addDeparture(
+                    date,
+                    widget.locationController.selectedFromLocation.value?.id ??
+                        '',
+                    widget.locationController.selectedToLocation.value?.id ??
+                        '',
+                    time,
+                    double.parse(price.text));
               },
               icon: const Icon(Iconsax.add),
               label: const Text('Add'),
