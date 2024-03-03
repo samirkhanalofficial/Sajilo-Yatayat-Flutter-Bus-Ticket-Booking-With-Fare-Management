@@ -133,8 +133,8 @@ class _UserRegistrationState extends State<UserRegistration> {
                           onPressed: () {
                             showDatePicker(
                               context: context,
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime(2030),
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime.now(),
                             ).then((value) {
                               if (value != null) {
                                 dobController.text =

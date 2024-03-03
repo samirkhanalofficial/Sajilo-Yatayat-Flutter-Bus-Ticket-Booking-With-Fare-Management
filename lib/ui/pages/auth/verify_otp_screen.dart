@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pinput/pinput.dart';
 import 'package:tryapp/controllers/auth_controller.dart';
 import 'package:tryapp/ui/pages/registration/arguments/verify_page_argument.dart';
 import 'package:tryapp/ui/widgets/global/loading_botton.dart';
+import 'package:tryapp/ui/widgets/global/pin_Input_field.dart';
 
 class VerifyOTPScreen extends StatefulWidget {
   const VerifyOTPScreen({super.key});
@@ -14,41 +14,17 @@ class VerifyOTPScreen extends StatefulWidget {
 }
 
 class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
-  final otp = TextEditingController();
+  final otpController = TextEditingController();
   VerifyPageArguments verifyPageArguments = Get.arguments;
   @override
   void dispose() {
-    otp.dispose();
+    otpController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final AuthController loginController = Get.put(AuthController());
-
-    final defaultPinTheme = PinTheme(
-      width: 50,
-      height: 55,
-      textStyle: const TextStyle(
-          fontSize: 20, color: Color(0xFF0ACF83), fontWeight: FontWeight.w600),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF1F0EE),
-        border: Border.all(
-          color: const Color(0xFFF1F0EE),
-        ),
-        borderRadius: BorderRadius.circular(16),
-      ),
-    );
-    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-      border: Border.all(color: Theme.of(context).primaryColor),
-      borderRadius: BorderRadius.circular(16),
-    );
-
-    final submittedPinTheme = defaultPinTheme.copyWith(
-      decoration: defaultPinTheme.decoration?.copyWith(
-        color: const Color(0xFFF1F0EE),
-      ),
-    );
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -113,23 +89,14 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                   const SizedBox(
                     height: 19,
                   ),
-                  Pinput(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    defaultPinTheme: defaultPinTheme,
-                    focusedPinTheme: focusedPinTheme,
-                    submittedPinTheme: submittedPinTheme,
-                    pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                    showCursor: true,
-                    length: 6,
-                    controller: otp,
-                  ),
+                  PinInputFiled(length: 6, controller: otpController),
                   const SizedBox(
                     height: 19,
                   ),
                   Obx(
                     () => LoadingButton(
                       onClick: () => loginController.verifyOtp(
-                          otp.text, verifyPageArguments.vId),
+                          otpController.text, verifyPageArguments.vId),
                       buttonName: "Verify",
                       loading: loginController.isLoading.value,
                     ),
