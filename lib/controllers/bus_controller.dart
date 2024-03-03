@@ -87,7 +87,7 @@ class BusController extends GetxController {
     busFeatures = RxList([
       BusFeature(
         'WIFI',
-        'asset/images/wifi.png',
+        'asset/images/WIFI.png',
       ),
       BusFeature(
         'AC',
@@ -95,7 +95,7 @@ class BusController extends GetxController {
       ),
       BusFeature(
         'TOILET',
-        'asset/images/toilet.png',
+        'asset/images/TOILET.png',
       ),
       BusFeature(
         'TV',
@@ -103,11 +103,11 @@ class BusController extends GetxController {
       ),
       BusFeature(
         'FOOD',
-        'asset/images/food.png',
+        'asset/images/FOOD.png',
       ),
       BusFeature(
         'FAN',
-        'asset/images/fan.png',
+        'asset/images/FAN.png',
       ),
     ]);
   }

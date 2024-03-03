@@ -33,10 +33,6 @@ class BusDetailsCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "${departureDetails.from.name} to ${departureDetails.to.name}",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
                 const SizedBox(
                   height: 1,
                 ),
@@ -47,34 +43,41 @@ class BusDetailsCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
+                          departureDetails.bus.yatayat,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
                           "Rs. ${departureDetails.amount}",
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        const Row(
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.wifi,
-                              size: 32,
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            Icon(
-                              Icons.tv,
-                              size: 32,
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            Icon(
-                              Icons.wind_power_rounded,
-                              size: 32,
-                            ),
+                            ...departureDetails.bus.features.map(
+                              (features) => Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Image.asset(
+                                  'asset/images/$features.png',
+                                  height: 25,
+                                  width: 25,
+                                ),
+                              ),
+                            )
                           ],
-                        )
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "${departureDetails.from.name} to ${departureDetails.to.name}",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
                       ],
                     ),
                     Column(
