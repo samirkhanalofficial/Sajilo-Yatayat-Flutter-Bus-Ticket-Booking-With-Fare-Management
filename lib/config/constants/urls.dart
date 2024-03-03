@@ -23,3 +23,6 @@ String cancelFareUrl(String fareId) => '$baseUrl/fare/cancel/$fareId';
 String changePriceAndOfferFareUrl(String fareId) =>
     '$baseUrl/fare/changePrice/$fareId';
 String completeFareUrl(String fareId) => '$baseUrl/fare/complete/$fareId';
+
+// location apis
+const getAllLocationsUrl = '$baseUrl/location/get-all-locations';

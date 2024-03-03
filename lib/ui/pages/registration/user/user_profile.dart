@@ -5,23 +5,23 @@ import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
-
 import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/widgets/global/user_details.dart';
 
 class UserProfile extends StatefulWidget {
-  const UserProfile({super.key});
+  final UserController userController;
+  const UserProfile({
+    super.key,
+    required this.userController,
+  });
 
   @override
   State<UserProfile> createState() => _UserProfileState();
 }
 
 class _UserProfileState extends State<UserProfile> {
-  final UserController userController = Get.put(UserController());
-
   @override
   void initState() {
-    userController.getUserDetail();
     super.initState();
   }
 
@@ -30,10 +30,10 @@ class _UserProfileState extends State<UserProfile> {
     return SafeArea(
       child: Scaffold(
         body: Obx(
-          () => userController.isLoading.value
+          () => widget.userController.isLoading.value
               ? const Center(child: CircularProgressIndicator())
               : RefreshIndicator(
-                  onRefresh: () => userController.getUserDetail(),
+                  onRefresh: () => widget.userController.getUserDetail(),
                   child: ListView(
                     padding: const EdgeInsets.all(16),
                     children: [
@@ -105,7 +105,9 @@ class _UserProfileState extends State<UserProfile> {
                         () {
                           return UserDetailsFields(
                             title: 'Full Name',
-                            value: userController.userDetails.value?.name ?? '',
+                            value:
+                                widget.userController.userDetails.value?.name ??
+                                    '',
                           );
                         },
                       ),
@@ -113,8 +115,9 @@ class _UserProfileState extends State<UserProfile> {
                         () {
                           return UserDetailsFields(
                             title: 'Mobile Number',
-                            value:
-                                userController.userDetails.value?.mobile ?? '',
+                            value: widget
+                                    .userController.userDetails.value?.mobile ??
+                                '',
                           );
                         },
                       ),
@@ -132,8 +135,9 @@ class _UserProfileState extends State<UserProfile> {
                         () {
                           return UserDetailsFields(
                             title: 'Address',
-                            value:
-                                userController.userDetails.value?.address ?? "",
+                            value: widget.userController.userDetails.value
+                                    ?.address ??
+                                "",
                           );
                         },
                       ),

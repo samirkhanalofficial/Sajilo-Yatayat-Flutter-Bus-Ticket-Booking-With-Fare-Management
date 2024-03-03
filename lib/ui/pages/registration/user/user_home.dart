@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:tryapp/controllers/user_controller.dart';
+import 'package:tryapp/ui/pages/registration/owner/owner_home_page.dart';
 import 'package:tryapp/ui/pages/registration/user/search_bus.dart';
 import 'package:tryapp/ui/pages/registration/user/user_booking_details_page.dart';
 import 'package:tryapp/ui/pages/registration/user/user_profile.dart';
@@ -15,12 +18,40 @@ class UserHome extends StatefulWidget {
 
 class _UserHomeState extends State<UserHome> {
   int currentPage = 0;
-  final List<Widget> pageList = [
-    const SearchBusPage(),
-    const WalletPage(),
-    const UserBookingDetailsPage(),
-    const UserProfile(),
-  ];
+  UserController userController = Get.put(UserController());
+  List<Widget> pageList = const [Scaffold()];
+
+  initializeUI() async {
+    if (await userController.isPassenger()) {
+      pageList = [
+        const SearchBusPage(),
+        const WalletPage(),
+        const UserBookingDetailsPage(),
+        UserProfile(
+          userController: userController,
+        ),
+      ];
+    } else {
+      pageList = [
+        const OwnerHomePage(),
+        const WalletPage(),
+        const UserBookingDetailsPage(),
+        UserProfile(
+          userController: userController,
+        ),
+      ];
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    initializeUI();
+    userController.getUserDetail();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

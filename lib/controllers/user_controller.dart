@@ -23,10 +23,9 @@ class UserController extends GetxController {
     );
 
     if (apiHelper.successfullResponse.value) {
-      SharedPreferences sf = await SharedPreferences.getInstance();
-      sf.setBool("isLogginned", true);
-      String role = sf.getString("role") ?? "Passenger";
-      if (role == "Passenger") {
+      if (await isPassenger()) {
+        SharedPreferences sf = await SharedPreferences.getInstance();
+
         sf.setBool("isLogginned", true);
         Get.offAllNamed(
           RoutesNames.userHomePage,
@@ -60,5 +59,12 @@ class UserController extends GetxController {
     await getUserDetail();
     if (userDetails.value == null) return false;
     return true;
+  }
+
+  Future<bool> isPassenger() async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    sf.setBool("isLogginned", true);
+    String role = sf.getString("role") ?? "Passenger";
+    return role == "Passenger";
   }
 }

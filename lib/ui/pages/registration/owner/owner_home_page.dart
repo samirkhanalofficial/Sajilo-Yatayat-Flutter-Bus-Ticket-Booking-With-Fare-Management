@@ -9,6 +9,8 @@ class OwnerHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final price = TextEditingController();
+    final dateTimeController = TextEditingController();
+    String date = "", time = "";
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -91,10 +93,55 @@ class OwnerHomePage extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const TextField(
-              decoration: InputDecoration(
-                hintText: '2020-03-18 at  03:00 PM',
-                prefixIcon: Icon(Iconsax.bus5),
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(241, 240, 238, 1),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: dateTimeController,
+                      enabled: false,
+                      decoration: const InputDecoration(
+                        fillColor: Colors.transparent,
+                        hintText: 'Please select a date & time',
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      showDatePicker(
+                              context: context,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime(DateTime.now().year + 1))
+                          .then((value) {
+                        if (value != null) {
+                          showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          ).then((timeValue) {
+                            if (timeValue != null) {
+                              date =
+                                  '${value.year}-${value.month < 10 ? '0${value.month}' : value.month}-${value.day < 10 ? '0${value.day}' : value.day}';
+                              time =
+                                  '${timeValue.hour < 10 || (timeValue.hour > 12 && timeValue.hour < 22) ? '0' : ''}${timeValue.format(context)}';
+                              dateTimeController.text = '$date at $time';
+                            }
+                          });
+                        }
+                      });
+                    },
+                    icon: const Icon(Icons.edit),
+                  ),
+                ],
               ),
             ),
             const SizedBox(

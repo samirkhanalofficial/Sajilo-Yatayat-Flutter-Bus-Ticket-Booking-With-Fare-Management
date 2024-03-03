@@ -3,7 +3,6 @@ import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/ui/pages/auth/role_screen.dart';
 import 'package:tryapp/ui/pages/bus/add_bus_page.dart';
 import 'package:tryapp/ui/pages/registration/user/user_home.dart';
-import 'package:tryapp/ui/pages/registration/user/user_profile.dart';
 import 'package:tryapp/ui/pages/registration/user/user_registration.dart';
 import 'package:tryapp/ui/pages/auth/verify_otp_screen.dart';
 import 'package:tryapp/ui/pages/auth/login_screen.dart';
@@ -39,8 +38,4 @@ List<GetPage> appRoutes = [
     name: RoutesNames.userHomePage,
     page: () => const UserHome(),
   ),
-  GetPage(
-    name: RoutesNames.userProfilePage,
-    page: () => const UserProfile(),
-  )
 ];
