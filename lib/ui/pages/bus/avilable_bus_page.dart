@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:tryapp/ui/widgets/global/bus/bus_details__card.dart';
+import 'package:tryapp/ui/widgets/global/bus/bus_details_card.dart';
 
 class AvilableBusPage extends StatelessWidget {
   const AvilableBusPage({super.key});
