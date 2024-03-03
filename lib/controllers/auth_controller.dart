@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,7 +48,6 @@ class AuthController extends GetxController {
       );
       // Sign the user in (or link) with the credential
       await auth.signInWithCredential(credential);
-      debugPrint(await auth.currentUser!.getIdToken());
       UserController userController = UserController();
       bool userExists = await userController.userExists();
       if (!userExists) {

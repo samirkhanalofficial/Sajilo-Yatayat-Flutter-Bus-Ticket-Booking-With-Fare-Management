@@ -9,6 +9,7 @@ Future<Map<String, String>> getHeader({bool testMode = false}) async {
     };
   } else {
     String token = await FirebaseAuth.instance.currentUser?.getIdToken() ?? "";
+    print(token);
     return {
       "Authorization": token,
       "method": "POST",

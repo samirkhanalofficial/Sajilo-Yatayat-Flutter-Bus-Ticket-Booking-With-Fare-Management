@@ -14,6 +14,7 @@ class DepartureController extends GetxController {
     String time,
     double amount,
   ) async {
+    isLoading(true);
     BusController busController = BusController();
     String busId = await busController.getSelectedBus();
     APIHelper<DepartureDetails> apiHelper = APIHelper<DepartureDetails>();
@@ -32,5 +33,38 @@ class DepartureController extends GetxController {
     if (apiHelper.successfullResponse.value) {
       departures.add(apiHelper.response.value!);
     }
+    isLoading(false);
+  }
+
+  Future<void> getAllDepartures() async {
+    isLoading(true);
+    departures([]);
+    APIHelper<List<DepartureDetails>> apiHelper = APIHelper();
+    await apiHelper.fetch(
+        method: REQMETHOD.get,
+        url: getAllDepartureUrl,
+        parseJsonToObject: (json) {
+          for (var a in json) {
+            departures.add(DepartureDetails.fromJson(a));
+          }
+          return departures;
+        });
+    isLoading(false);
+  }
+
+  Future<void> getBusDepartures() async {
+    isLoading(true);
+    departures([]);
+    APIHelper<List<DepartureDetails>> apiHelper = APIHelper();
+    await apiHelper.fetch(
+        method: REQMETHOD.get,
+        url: getBusDepartureUrl(await BusController().getSelectedBus()),
+        parseJsonToObject: (json) {
+          for (var a in json) {
+            departures.add(DepartureDetails.fromJson(a));
+          }
+          return departures;
+        });
+    isLoading(false);
   }
 }
