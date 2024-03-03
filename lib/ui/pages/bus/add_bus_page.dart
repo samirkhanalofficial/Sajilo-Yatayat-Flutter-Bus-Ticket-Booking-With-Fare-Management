@@ -14,11 +14,18 @@ class AddBusPage extends StatefulWidget {
 
 class _AddBusPageState extends State<AddBusPage> {
   final BusController busController = Get.put(BusController());
+  final busNumberController = TextEditingController();
+  final yatayatController = TextEditingController();
+  final leftSeatsController = TextEditingController();
+  final rightSeatsController = TextEditingController();
+  final backSeatsController = TextEditingController();
+  List<String> busFeatures = [];
+  List<String> images = ['abc', 'xyz'];
+
   String? selectedBusType; // Make selectedBusType nullable
   @override
   void initState() {
     busController.getBusTypes();
-
     busController.getBusFeatures();
     super.initState();
   }
@@ -75,9 +82,9 @@ class _AddBusPageState extends State<AddBusPage> {
                   const SizedBox(
                     height: 16,
                   ),
-                  const TextField(
-                    // controller: nameController,
-                    decoration: InputDecoration(
+                  TextField(
+                    controller: busNumberController,
+                    decoration: const InputDecoration(
                       hintText: 'SE 3 PA 3555',
                     ),
                   ),
@@ -89,9 +96,9 @@ class _AddBusPageState extends State<AddBusPage> {
                   const SizedBox(
                     height: 16,
                   ),
-                  const TextField(
-                    // controller: addressController,
-                    decoration: InputDecoration(
+                  TextField(
+                    controller: yatayatController,
+                    decoration: const InputDecoration(
                       hintText: 'Khaptad Yatayad',
                     ),
                   ),
@@ -146,15 +153,28 @@ class _AddBusPageState extends State<AddBusPage> {
                       children: [
                         ...busController.busFeatures.map((feature) => Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: AppColor().primary,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Image.asset(
-                                  feature.imageURl,
-                                  height: 30,
-                                  width: 30,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (busFeatures.contains(feature.name)) {
+                                      busFeatures.remove(feature.name);
+                                    } else {
+                                      busFeatures.add(feature.name);
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: busFeatures.contains(feature.name)
+                                        ? AppColor().primary
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Image.asset(
+                                    feature.imageURl,
+                                    height: 30,
+                                    width: 30,
+                                  ),
                                 ),
                               ),
                             ))
@@ -184,11 +204,11 @@ class _AddBusPageState extends State<AddBusPage> {
                           const SizedBox(
                             height: 16,
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 150,
                             child: TextField(
-                              // controller: addressController,
-                              decoration: InputDecoration(
+                              controller: leftSeatsController,
+                              decoration: const InputDecoration(
                                 hintText: '10',
                               ),
                             ),
@@ -203,11 +223,11 @@ class _AddBusPageState extends State<AddBusPage> {
                           const SizedBox(
                             height: 16,
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 150,
                             child: TextField(
-                              // controller: addressController,
-                              decoration: InputDecoration(
+                              controller: rightSeatsController,
+                              decoration: const InputDecoration(
                                 hintText: '10',
                               ),
                             ),
@@ -225,10 +245,10 @@ class _AddBusPageState extends State<AddBusPage> {
                   const SizedBox(
                     height: 16,
                   ),
-                  const TextField(
-                    // controller: addressController,
+                  TextField(
+                    controller: backSeatsController,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: '10',
                     ),
                   ),
@@ -236,7 +256,17 @@ class _AddBusPageState extends State<AddBusPage> {
                     height: 28,
                   ),
                   LoadingButton(
-                    onClick: () {},
+                    onClick: () {
+                      busController.addBus(
+                          images,
+                          busNumberController.text,
+                          yatayatController.text,
+                          selectedBusType!,
+                          leftSeatsController.text,
+                          rightSeatsController.text,
+                          backSeatsController.text,
+                          busFeatures);
+                    },
                     buttonName: 'Finsish',
                     loading: busController.isLoading.value,
                   )
