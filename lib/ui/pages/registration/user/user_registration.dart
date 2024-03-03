@@ -138,7 +138,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                             ).then((value) {
                               if (value != null) {
                                 dobController.text =
-                                    '${value.year}-${value.month}-${value.day}';
+                                    '${value.year}-${value.month < 10 ? '0${value.month}' : value.month}-${value.day < 10 ? '0${value.day}' : value.day}';
                               }
                             });
                           },
