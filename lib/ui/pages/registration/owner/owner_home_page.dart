@@ -123,11 +123,15 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
                       isFromPage: false),
                 );
               },
-              child: TextField(
-                enabled: false,
-                decoration: const InputDecoration(
-                  hintText: 'Jaleshwor',
-                  prefixIcon: Icon(Iconsax.bus5),
+              child: Obx(
+                () => TextField(
+                  enabled: false,
+                  decoration: InputDecoration(
+                    hintText: widget.locationController.selectedToLocation.value
+                            ?.name ??
+                        'select a location',
+                    prefixIcon: Icon(Iconsax.bus5),
+                  ),
                 ),
               ),
             ),
