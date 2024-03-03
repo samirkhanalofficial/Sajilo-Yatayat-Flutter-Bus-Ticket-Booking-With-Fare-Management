@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
 class BusDetailsCard extends StatelessWidget {
-  const BusDetailsCard({super.key});
+  final from;
+  final to;
+  final price;
+  const BusDetailsCard({super.key, required this.from, this.to, this.price});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(13.0),
+      margin: const EdgeInsets.only(bottom: 22),
       decoration: BoxDecoration(
           color: const Color.fromARGB(255, 255, 255, 255),
           borderRadius: BorderRadius.circular(16),
@@ -23,7 +27,7 @@ class BusDetailsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Jaleshwor to Kathmandu",
+            "$from to $to",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(
@@ -36,7 +40,7 @@ class BusDetailsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Rs. 1500",
+                    "Rs. $price",
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   const SizedBox(

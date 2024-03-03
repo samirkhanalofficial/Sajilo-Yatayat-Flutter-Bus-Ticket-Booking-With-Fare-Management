@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:tryapp/controllers/location_controller.dart';
 
@@ -67,6 +66,7 @@ class _MyWidgetState extends State<LocationPage> {
               'Search Results',
               style: Theme.of(context).textTheme.titleMedium,
             ),
+            
             ...widget.locationController.locations.map(
               (element) => GestureDetector(
                 onTap: () {
@@ -107,13 +107,6 @@ class _MyWidgetState extends State<LocationPage> {
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () async {
-                await widget.locationController.getlocations();
-                print(widget.locationController.locations);
-              },
-              child: Text('Click me'),
-            )
           ],
         ),
       )),

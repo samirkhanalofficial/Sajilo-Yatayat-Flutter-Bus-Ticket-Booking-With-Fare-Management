@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/controllers/departure_controller.dart';
@@ -49,7 +46,11 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(
+                    RoutesNames.avilableBusPage,
+                  );
+                },
                 child: const Text('view Departures'),
               ),
             ),
@@ -103,7 +104,7 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
                     hintText: widget.locationController.selectedFromLocation
                             .value?.name ??
                         'select a location',
-                    prefixIcon: Icon(Iconsax.bus5),
+                    prefixIcon: const Icon(Iconsax.bus5),
                   ),
                 ),
               ),
@@ -130,7 +131,7 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
                     hintText: widget.locationController.selectedToLocation.value
                             ?.name ??
                         'select a location',
-                    prefixIcon: Icon(Iconsax.bus5),
+                    prefixIcon: const Icon(Iconsax.bus5),
                   ),
                 ),
               ),

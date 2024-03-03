@@ -7,5 +7,5 @@ class RoutesNames {
   static const userHomePage = '/user-home';
   static const userProfilePage = '/user-profile';
   static const addBusPage = '/bus/add';
-  static const locationPage = '/location/location-page';
+  static const avilableBusPage = '/bus/avilabe-bus-page';
 }
