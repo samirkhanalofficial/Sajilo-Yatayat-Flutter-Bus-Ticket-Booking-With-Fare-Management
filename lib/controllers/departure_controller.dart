@@ -9,10 +9,10 @@ class DepartureController extends GetxController {
   RxList<DepartureDetails> departures = RxList<DepartureDetails>([]);
   addDeparture(
     String date,
-    String from,
-    String to,
+    String fromlocationId,
+    String toLocationId,
     String time,
-    double amount,
+    double pricePerSeat,
   ) async {
     isLoading(true);
     BusController busController = BusController();
@@ -23,10 +23,10 @@ class DepartureController extends GetxController {
         successStatusCode: 201,
         body: {
           "busId": busId,
-          "from": from,
-          "to": to,
+          "from": fromlocationId,
+          "to": toLocationId,
           "time": time,
-          "amount": amount,
+          "amount": pricePerSeat,
         },
         url: addDepartureUrl,
         parseJsonToObject: (json) => DepartureDetails.fromJson(json));
@@ -36,13 +36,19 @@ class DepartureController extends GetxController {
     isLoading(false);
   }
 
-  Future<void> getAllDepartures() async {
+  Future<void> getAllDepartures(
+      String date, String fromlocationId, String toLocationId) async {
     isLoading(true);
     departures([]);
     APIHelper<List<DepartureDetails>> apiHelper = APIHelper();
     await apiHelper.fetch(
-        method: REQMETHOD.get,
+        method: REQMETHOD.post,
         url: getAllDepartureUrl,
+        body: {
+          "from": fromlocationId,
+          "to": toLocationId,
+          "date": date,
+        },
         parseJsonToObject: (json) {
           for (var a in json) {
             departures.add(DepartureDetails.fromJson(a));
