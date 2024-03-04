@@ -5,7 +5,7 @@ import 'package:tryapp/controllers/location_controller.dart';
 import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/pages/registration/owner/owner_home_page.dart';
 import 'package:tryapp/ui/pages/registration/user/search_bus.dart';
-import 'package:tryapp/ui/pages/registration/user/user_booking_details_page.dart';
+import 'package:tryapp/ui/pages/booking/user_booking_details_page.dart';
 import 'package:tryapp/ui/pages/registration/user/user_profile.dart';
 import 'package:tryapp/ui/pages/wallet/wallet_page.dart';
 import 'package:tryapp/ui/widgets/global/nav_bar.dart';

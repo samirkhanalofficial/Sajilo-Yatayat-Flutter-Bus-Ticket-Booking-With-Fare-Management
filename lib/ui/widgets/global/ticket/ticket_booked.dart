@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tryapp/models/fare_details.dart';
 
 class TicketBooked extends StatelessWidget {
-  const TicketBooked({super.key});
+  final FareDetails fareDetails;
+
+  const TicketBooked({super.key, required this.fareDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +26,7 @@ class TicketBooked extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "#fauwebfyu632bajfhadhfhj",
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          Text(
-            "Jaleshwor to Kathmandu",
+            "${fareDetails.departure.from.name} to ${fareDetails.departure.from.name}",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(
@@ -40,16 +39,23 @@ class TicketBooked extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Rs. 1500",
+                    "Rs. ${fareDetails.amount}",
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Text(
-                    "BA 2 kha 2567 ",
+                    fareDetails.bus.busnumber,
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
                   Text(
-                    "Seats: A5 ",
+                    "Seats: ${fareDetails.seats}",
                     style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "#${fareDetails.id}",
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -57,15 +63,15 @@ class TicketBooked extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Booked",
+                    fareDetails.status,
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                   Text(
-                    "10:15 PM",
+                    fareDetails.departure.time,
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Text(
-                    "2023-03-15 ",
+                    fareDetails.departure.date,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
