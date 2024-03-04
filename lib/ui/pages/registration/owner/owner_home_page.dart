@@ -4,7 +4,9 @@ import 'package:iconsax/iconsax.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/controllers/departure_controller.dart';
 import 'package:tryapp/controllers/location_controller.dart';
+import 'package:tryapp/ui/pages/bus/add_bus_page.dart';
 import 'package:tryapp/ui/pages/location/location_page.dart';
+import 'package:tryapp/ui/widgets/global/loading_botton.dart';
 import 'package:tryapp/ui/widgets/global/pin_Input_field.dart';
 import 'package:tryapp/ui/widgets/global/wallet/my_balance_card.dart';
 
@@ -213,8 +215,9 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
             const SizedBox(
               height: 34,
             ),
-            ElevatedButton.icon(
-              onPressed: () {
+            LoadingButton(
+              buttonName: 'Add',
+              onClick: () {
                 departureController.addDeparture(
                     date,
                     widget.locationController.selectedFromLocation.value?.id ??
@@ -224,8 +227,7 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
                     time,
                     double.parse(price.text));
               },
-              icon: const Icon(Iconsax.add),
-              label: const Text('Add'),
+              loading: departureController.isLoading.value,
             )
           ],
         ),
