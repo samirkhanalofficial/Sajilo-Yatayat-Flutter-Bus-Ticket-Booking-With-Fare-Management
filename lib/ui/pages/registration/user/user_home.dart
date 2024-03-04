@@ -30,6 +30,7 @@ class _UserHomeState extends State<UserHome> {
       pageList = [
         SearchBusPage(
           locationController: locationController,
+          userController: userController,
         ),
         const WalletPage(),
         const UserBookingDetailsPage(),
@@ -41,6 +42,7 @@ class _UserHomeState extends State<UserHome> {
       pageList = [
         OwnerHomePage(
           locationController: locationController,
+          userController: userController,
         ),
         const WalletPage(),
         const UserBookingDetailsPage(),

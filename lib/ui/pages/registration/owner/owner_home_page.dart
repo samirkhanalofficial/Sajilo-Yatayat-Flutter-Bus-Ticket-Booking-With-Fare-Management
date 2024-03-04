@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:tryapp/config/colors/app_color.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/controllers/departure_controller.dart';
 import 'package:tryapp/controllers/location_controller.dart';
+import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/pages/bus/add_bus_page.dart';
 import 'package:tryapp/ui/pages/location/location_page.dart';
 import 'package:tryapp/ui/widgets/global/loading_botton.dart';
@@ -12,10 +14,12 @@ import 'package:tryapp/ui/widgets/global/wallet/my_balance_card.dart';
 
 class OwnerHomePage extends StatefulWidget {
   final LocationController locationController;
+  final UserController userController;
 
   const OwnerHomePage({
     super.key,
     required this.locationController,
+    required this.userController,
   });
 
   @override
@@ -46,49 +50,59 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
               'Welcome,',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
-            Text('Sumit Ray', style: Theme.of(context).textTheme.titleLarge),
+            Obx(
+              () => Text(
+                  widget.userController.userDetails.value?.name ?? 'User',
+                  style: Theme.of(context).textTheme.titleLarge),
+            ),
             const SizedBox(
               height: 16,
             ),
             const MyBalanceCard(),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {
-                  Get.toNamed(
-                    RoutesNames.avilableBusPage,
-                  );
-                },
-                child: const Text('view Departures'),
-              ),
-            ),
             const SizedBox(
               height: 16,
             ),
-            Row(
-              children: [
-                Image.asset(
-                  'asset/images/logo.png',
-                  height: 42,
-                  width: 34,
+            InkWell(
+              onTap: () {
+                Get.toNamed(
+                  RoutesNames.avilableBusPage,
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 18,
+                  horizontal: 0,
                 ),
-                const SizedBox(width: 11.0),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Departing Status',
-                          style: Theme.of(context).textTheme.titleMedium),
-                      Text(
-                        'Book long distance tickets of desired bus.',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyMedium,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'asset/images/logo.png',
+                      height: 42,
+                      width: 34,
+                    ),
+                    const SizedBox(width: 11.0),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Departures',
+                              style: Theme.of(context).textTheme.titleMedium),
+                          Text(
+                            'View Your departurings.',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    const Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(Icons.arrow_forward_ios),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
             const SizedBox(
               height: 20,

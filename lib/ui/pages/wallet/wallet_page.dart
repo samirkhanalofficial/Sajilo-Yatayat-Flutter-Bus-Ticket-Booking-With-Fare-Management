@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tryapp/controllers/transaction_controller.dart';
 import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/widgets/global/wallet/wallet_transaction_card.dart';
@@ -16,16 +17,17 @@ class _WalletPageState extends State<WalletPage> {
 
   initializeUI() async {
     await userController.isPassenger();
+    await userController.getUserDetail();
     if (userController.isPassengerCheck.value) {
       await transactionController.getUsersTransactions();
     } else {
-      await transactionController.getUsersTransactions();
+      await transactionController.getBusTransactions();
     }
   }
 
   @override
   void initState() {
-    // initializeUI();
+    initializeUI();
     super.initState();
   }
 
@@ -40,53 +42,62 @@ class _WalletPageState extends State<WalletPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(13.0),
-        children: [
-          Text(
-            'Welcome,',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          Text('Sumit Ray', style: Theme.of(context).textTheme.titleLarge),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
+      child: Obx(
+        () => RefreshIndicator(
+          onRefresh: () => initializeUI(),
+          child: ListView(
+            padding: const EdgeInsets.all(13.0),
             children: [
-              Image.asset(
-                'asset/images/g-icon.png',
-                width: 45,
+              Text(
+                'Welcome,',
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
+              Text(userController.userDetails.value?.name ?? 'User',
+                  style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(
-                width: 16,
+                height: 16,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
                 children: [
-                  Text('Transaction History',
-                      style: Theme.of(context).textTheme.titleMedium),
-                  Text('This is the history of your trasnsition',
-                      style: Theme.of(context).textTheme.bodySmall),
+                  Image.asset(
+                    'asset/images/g-icon.png',
+                    width: 45,
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Transaction History',
+                          style: Theme.of(context).textTheme.titleMedium),
+                      Text('This is the history of your trasnsition',
+                          style: Theme.of(context).textTheme.bodySmall),
+                    ],
+                  ),
                 ],
               ),
+              const SizedBox(
+                height: 25,
+              ),
+              if (transactionController.isLoading.value)
+                const Padding(
+                  padding: EdgeInsets.all(28.0),
+                  child: Center(
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ),
+              ...transactionController.transactions
+                  .map((transaction) => WalletTransactionCard(
+                        transactionDetails: transaction,
+                      )),
             ],
           ),
-          const SizedBox(
-            height: 25,
-          ),
-          if (transactionController.isLoading.value)
-            const Padding(
-              padding: EdgeInsets.all(28.0),
-              child: Center(
-                child: SizedBox(
-                  width: 50,
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-            ),
-          ...transactionController.transactions
-              .map((transaction) => const WalletTransactionCard()),
-        ],
+        ),
       ),
     ));
   }

@@ -8,6 +8,7 @@ class BusDetails {
   String id;
   String busnumber, yatayat, bustype, timestamp;
   int leftSeats, rightSeats, lastSeats;
+  double balance;
   List<String> images, features;
   List<UserDetails> owners;
 
@@ -23,6 +24,7 @@ class BusDetails {
     required this.features,
     required this.owners,
     required this.timestamp,
+    required this.balance,
   });
   factory BusDetails.fromJson(Map<String, dynamic> json) =>
       _$BusDetailsFromJson(json);

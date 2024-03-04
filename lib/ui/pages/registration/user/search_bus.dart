@@ -3,15 +3,18 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:tryapp/controllers/departure_controller.dart';
 import 'package:tryapp/controllers/location_controller.dart';
+import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/pages/bus/user_available_bus_page.dart';
-
 import 'package:tryapp/ui/pages/location/location_page.dart';
 
 class SearchBusPage extends StatefulWidget {
   final LocationController locationController;
+  final UserController userController;
+
   const SearchBusPage({
     super.key,
     required this.locationController,
+    required this.userController,
   });
 
   @override
@@ -31,7 +34,10 @@ class _SearchBusPageState extends State<SearchBusPage> {
             'Welcome,',
             style: Theme.of(context).textTheme.bodyLarge,
           ),
-          Text('Sumit Ray', style: Theme.of(context).textTheme.titleLarge),
+          Obx(
+            () => Text(widget.userController.userDetails.value?.name ?? 'User',
+                style: Theme.of(context).textTheme.titleLarge),
+          ),
           const SizedBox(
             height: 16,
           ),

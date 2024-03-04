@@ -2,14 +2,14 @@ import 'package:json_annotation/json_annotation.dart';
 part 'transaction_details.g.dart';
 
 @JsonSerializable()
-class transactionDetails {
+class TransactionDetails {
   @JsonKey(name: '_id')
   String id;
   String method, who;
   double amount;
   bool isUser, isIncomming;
 
-  transactionDetails({
+  TransactionDetails({
     required this.id,
     required this.method,
     required this.who,
@@ -17,9 +17,9 @@ class transactionDetails {
     required this.isUser,
     required this.amount,
   });
-  factory transactionDetails.fromJson(Map<String, dynamic> json) =>
-      _$transactionDetailsFromJson(json);
-  Map<String, dynamic> toJson() => _$transactionDetailsToJson(this);
+  factory TransactionDetails.fromJson(Map<String, dynamic> json) =>
+      _$TransactionDetailsFromJson(json);
+  Map<String, dynamic> toJson() => _$TransactionDetailsToJson(this);
 }
 
 
