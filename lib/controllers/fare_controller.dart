@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tryapp/config/constants/urls.dart';
 import 'package:tryapp/controllers/bus_controller.dart';
 import 'package:tryapp/helper/api_helper.dart';
 import 'package:tryapp/models/fare_details.dart';
+import 'package:tryapp/ui/pages/bus/seats/pay_fare_bottom_sheet.dart';
+import 'package:tryapp/ui/pages/registration/user/user_home.dart';
 
 class FareController extends GetxController {
   Rx<bool> isLoading = false.obs;
@@ -26,6 +29,28 @@ class FareController extends GetxController {
         parseJsonToObject: (json) => FareDetails.fromJson(json));
     if (apiHelper.successfullResponse.value) {
       fares.add(apiHelper.response.value!);
+      if (apiHelper.response.value!.status == "ACCEPTED") {
+        Get.back();
+        Get.bottomSheet(
+          PayFareBottomSheet(
+            fareDetails: apiHelper.response.value!,
+          ),
+          enableDrag: true,
+          isScrollControlled: true,
+          elevation: 2,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(35),
+              topRight: Radius.circular(35),
+            ),
+          ),
+          backgroundColor: Colors.white,
+        );
+      } else {
+        Get.offAll(() => const UserHome(
+              currentPage: 2,
+            ));
+      }
     }
     isLoading(false);
   }

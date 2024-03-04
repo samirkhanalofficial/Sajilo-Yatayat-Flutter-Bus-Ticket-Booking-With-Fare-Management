@@ -9,6 +9,8 @@ import 'package:tryapp/models/departure_details.dart';
 class DepartureController extends GetxController {
   Rx<bool> isLoading = false.obs;
   RxList<DepartureDetails> departures = RxList<DepartureDetails>([]);
+  RxList<int> selectedSeats = RxList<int>([]);
+  RxList<int> bookedSeats = RxList<int>([]);
   addDeparture(
     String date,
     String fromlocationId,
@@ -80,6 +82,23 @@ class DepartureController extends GetxController {
           }
           return departures;
         });
+    isLoading(false);
+  }
+
+  Future<void> getBookedSeatsByDepartureId(String departureId) async {
+    isLoading(true);
+    bookedSeats([]);
+    APIHelper<List<int>> apiHelper = APIHelper();
+    await apiHelper.fetch(
+        method: REQMETHOD.get,
+        url: getBookedSeatByDepartureIdUrl(departureId),
+        parseJsonToObject: (json) {
+          for (int a in json) {
+            bookedSeats.add(a);
+          }
+          return bookedSeats;
+        });
+
     isLoading(false);
   }
 }

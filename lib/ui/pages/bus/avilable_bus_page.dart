@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-
 import 'package:tryapp/controllers/departure_controller.dart';
-import 'package:tryapp/ui/pages/bus/seats/seat_booking_page.dart';
 import 'package:tryapp/ui/widgets/global/bus/bus_details_card.dart';
 
 class AvilableBusPage extends StatefulWidget {
@@ -14,13 +12,18 @@ class AvilableBusPage extends StatefulWidget {
 }
 
 class _AvilableBusPageState extends State<AvilableBusPage> {
-  final DepartureController departureController =
-      Get.put(DepartureController());
+  final DepartureController departureController = DepartureController();
 
   @override
   void initState() {
     departureController.getBusDepartures();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    departureController.dispose();
+    super.dispose();
   }
 
   @override

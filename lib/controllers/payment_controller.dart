@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:tryapp/config/constants/urls.dart';
 import 'package:tryapp/helper/api_helper.dart';
+import 'package:tryapp/ui/pages/registration/user/user_home.dart';
 
 class PaymentController extends GetxController {
   Rx<bool> isLoading = false.obs;
@@ -12,7 +13,7 @@ class PaymentController extends GetxController {
     isLoading(true);
 
     APIHelper apiHelper = APIHelper();
-    apiHelper.fetch(
+    await apiHelper.fetch(
       method: REQMETHOD.post,
       body: {
         "fare": fareId,
@@ -23,14 +24,13 @@ class PaymentController extends GetxController {
       parseJsonToObject: (json) => json,
     );
     if (apiHelper.successfullResponse.value) {
-      print(apiHelper.response.value);
       transactionPin.value = khaltiPin;
-      // TODO : set Token.
+      token.value = apiHelper.response.value["token"];
     }
     isLoading(false);
   }
 
-  Future<void> confirmKhaltiPayment(int otp) async {
+  Future<void> confirmKhaltiPayment(String otp) async {
     isLoading(true);
     APIHelper apiHelper = APIHelper();
     apiHelper.fetch(
@@ -44,8 +44,9 @@ class PaymentController extends GetxController {
       parseJsonToObject: (json) => json,
     );
     if (apiHelper.successfullResponse.value) {
-      print(apiHelper.response.value);
-      // TODO : navigate to success page.
+      Get.offAll(() => const UserHome(
+            currentPage: 2,
+          ));
     }
     isLoading(false);
   }

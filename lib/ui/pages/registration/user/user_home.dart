@@ -11,7 +11,8 @@ import 'package:tryapp/ui/pages/wallet/wallet_page.dart';
 import 'package:tryapp/ui/widgets/global/nav_bar.dart';
 
 class UserHome extends StatefulWidget {
-  const UserHome({super.key});
+  final int currentPage;
+  const UserHome({super.key, this.currentPage = 0});
 
   @override
   State<UserHome> createState() => _UserHomeState();
@@ -48,6 +49,7 @@ class _UserHomeState extends State<UserHome> {
         ),
       ];
     }
+    currentPage = widget.currentPage;
     setState(() {});
   }
 
@@ -57,6 +59,13 @@ class _UserHomeState extends State<UserHome> {
     userController.getUserDetail();
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    userController.dispose();
+    locationController.dispose();
+    super.dispose();
   }
 
   @override

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tryapp/config/colors/app_color.dart';
 
 class LoadingButton extends StatelessWidget {
-  final VoidCallback onClick;
+  final VoidCallback? onClick;
   final bool loading;
   final String buttonName;
   const LoadingButton({

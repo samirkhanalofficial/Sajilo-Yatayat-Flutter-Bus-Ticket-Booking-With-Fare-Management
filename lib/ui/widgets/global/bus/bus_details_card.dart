@@ -26,7 +26,7 @@ class BusDetailsCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            Get.to(SeatBookingPage(departure: departureDetails));
+            Get.to(() => SeatBookingPage(departure: departureDetails));
           },
           child: Padding(
             padding: const EdgeInsets.all(13.0),

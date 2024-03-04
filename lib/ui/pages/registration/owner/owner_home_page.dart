@@ -21,14 +21,21 @@ class OwnerHomePage extends StatefulWidget {
 }
 
 class _OwnerHomePageState extends State<OwnerHomePage> {
+  final DepartureController departureController =
+      Get.put(DepartureController());
+
+  final price = TextEditingController();
+  final dateTimeController = TextEditingController();
+  String date = "", time = "";
+  @override
+  void dispose() {
+    departureController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final DepartureController departureController =
-        Get.put(DepartureController());
-
-    final price = TextEditingController();
-    final dateTimeController = TextEditingController();
-    String date = "", time = "";
     return Scaffold(
       body: SafeArea(
         child: ListView(

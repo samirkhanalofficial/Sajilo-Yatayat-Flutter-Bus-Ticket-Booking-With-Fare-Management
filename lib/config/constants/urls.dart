@@ -12,6 +12,8 @@ const addDepartureUrl = '$baseUrl/departure/add';
 const getAllDepartureUrl = '$baseUrl/departure/get-departures';
 String getBusDepartureUrl(String busId) =>
     '$baseUrl/departure/my-departure/$busId';
+String getBookedSeatByDepartureIdUrl(String departureId) =>
+    '$baseUrl/departure/booked-seats/$departureId';
 
 // fare apis
 const addFareUrl = '$baseUrl/fare/create';
