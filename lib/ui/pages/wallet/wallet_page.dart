@@ -1,8 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:tryapp/controllers/transaction_controller.dart';
+import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/widgets/global/wallet/wallet_transaction_card.dart';
 
-class WalletPage extends StatelessWidget {
+class WalletPage extends StatefulWidget {
   const WalletPage({super.key});
+
+  @override
+  State<WalletPage> createState() => _WalletPageState();
+}
+
+class _WalletPageState extends State<WalletPage> {
+  UserController userController = UserController();
+  TransactionController transactionController = TransactionController();
+
+  initializeUI() async {
+    await userController.isPassenger();
+    if (userController.isPassengerCheck.value) {
+      await transactionController.getUsersTransactions();
+    } else {
+      await transactionController.getUsersTransactions();
+    }
+  }
+
+  @override
+  void initState() {
+    initializeUI();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    userController.dispose();
+    transactionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +74,18 @@ class WalletPage extends StatelessWidget {
           const SizedBox(
             height: 25,
           ),
-          const WalletTransactionCard(),
-          const SizedBox(
-            height: 25,
-          ),
-          const WalletTransactionCard(),
-          const SizedBox(
-            height: 25,
-          ),
+          if (transactionController.isLoading.value)
+            const Padding(
+              padding: EdgeInsets.all(28.0),
+              child: Center(
+                child: SizedBox(
+                  width: 50,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ),
+          ...transactionController.transactions
+              .map((transaction) => const WalletTransactionCard()),
         ],
       ),
     ));

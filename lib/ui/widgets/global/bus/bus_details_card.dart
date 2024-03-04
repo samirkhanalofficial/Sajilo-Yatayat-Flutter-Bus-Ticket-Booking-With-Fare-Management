@@ -102,6 +102,10 @@ class BusDetailsCard extends StatelessWidget {
                           departureDetails.time,
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
+                        Text(
+                          departureDetails.date,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                         const SizedBox(
                           height: 8,
                         ),

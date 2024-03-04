@@ -33,3 +33,9 @@ const getAllLocationsUrl = '$baseUrl/location/get-all-locations';
 // khalti apis
 const initilizeKhaltiPaymentUrl = '$baseUrl/pay/khalti/initpayment';
 const confirmKhaltiPaymentUrl = '$baseUrl/pay/khalti/verify';
+
+// transactions api
+String getBusTransactionsUrl(String busId) =>
+    '$baseUrl/transactions/get-all-transactions/bus/${busId}';
+const getUsersTransactionsUrl =
+    '$baseUrl/transactions/get-all-transactions/user';
