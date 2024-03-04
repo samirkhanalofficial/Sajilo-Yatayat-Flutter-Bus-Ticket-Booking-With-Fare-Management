@@ -112,7 +112,7 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
             InkWell(
               onTap: () {
                 Get.to(
-                  LocationPage(
+                  () => LocationPage(
                       locationController: widget.locationController,
                       isFromPage: true),
                 );
@@ -139,7 +139,7 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
             InkWell(
               onTap: () {
                 Get.to(
-                  LocationPage(
+                  () => LocationPage(
                       locationController: widget.locationController,
                       isFromPage: false),
                 );

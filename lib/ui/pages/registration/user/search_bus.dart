@@ -76,7 +76,7 @@ class _SearchBusPageState extends State<SearchBusPage> {
           InkWell(
             onTap: () {
               Get.to(
-                LocationPage(
+                () => LocationPage(
                     locationController: widget.locationController,
                     isFromPage: true),
               );
@@ -103,7 +103,7 @@ class _SearchBusPageState extends State<SearchBusPage> {
           InkWell(
             onTap: () {
               Get.to(
-                LocationPage(
+                () => LocationPage(
                     locationController: widget.locationController,
                     isFromPage: false),
               );

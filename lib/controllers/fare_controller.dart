@@ -92,6 +92,7 @@ class FareController extends GetxController {
     APIHelper<FareDetails> apiHelper = APIHelper();
     await apiHelper.fetch(
         method: REQMETHOD.patch,
+        body: {},
         url: acceptFareUrl(fareId),
         parseJsonToObject: (json) => FareDetails.fromJson(json));
     if (apiHelper.successfullResponse.value) {
@@ -107,6 +108,7 @@ class FareController extends GetxController {
     APIHelper<FareDetails> apiHelper = APIHelper();
     await apiHelper.fetch(
         method: REQMETHOD.patch,
+        body: {},
         url: rejectFareUrl(fareId),
         parseJsonToObject: (json) => FareDetails.fromJson(json));
     if (apiHelper.successfullResponse.value) {
@@ -122,6 +124,7 @@ class FareController extends GetxController {
     APIHelper<FareDetails> apiHelper = APIHelper();
     await apiHelper.fetch(
         method: REQMETHOD.patch,
+        body: {},
         url: cancelFareUrl(fareId),
         parseJsonToObject: (json) => FareDetails.fromJson(json));
     if (apiHelper.successfullResponse.value) {
@@ -136,6 +139,7 @@ class FareController extends GetxController {
     fares([]);
     APIHelper<FareDetails> apiHelper = APIHelper();
     await apiHelper.fetch(
+        body: {},
         method: REQMETHOD.patch,
         url: completeFareUrl(fareId),
         parseJsonToObject: (json) => FareDetails.fromJson(json));

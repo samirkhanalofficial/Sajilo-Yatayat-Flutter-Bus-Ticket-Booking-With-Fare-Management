@@ -3,7 +3,7 @@ import 'package:tryapp/config/constants/urls.dart';
 import 'package:tryapp/controllers/bus_controller.dart';
 import 'package:tryapp/helper/api_helper.dart';
 import 'package:tryapp/models/transaction_details.dart';
-import 'package:tryapp/ui/pages/registration/user/user_home.dart';
+import 'package:tryapp/ui/pages/home/user_home.dart';
 
 class TransactionController extends GetxController {
   RxList<TransactionDetails> transactions = RxList([]);
