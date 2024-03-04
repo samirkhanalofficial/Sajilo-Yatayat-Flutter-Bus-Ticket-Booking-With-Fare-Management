@@ -3,6 +3,7 @@ import 'package:tryapp/config/constants/urls.dart';
 import 'package:tryapp/controllers/bus_controller.dart';
 import 'package:tryapp/helper/api_helper.dart';
 import 'package:tryapp/models/transaction_details.dart';
+import 'package:tryapp/ui/pages/registration/user/user_home.dart';
 
 class TransactionController extends GetxController {
   RxList<TransactionDetails> transactions = RxList([]);
@@ -36,6 +37,28 @@ class TransactionController extends GetxController {
           }
           return transactions;
         });
+    isLoading(false);
+  }
+
+  Future<void> withdraw(
+      String accountName, String bankName, String bankAccountNumber) async {
+    isLoading(true);
+    APIHelper<TransactionDetails> apiHelper = APIHelper();
+    await apiHelper.fetch(
+        method: REQMETHOD.post,
+        url: withdrawTransactionUrl,
+        body: {
+          "busId": await BusController().getSelectedBus(),
+          "accountName": accountName,
+          "bankName": bankName,
+          "bankAccountNumber": bankAccountNumber,
+        },
+        parseJsonToObject: (json) => TransactionDetails.fromJson(json));
+    if (apiHelper.successfullResponse.value) {
+      Get.off(() => const UserHome(
+            currentPage: 1,
+          ));
+    }
     isLoading(false);
   }
 }

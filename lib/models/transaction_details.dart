@@ -6,8 +6,9 @@ class TransactionDetails {
   @JsonKey(name: '_id')
   String id;
   String method, who;
+  String? accountName, bankName, bankAccountNumber;
   double amount;
-  bool isUser, isIncomming;
+  bool isUser, isIncomming, isDone;
 
   TransactionDetails({
     required this.id,
@@ -16,6 +17,10 @@ class TransactionDetails {
     required this.isIncomming,
     required this.isUser,
     required this.amount,
+    required this.isDone,
+    this.accountName,
+    this.bankAccountNumber,
+    this.bankName,
   });
   factory TransactionDetails.fromJson(Map<String, dynamic> json) =>
       _$TransactionDetailsFromJson(json);

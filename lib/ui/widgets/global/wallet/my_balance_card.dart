@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tryapp/config/colors/app_color.dart';
 import 'package:tryapp/controllers/bus_controller.dart';
+import 'package:tryapp/ui/widgets/global/wallet/withdraw_card.dart';
 
 class MyBalanceCard extends StatefulWidget {
   const MyBalanceCard({super.key});
@@ -14,8 +16,14 @@ class MyBalanceCard extends StatefulWidget {
 
 class _MyBalanceCardState extends State<MyBalanceCard> {
   BusController busController = BusController();
+
+  initilizeUI() async {
+    await busController.getSelectedBus();
+  }
+
   @override
   void initState() {
+    initilizeUI();
     busController.getMyBuses();
     super.initState();
   }
@@ -79,7 +87,7 @@ class _MyBalanceCardState extends State<MyBalanceCard> {
                           height: 10,
                         ),
                         Text(
-                          'Rs. ${busController.myBuses[0].balance}',
+                          'Rs. ${busController.myBuses.where((p0) => p0.id == busController.selectedBus.value).first.balance}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -118,7 +126,17 @@ class _MyBalanceCardState extends State<MyBalanceCard> {
                       child: InkWell(
                         borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(29)),
-                        onTap: () {},
+                        onTap: () {
+                          Get.bottomSheet(
+                              WithdrawCard(
+                                  amount: busController.myBuses
+                                      .where((p0) =>
+                                          p0.id ==
+                                          busController.selectedBus.value)
+                                      .first
+                                      .balance),
+                              isScrollControlled: false);
+                        },
                         child: const Padding(
                           padding: EdgeInsets.all(14.0),
                           child: Column(

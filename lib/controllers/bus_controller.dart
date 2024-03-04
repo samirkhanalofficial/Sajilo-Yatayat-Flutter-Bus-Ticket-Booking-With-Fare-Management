@@ -6,6 +6,7 @@ import 'package:tryapp/models/bus_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BusController extends GetxController {
+  Rx<String> selectedBus = ''.obs;
   RxList<String> busTypes = RxList([]);
   RxList<BusFeature> busFeatures = RxList([]);
   Rx<bool> isLoading = false.obs;
@@ -75,8 +76,8 @@ class BusController extends GetxController {
 
   Future<String> getSelectedBus() async {
     SharedPreferences sf = await SharedPreferences.getInstance();
-    String selectedBus = sf.getString("myBusId") ?? "";
-    return selectedBus;
+    selectedBus.value = sf.getString("myBusId") ?? "";
+    return selectedBus.value;
   }
 
   Future<void> getBusTypes() async {
