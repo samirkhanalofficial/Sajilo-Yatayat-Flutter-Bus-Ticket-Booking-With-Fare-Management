@@ -26,7 +26,7 @@ class TicketBooked extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "${fareDetails.departure.from.name} to ${fareDetails.departure.from.name}",
+            "${fareDetails.departure.from.name} to ${fareDetails.departure.to.name}",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(

@@ -3,8 +3,17 @@ import 'package:tryapp/models/fare_details.dart';
 
 class TicketBargan extends StatelessWidget {
   final FareDetails fareDetails;
+  final Function onAccept;
+  final Function onReject;
+  // final Function onProposeNewFare;
 
-  const TicketBargan({super.key, required this.fareDetails});
+  const TicketBargan({
+    super.key,
+    required this.fareDetails,
+    required this.onAccept,
+    required this.onReject,
+    // required this.onProposeNewFare,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +95,9 @@ class TicketBargan extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  onAccept();
+                },
                 child: const Text("Accept"),
               ),
               TextButton(
@@ -97,7 +108,9 @@ class TicketBargan extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // onReject();
+                },
                 child: const Text(
                   "Reject Fare",
                   style: TextStyle(color: Colors.red),
