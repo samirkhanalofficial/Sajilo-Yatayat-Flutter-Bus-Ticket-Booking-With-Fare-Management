@@ -4,6 +4,7 @@ import 'package:tryapp/controllers/fare_controller.dart';
 import 'package:tryapp/ui/widgets/global/ticket/ticket_bargain.dart';
 import 'package:tryapp/ui/widgets/global/ticket/ticket_booked.dart';
 import 'package:tryapp/ui/widgets/global/ticket/ticket_cancelled.dart';
+import 'package:tryapp/ui/widgets/global/wallet/bargain_current_fare_card.dart';
 
 class OwnerBookingDetailsPage extends StatefulWidget {
   const OwnerBookingDetailsPage({super.key});
@@ -19,6 +20,12 @@ class _UserBookingDetailsPageState extends State<OwnerBookingDetailsPage> {
   void initState() {
     fareController.getBusFares();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    fareController.dispose();
+    super.dispose();
   }
 
   @override
@@ -78,6 +85,8 @@ class _UserBookingDetailsPageState extends State<OwnerBookingDetailsPage> {
                                   fareData.status == 'REJECTED'
                               ? TicketCancelled(
                                   fareDetails: fareData,
+                                  onCancel: () =>
+                                      fareController.cancelFare(fareData.id),
                                 )
                               : TicketBargan(
                                   fareDetails: fareData,
@@ -85,9 +94,17 @@ class _UserBookingDetailsPageState extends State<OwnerBookingDetailsPage> {
                                       fareController.acceptFare(fareData.id),
                                   onReject: () =>
                                       fareController.rejectFare(fareData.id),
-                                  // onProposeNewFare: () =>
+                                  onCancel: () =>
+                                      fareController.cancelFare(fareData.id),
+                                  onProposeNewFare: () {
+                                    Get.bottomSheet(BargainFairCard(
+                                      fareDetails: fareData,
+                                      fareController: fareController,
+                                    ));
+                                  }
+
                                   //     // fareController.changePriceAndOfferFare(),
-                                ),
+                                  ),
                     ),
                   ),
               ],
