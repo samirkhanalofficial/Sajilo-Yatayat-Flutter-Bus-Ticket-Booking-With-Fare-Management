@@ -25,7 +25,7 @@ class _WalletPageState extends State<WalletPage> {
 
   @override
   void initState() {
-    initializeUI();
+    // initializeUI();
     super.initState();
   }
 

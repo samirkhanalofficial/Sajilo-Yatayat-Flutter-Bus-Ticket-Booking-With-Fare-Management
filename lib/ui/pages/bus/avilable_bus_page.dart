@@ -23,7 +23,7 @@ class _AvilableBusPageState extends State<AvilableBusPage> {
 
   @override
   void dispose() {
-    departureController.dispose();
+    // departureController.dispose();
     super.dispose();
   }
 
@@ -44,10 +44,8 @@ class _AvilableBusPageState extends State<AvilableBusPage> {
                   animate: true,
                   repeat: true,
                 ),
-                Obx(
-                  () => Text('My Departures',
-                      style: Theme.of(context).textTheme.titleLarge),
-                ),
+                Text('My Departures',
+                    style: Theme.of(context).textTheme.titleLarge),
                 Text(
                   'See available seats by clicking it.',
                   style: Theme.of(context).textTheme.bodySmall,
