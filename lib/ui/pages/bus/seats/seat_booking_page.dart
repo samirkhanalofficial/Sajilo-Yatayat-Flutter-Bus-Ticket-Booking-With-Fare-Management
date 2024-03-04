@@ -1,6 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:tryapp/config/colors/app_color.dart';
 import 'package:tryapp/controllers/departure_controller.dart';
 import 'package:tryapp/controllers/fare_controller.dart';
@@ -46,14 +46,31 @@ class _SeatBookingPageState extends State<SeatBookingPage> {
             horizontal: 8,
           ),
           children: [
-            Lottie.asset(
-              'asset/animations/themeanimation.json',
-              width: double.infinity,
-              animate: true,
-              repeat: true,
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: PageView(
+                controller: PageController(
+                  initialPage: 0,
+                  viewportFraction: 0.9,
+                ),
+                children: [
+                  ...widget.departure.bus.images.map(
+                    (imageUrl) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(19),
+                        child: Container(
+                          color: Colors.black,
+                          child: CachedNetworkImage(imageUrl: imageUrl),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(
-              height: 60,
+              height: 16,
             ),
             Text('Booked Seat', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(

@@ -1,4 +1,8 @@
+import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:tryapp/config/constants/urls.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/helper/api_helper.dart';
@@ -10,6 +14,36 @@ class BusController extends GetxController {
   RxList<String> busTypes = RxList([]);
   RxList<BusFeature> busFeatures = RxList([]);
   Rx<bool> isLoading = false.obs;
+
+  Future<List<String>> uploadImages(List<String> imagesFileUrl) async {
+    List<String> urls = [];
+    for (var a in imagesFileUrl) {
+      http.MultipartRequest request = http.MultipartRequest("POST",
+          Uri.parse("https://api.cloudinary.com/v1_1/dmybkl5mt/raw/upload"));
+      request.fields.addAll({
+        "upload_preset": "my-upload",
+        "resource_type": "image",
+      });
+      request.files.add(
+        await http.MultipartFile.fromPath('file', a),
+      );
+
+      var res = await request.send();
+      if (res.statusCode == 200) {
+        var resBody = await res.stream.bytesToString();
+        urls.add(json.decode(resBody)["secure_url"]);
+      } else {
+        QuickAlert.show(
+          context: Get.context!,
+          type: QuickAlertType.error,
+          title: 'Error',
+          text: "Failed to upload files",
+        );
+      }
+    }
+    return urls;
+  }
+
   RxList<BusDetails> myBuses = RxList<BusDetails>([]);
   Future<void> addBus(
     List<String> images,
@@ -22,13 +56,14 @@ class BusController extends GetxController {
     List<String> features,
   ) async {
     isLoading(true);
+    var uploadingImages = await uploadImages(images);
     APIHelper<BusDetails> apiHelper = APIHelper();
     await apiHelper.fetch(
       method: REQMETHOD.post,
       url: addBusUrl,
       successStatusCode: 201,
       body: {
-        "images": images,
+        "images": uploadingImages,
         "busnumber": busNumber,
         "yatayat": yatayat,
         "bustype": busType,

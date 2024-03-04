@@ -44,7 +44,6 @@ class PaymentController extends GetxController {
       parseJsonToObject: (json) => json,
     );
     if (apiHelper.successfullResponse.value) {
-      print("success");
       Get.offAll(() => const UserHome(
             currentPage: 2,
           ));
