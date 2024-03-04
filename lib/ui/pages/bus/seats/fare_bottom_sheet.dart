@@ -31,7 +31,7 @@ class _FareBottomSheetState extends State<FareBottomSheet> {
         .toString();
     if (price.length < 5) {
       for (int i = price.length; i < 5; i++) {
-        price = '0${price}';
+        price = '0$price';
       }
     }
     priceController.text = price;

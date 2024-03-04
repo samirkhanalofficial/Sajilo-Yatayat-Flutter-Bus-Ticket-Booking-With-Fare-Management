@@ -5,7 +5,7 @@ import 'package:tryapp/controllers/bus_controller.dart';
 import 'package:tryapp/helper/api_helper.dart';
 import 'package:tryapp/models/fare_details.dart';
 import 'package:tryapp/ui/pages/bus/seats/pay_fare_bottom_sheet.dart';
-import 'package:tryapp/ui/pages/registration/user/user_home.dart';
+import 'package:tryapp/ui/pages/home/user_home.dart';
 
 class FareController extends GetxController {
   Rx<bool> isLoading = false.obs;

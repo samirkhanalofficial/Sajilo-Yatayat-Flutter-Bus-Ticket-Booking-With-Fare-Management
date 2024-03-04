@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:tryapp/config/colors/app_color.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/controllers/departure_controller.dart';
 import 'package:tryapp/controllers/location_controller.dart';
 import 'package:tryapp/controllers/user_controller.dart';
-import 'package:tryapp/ui/pages/bus/add_bus_page.dart';
 import 'package:tryapp/ui/pages/location/location_page.dart';
 import 'package:tryapp/ui/widgets/global/loading_botton.dart';
 import 'package:tryapp/ui/widgets/global/pin_Input_field.dart';
@@ -97,7 +95,7 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
                       ),
                     ),
                     const Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Icon(Icons.arrow_forward_ios),
                     ),
                   ],

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tryapp/controllers/departure_controller.dart';
-import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/widgets/global/bus/bus_details_card.dart';
 
 class AvilableBusPage extends StatefulWidget {

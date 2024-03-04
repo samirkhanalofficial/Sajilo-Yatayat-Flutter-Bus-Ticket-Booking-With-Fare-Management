@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tryapp/models/fare_details.dart';
 
 class TicketCancelled extends StatelessWidget {
-  const TicketCancelled({super.key});
+  final FareDetails fareDetails;
+  const TicketCancelled({super.key, required this.fareDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class TicketCancelled extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Jaleshwor to Kathmandu",
+            "${fareDetails.departure.from.name} to ${fareDetails.departure.to.name}",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(
@@ -36,15 +38,15 @@ class TicketCancelled extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Rs. 1500",
+                    fareDetails.amount.toString(),
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Text(
-                    "BA 2 kha 2567 ",
+                    fareDetails.bus.busnumber,
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
                   Text(
-                    "Seats: A5 ",
+                    "Seats: ${fareDetails.seats} ",
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
@@ -53,15 +55,19 @@ class TicketCancelled extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Cancelled",
-                    style: Theme.of(context).textTheme.labelLarge,
+                    fareDetails.status,
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: fareDetails.status == 'ACCEPTED'
+                            ? const Color(0xFFC4C816)
+                            : Colors.red),
                   ),
                   Text(
-                    "10:15 PM",
+                    fareDetails.departure.time,
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Text(
-                    "2023-03-15 ",
+                    fareDetails.departure.date,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
@@ -72,7 +78,7 @@ class TicketCancelled extends StatelessWidget {
             height: 6,
           ),
           Text(
-            "#fauwebfyu632bajfhadhfhj",
+            '#${fareDetails.id}',
             style: Theme.of(context).textTheme.bodyMedium,
           )
         ],
