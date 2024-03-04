@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:tryapp/config/constants/urls.dart';
 import 'package:tryapp/helper/api_helper.dart';
-import 'package:tryapp/ui/pages/registration/user/user_home.dart';
+import 'package:tryapp/ui/pages/home/user_home.dart';
 
 class PaymentController extends GetxController {
   Rx<bool> isLoading = false.obs;

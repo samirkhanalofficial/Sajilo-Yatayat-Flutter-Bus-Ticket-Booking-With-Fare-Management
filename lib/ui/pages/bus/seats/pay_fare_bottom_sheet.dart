@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tryapp/controllers/fare_controller.dart';
 import 'package:tryapp/controllers/payment_controller.dart';
 import 'package:tryapp/models/fare_details.dart';
 import 'package:tryapp/ui/widgets/global/loading_botton.dart';
