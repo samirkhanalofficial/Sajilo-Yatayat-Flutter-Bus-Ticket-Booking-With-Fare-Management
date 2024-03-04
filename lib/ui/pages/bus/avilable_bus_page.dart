@@ -14,7 +14,7 @@ class AvilableBusPage extends StatefulWidget {
 
 class _AvilableBusPageState extends State<AvilableBusPage> {
   final DepartureController departureController = DepartureController();
-  final UserController userController = Get.put(UserController());
+  final UserController userController = UserController();
 
   @override
   void initState() {

@@ -20,8 +20,8 @@ class UserHome extends StatefulWidget {
 
 class _UserHomeState extends State<UserHome> {
   int currentPage = 0;
-  UserController userController = Get.put(UserController());
-  final LocationController locationController = Get.put(LocationController());
+  UserController userController = (UserController());
+  final LocationController locationController = (LocationController());
 
   List<Widget> pageList = const [Scaffold()];
 

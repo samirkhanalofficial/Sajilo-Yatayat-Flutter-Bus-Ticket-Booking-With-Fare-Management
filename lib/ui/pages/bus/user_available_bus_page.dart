@@ -22,8 +22,7 @@ class UserAvailableBusPage extends StatefulWidget {
 }
 
 class _AvilableBusPageState extends State<UserAvailableBusPage> {
-  final DepartureController departureController =
-      Get.put(DepartureController());
+  final DepartureController departureController = (DepartureController());
 
   @override
   void initState() {

@@ -33,7 +33,7 @@ class PaymentController extends GetxController {
   Future<void> confirmKhaltiPayment(String otp) async {
     isLoading(true);
     APIHelper apiHelper = APIHelper();
-    apiHelper.fetch(
+    await apiHelper.fetch(
       method: REQMETHOD.post,
       body: {
         "token": token.value,

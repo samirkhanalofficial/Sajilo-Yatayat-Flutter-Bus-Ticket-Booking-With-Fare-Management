@@ -18,7 +18,7 @@ class _PayFareBottomSheetState extends State<PayFareBottomSheet> {
   TextEditingController khaltiPinController = TextEditingController();
   TextEditingController khaltiMobileNumberController = TextEditingController();
   TextEditingController khaltiOtpController = TextEditingController();
-  PaymentController paymentController = Get.put(PaymentController());
+  PaymentController paymentController = PaymentController();
   @override
   void initState() {
     khaltiMobileNumberController.text =

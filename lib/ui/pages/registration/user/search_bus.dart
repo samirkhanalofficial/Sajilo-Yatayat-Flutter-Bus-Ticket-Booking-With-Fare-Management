@@ -19,8 +19,7 @@ class SearchBusPage extends StatefulWidget {
 }
 
 class _SearchBusPageState extends State<SearchBusPage> {
-  final DepartureController departureController =
-      Get.put(DepartureController());
+  final DepartureController departureController = (DepartureController());
   TextEditingController dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {

@@ -18,12 +18,13 @@ class SeatBookingPage extends StatefulWidget {
 }
 
 class _SeatBookingPageState extends State<SeatBookingPage> {
-  UserController userController = Get.put(UserController());
-  DepartureController departureController = Get.put(DepartureController());
-  FareController fareController = Get.put(FareController());
+  UserController userController = UserController();
+  DepartureController departureController = DepartureController();
+  FareController fareController = FareController();
 
   @override
   void initState() {
+    userController.isPassenger();
     departureController.getBookedSeatsByDepartureId(widget.departure.id);
     super.initState();
   }
@@ -250,31 +251,33 @@ class _SeatBookingPageState extends State<SeatBookingPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Obx(
-                () => LoadingButton(
-                  onClick: departureController.selectedSeats.length *
-                              widget.departure.amount <=
-                          0
-                      ? null
-                      : () async {
-                          Get.bottomSheet(
-                            FareBottomSheet(
-                              departure: widget.departure,
-                              departureController: departureController,
-                              fareController: fareController,
-                            ),
-                            elevation: 2,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(35),
-                                topRight: Radius.circular(35),
-                              ),
-                            ),
-                            backgroundColor: Colors.white,
-                          );
-                        },
-                  buttonName:
-                      "Book @ Rs. ${departureController.selectedSeats.length * widget.departure.amount}",
-                ),
+                () => userController.isPassengerCheck.value
+                    ? LoadingButton(
+                        onClick: departureController.selectedSeats.length *
+                                    widget.departure.amount <=
+                                0
+                            ? null
+                            : () async {
+                                Get.bottomSheet(
+                                  FareBottomSheet(
+                                    departure: widget.departure,
+                                    departureController: departureController,
+                                    fareController: fareController,
+                                  ),
+                                  elevation: 2,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(35),
+                                      topRight: Radius.circular(35),
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.white,
+                                );
+                              },
+                        buttonName:
+                            "Book @ Rs. ${departureController.selectedSeats.length * widget.departure.amount}",
+                      )
+                    : const SizedBox.shrink(),
               ),
             ),
             const SizedBox(

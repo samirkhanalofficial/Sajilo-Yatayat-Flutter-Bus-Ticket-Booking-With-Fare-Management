@@ -23,8 +23,7 @@ class OwnerHomePage extends StatefulWidget {
 }
 
 class _OwnerHomePageState extends State<OwnerHomePage> {
-  final DepartureController departureController =
-      Get.put(DepartureController());
+  final DepartureController departureController = (DepartureController());
 
   final price = TextEditingController();
   final dateTimeController = TextEditingController();

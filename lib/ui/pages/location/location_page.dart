@@ -66,7 +66,6 @@ class _MyWidgetState extends State<LocationPage> {
               'Search Results',
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            
             ...widget.locationController.locations.map(
               (element) => GestureDetector(
                 onTap: () {

@@ -24,7 +24,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final AuthController loginController = Get.put(AuthController());
+    final AuthController loginController = (AuthController());
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

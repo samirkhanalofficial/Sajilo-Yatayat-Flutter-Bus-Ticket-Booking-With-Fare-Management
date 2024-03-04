@@ -13,7 +13,7 @@ class AddBusPage extends StatefulWidget {
 }
 
 class _AddBusPageState extends State<AddBusPage> {
-  final BusController busController = Get.put(BusController());
+  final BusController busController = (BusController());
   final busNumberController = TextEditingController();
   final yatayatController = TextEditingController();
   final leftSeatsController = TextEditingController();
