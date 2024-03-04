@@ -14,11 +14,9 @@ class AvilableBusPage extends StatefulWidget {
 
 class _AvilableBusPageState extends State<AvilableBusPage> {
   final DepartureController departureController = DepartureController();
-  final UserController userController = UserController();
 
   @override
   void initState() {
-    userController.isPassenger();
     departureController.getBusDepartures();
     super.initState();
   }
@@ -34,39 +32,51 @@ class _AvilableBusPageState extends State<AvilableBusPage> {
     return Scaffold(
       body: SafeArea(
         child: Obx(
-          () => ListView(
-            padding: const EdgeInsets.all(13),
-            children: [
-              Lottie.asset(
-                'asset/animations/themeanimation.json',
-                width: double.infinity,
-                fit: BoxFit.cover,
-                animate: true,
-                repeat: true,
-              ),
-              Obx(
-                () => Text(
-                    userController.isPassengerCheck.value
-                        ? 'Available Bus'
-                        : 'My Departures',
-                    style: Theme.of(context).textTheme.titleLarge),
-              ),
-              Text(
-                'See available seats by clicking it.',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              ...departureController.departures.map(
-                (departureData) => Padding(
-                  padding: const EdgeInsets.only(bottom: 15.0),
-                  child: BusDetailsCard(
-                    departureDetails: departureData,
-                  ),
+          () => RefreshIndicator(
+            onRefresh: () => departureController.getBusDepartures(),
+            child: ListView(
+              padding: const EdgeInsets.all(13),
+              children: [
+                Lottie.asset(
+                  'asset/animations/themeanimation.json',
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  animate: true,
+                  repeat: true,
                 ),
-              ),
-            ],
+                Obx(
+                  () => Text('My Departures',
+                      style: Theme.of(context).textTheme.titleLarge),
+                ),
+                Text(
+                  'See available seats by clicking it.',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                if (departureController.isLoading.value)
+                  const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(30.0),
+                      child: SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  ),
+                if (!departureController.isLoading.value)
+                  ...departureController.departures.map(
+                    (departureData) => Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
+                      child: BusDetailsCard(
+                        departureDetails: departureData,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

@@ -36,35 +36,50 @@ class _AvilableBusPageState extends State<UserAvailableBusPage> {
     return Scaffold(
       body: SafeArea(
         child: Obx(
-          () => ListView(
-            padding: const EdgeInsets.all(13),
-            children: [
-              Lottie.asset(
-                'asset/animations/themeanimation.json',
-                width: double.infinity,
-                fit: BoxFit.cover,
-                animate: true,
-                repeat: true,
-              ),
-              Text('Available Bus',
-                  style: Theme.of(context).textTheme.titleLarge),
-              Text(
-                'Choose buses from available bus.',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              
-              ...departureController.departures.map(
-                (departureData) => Padding(
-                  padding: const EdgeInsets.only(bottom: 15.0),
-                  child: BusDetailsCard(
-                    departureDetails: departureData,
-                  ),
+          () => RefreshIndicator(
+            onRefresh: () => departureController.getAllDepartures(
+                widget.date, widget.fromID, widget.toID),
+            child: ListView(
+              padding: const EdgeInsets.all(13),
+              children: [
+                Lottie.asset(
+                  'asset/animations/themeanimation.json',
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  animate: true,
+                  repeat: true,
                 ),
-              ),
-            ],
+                Text('Available Bus',
+                    style: Theme.of(context).textTheme.titleLarge),
+                Text(
+                  'Choose buses from available bus.',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                if (departureController.isLoading.value)
+                  const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(30.0),
+                      child: SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  ),
+                if (!departureController.isLoading.value)
+                  ...departureController.departures.map(
+                    (departureData) => Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
+                      child: BusDetailsCard(
+                        departureDetails: departureData,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

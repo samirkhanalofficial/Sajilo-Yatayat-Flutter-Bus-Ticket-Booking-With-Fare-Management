@@ -32,7 +32,7 @@ class _SeatBookingPageState extends State<SeatBookingPage> {
   @override
   void dispose() {
     userController.dispose();
-    departureController.dispose();
+    // departureController.dispose();
     fareController.dispose();
     super.dispose();
   }
