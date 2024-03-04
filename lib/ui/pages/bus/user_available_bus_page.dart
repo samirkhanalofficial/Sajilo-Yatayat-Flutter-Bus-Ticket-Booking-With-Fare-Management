@@ -55,6 +55,7 @@ class _AvilableBusPageState extends State<UserAvailableBusPage> {
               const SizedBox(
                 height: 40,
               ),
+              
               ...departureController.departures.map(
                 (departureData) => Padding(
                   padding: const EdgeInsets.only(bottom: 15.0),
