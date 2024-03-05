@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -87,13 +88,39 @@ class _UserProfileState extends State<UserProfile> {
                           ),
                         ],
                       ),
-                      Lottie.asset(
-                        'asset/animations/user.json',
-                        height: MediaQuery.of(context).size.height * 0.33,
-                        animate: true,
-                        reverse: false,
-                        repeat: true,
-                      ),
+                      if (!widget.userController.isPassengerCheck.value)
+                        AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: PageView(
+                            controller: PageController(
+                              initialPage: 0,
+                              viewportFraction: 0.9,
+                            ),
+                            children: [
+                              ...busController.myBuses.first.images.map(
+                                (imageUrl) => Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(19),
+                                    child: Container(
+                                      color: Colors.black,
+                                      child: CachedNetworkImage(
+                                          imageUrl: imageUrl),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      if (widget.userController.isPassengerCheck.value)
+                        Lottie.asset(
+                          'asset/animations/user.json',
+                          height: MediaQuery.of(context).size.height * 0.33,
+                          animate: true,
+                          reverse: false,
+                          repeat: true,
+                        ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

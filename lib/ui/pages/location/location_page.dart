@@ -17,6 +17,7 @@ class LocationPage extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<LocationPage> {
+  String searchText = "";
   initilize() async {
     await widget.locationController.getlocations();
   }
@@ -44,16 +45,12 @@ class _MyWidgetState extends State<LocationPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.arrow_back_sharp,
-                      size: 30,
-                    ),
-                  ),
-                  const Expanded(
+                  Expanded(
                     child: TextField(
-                      decoration: InputDecoration(
+                      onChanged: (a) => setState(() {
+                        searchText = a;
+                      }),
+                      decoration: const InputDecoration(
                         hintText: 'Kathmandu',
                         suffixIcon: Icon(Iconsax.search_normal_1),
                       ),
@@ -84,44 +81,48 @@ class _MyWidgetState extends State<LocationPage> {
                 ),
               if (!widget.locationController.isLoading.value)
                 ...widget.locationController.locations.map(
-                  (element) => GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if (widget.isFromPage) {
-                          widget.locationController.selectedFromLocation.value =
-                              element;
-                        } else {
-                          widget.locationController.selectedToLocation.value =
-                              element;
-                        }
-                        Get.back();
-                      });
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      padding: const EdgeInsets.all(18),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: Colors.grey.withOpacity(0.3),
-                          width: 2, // specify the border width here
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            element.name,
-                            style: const TextStyle(fontSize: 16),
+                  (element) => element.name
+                          .toLowerCase()
+                          .startsWith(searchText.toLowerCase())
+                      ? GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (widget.isFromPage) {
+                                widget.locationController.selectedFromLocation
+                                    .value = element;
+                              } else {
+                                widget.locationController.selectedToLocation
+                                    .value = element;
+                              }
+                              Get.back();
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            padding: const EdgeInsets.all(18),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: Colors.grey.withOpacity(0.3),
+                                width: 2, // specify the border width here
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  element.name,
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                                const Icon(
+                                  (Icons.arrow_forward_ios_rounded),
+                                )
+                              ],
+                            ),
                           ),
-                          const Icon(
-                            (Icons.arrow_forward_ios_rounded),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                        )
+                      : const SizedBox.shrink(),
                 ),
             ],
           ),
