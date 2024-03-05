@@ -80,7 +80,7 @@ class _UserHomeState extends State<UserHome> {
         backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(Iconsax.scan),
         onPressed: () {
-          Get.to(() => QRCodeScannerApp());
+          Get.to(() => const QRCodeScannerApp());
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

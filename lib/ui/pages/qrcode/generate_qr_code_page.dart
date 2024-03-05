@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:tryapp/models/fare_details.dart';
 
 class GenerateQrPage extends StatelessWidget {
   final String fareId;

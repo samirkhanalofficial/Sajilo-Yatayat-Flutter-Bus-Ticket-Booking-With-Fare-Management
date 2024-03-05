@@ -118,22 +118,22 @@ class _TicketBookedState extends State<TicketBooked> {
                   style: TextStyle(fontSize: 16),
                 ),
               ),
-              TextButton.icon(
-                onPressed: () {
-                  widget.onCancel();
-                },
-                icon: const Icon(
-                  Icons.cancel,
-                  color: Colors.red,
-                ),
-                label: const Text(
-                  'Cancel',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
+              // TextButton.icon(
+              //   onPressed: () {
+              //     widget.onCancel();
+              //   },
+              //   icon: const Icon(
+              //     Icons.cancel,
+              //     color: Colors.red,
+              //   ),
+              //   label: const Text(
+              //     'Cancel',
+              //     style: TextStyle(
+              //       fontSize: 16,
+              //       color: Colors.red,
+              //     ),
+              //   ),
+              // ),
             ],
           )
         ],
