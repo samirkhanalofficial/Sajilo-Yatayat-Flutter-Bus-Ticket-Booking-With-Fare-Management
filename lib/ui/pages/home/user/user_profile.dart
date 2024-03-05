@@ -12,6 +12,7 @@ import 'package:tryapp/ui/widgets/global/user_details.dart';
 
 class UserProfile extends StatefulWidget {
   final UserController userController;
+
   const UserProfile({
     super.key,
     required this.userController,
@@ -22,9 +23,18 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
+  BusController busController = BusController();
+
   @override
   void initState() {
+    busController.getMyBuses();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    busController.dispose();
+    super.dispose();
   }
 
   @override
@@ -104,6 +114,7 @@ class _UserProfileState extends State<UserProfile> {
                                   style: Theme.of(context).textTheme.bodySmall),
                             ],
                           ),
+
                           // TextButton.icon(
                           //   onPressed: () {},
                           //   icon: const Icon(Iconsax.edit),
@@ -117,46 +128,72 @@ class _UserProfileState extends State<UserProfile> {
                       const SizedBox(
                         height: 25,
                       ),
-                      Obx(
-                        () {
-                          return UserDetailsFields(
-                            title: 'Full Name',
-                            value:
-                                widget.userController.userDetails.value?.name ??
-                                    '',
-                          );
-                        },
+                      UserDetailsFields(
+                        title: 'Full Name',
+                        value:
+                            widget.userController.userDetails.value?.name ?? '',
                       ),
-                      Obx(
-                        () {
-                          return UserDetailsFields(
-                            title: 'Mobile Number',
-                            value: widget
-                                    .userController.userDetails.value?.mobile ??
+                      UserDetailsFields(
+                        title: 'Mobile Number',
+                        value:
+                            widget.userController.userDetails.value?.mobile ??
                                 '',
-                          );
-                        },
                       ),
-                      // Obx(
-                      //   () {
-                      //     return UserDetailsFields(
-                      //       title: 'Date of Birth (AD)',
-                      //       value:
-                      //           getUserDetailsController.userDetails.value?.dob.isUtc ??
-                      //               "",
-                      //     );
-                      //   },
-                      // ),
-                      Obx(
-                        () {
-                          return UserDetailsFields(
-                            title: 'Address',
-                            value: widget.userController.userDetails.value
-                                    ?.address ??
+                      UserDetailsFields(
+                          title: 'Date of Birth (AD)',
+                          value: widget.userController.userDetails.value?.dob
+                              .toUtc()
+                              .toString()
+                              .substring(0, 10)),
+                      UserDetailsFields(
+                        title: 'Address',
+                        value:
+                            widget.userController.userDetails.value?.address ??
                                 "",
-                          );
-                        },
                       ),
+                      if (!widget.userController.isPassengerCheck.value)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            UserDetailsFields(
+                              title: 'Bus Number',
+                              value: busController.myBuses.first.busnumber,
+                            ),
+                            UserDetailsFields(
+                              title: 'Bus Name',
+                              value: busController.myBuses.first.yatayat,
+                            ),
+                            UserDetailsFields(
+                              title: 'Bus Type',
+                              value: busController.myBuses.first.bustype,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16.0),
+                              child: Text(
+                                'Features',
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ...busController.myBuses.first.features.map(
+                                    (features) => Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Image.asset(
+                                        'asset/images/$features.png',
+                                        height: 30,
+                                        width: 30,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 ),

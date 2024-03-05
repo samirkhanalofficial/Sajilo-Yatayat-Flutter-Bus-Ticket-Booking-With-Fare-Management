@@ -114,8 +114,12 @@ class BusController extends GetxController {
       sf.setString("myBusId", busId);
       await firebaseMessaging.subscribeToTopic(busId);
     } catch (e) {
-      print("setting selected bus error");
-      print(e);
+      QuickAlert.show(
+        context: Get.context!,
+        type: QuickAlertType.error,
+        title: 'Error',
+        text: e.toString(),
+      );
     }
   }
 
