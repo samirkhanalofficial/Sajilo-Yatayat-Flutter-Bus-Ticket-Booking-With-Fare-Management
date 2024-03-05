@@ -1,5 +1,5 @@
-// const baseUrl = 'https://sajiloyatayatbackend.samirk.com.np';
-const baseUrl = 'https://nfzvvxpn-3001.euw.devtunnels.ms';
+const baseUrl = 'https://sajiloyatayatbackend.samirk.com.np';
+// const baseUrl = 'https://nfzvvxpn-3001.euw.devtunnels.ms';
 const registerUserUrl = '$baseUrl/user/create';
 const getUserDetailsUrl = '$baseUrl/user/mydetails';
 
