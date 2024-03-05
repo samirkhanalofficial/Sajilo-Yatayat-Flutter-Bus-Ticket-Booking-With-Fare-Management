@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tryapp/config/colors/app_color.dart';
 import 'package:tryapp/controllers/bus_controller.dart';
@@ -13,14 +16,14 @@ class AddBusPage extends StatefulWidget {
 }
 
 class _AddBusPageState extends State<AddBusPage> {
-  final BusController busController = Get.put(BusController());
+  final BusController busController = (BusController());
   final busNumberController = TextEditingController();
   final yatayatController = TextEditingController();
   final leftSeatsController = TextEditingController();
   final rightSeatsController = TextEditingController();
   final backSeatsController = TextEditingController();
+  List<String> imagess = [];
   List<String> busFeatures = [];
-  List<String> images = ['abc', 'xyz'];
 
   String? selectedBusType; // Make selectedBusType nullable
   @override
@@ -65,14 +68,108 @@ class _AddBusPageState extends State<AddBusPage> {
                     animate: true,
                     repeat: true,
                   ),
+
                   const SizedBox(
                     height: 60,
                   ),
-                  Text('Your Bus',
+                  Text('Add Your Bus',
                       style: Theme.of(context).textTheme.titleLarge),
                   Text(
                     'Let us know about your Bus',
                     style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: PageView(
+                      controller: PageController(
+                        initialPage: 0,
+                        viewportFraction: 0.9,
+                      ),
+                      children: [
+                        ...imagess.map(
+                          (e) => Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(19),
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    left: 0,
+                                    right: 0,
+                                    top: 0,
+                                    bottom: 0,
+                                    child: Container(
+                                      color: Colors.black,
+                                      child: Image.file(
+                                        File(e),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                      right: 10,
+                                      top: 10,
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.red,
+                                        radius: 15,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.close,
+                                            size: 15,
+                                          ),
+                                          onPressed: () {
+                                            imagess.removeWhere(
+                                                (element) => element == e);
+                                            setState(() {});
+                                          },
+                                          color: Colors.white,
+                                        ),
+                                      ))
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        if (imagess.length < 3)
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: AppColor().primary,
+                                width: 3,
+                              ),
+                            ),
+                            child: Center(
+                              child: SizedBox(
+                                height: 70,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 25,
+                                    vertical: 8,
+                                  ),
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {
+                                      ImagePicker()
+                                          .pickImage(
+                                              source: ImageSource.gallery)
+                                          .then((value) {
+                                        if (value != null) {
+                                          imagess.add(value.path);
+                                        }
+
+                                        setState(() {});
+                                      });
+                                    },
+                                    icon: const Icon(Icons.upload),
+                                    label: const Text("Upload a bus image"),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 16,
@@ -147,6 +244,7 @@ class _AddBusPageState extends State<AddBusPage> {
                       style: Theme.of(context).textTheme.titleSmall),
                   Obx(
                     () => GridView.count(
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       mainAxisSpacing: 0.1,
                       crossAxisCount: 3,
@@ -255,20 +353,22 @@ class _AddBusPageState extends State<AddBusPage> {
                   const SizedBox(
                     height: 28,
                   ),
-                  LoadingButton(
-                    onClick: () {
-                      busController.addBus(
-                          images,
-                          busNumberController.text,
-                          yatayatController.text,
-                          selectedBusType ?? "",
-                          leftSeatsController.text,
-                          rightSeatsController.text,
-                          backSeatsController.text,
-                          busFeatures);
-                    },
-                    buttonName: 'Add Bus',
-                    loading: busController.isLoading.value,
+                  Obx(
+                    () => LoadingButton(
+                      onClick: () {
+                        busController.addBus(
+                            imagess,
+                            busNumberController.text,
+                            yatayatController.text,
+                            selectedBusType ?? "",
+                            leftSeatsController.text,
+                            rightSeatsController.text,
+                            backSeatsController.text,
+                            busFeatures);
+                      },
+                      buttonName: 'Add Bus',
+                      loading: busController.isLoading.value,
+                    ),
                   )
                 ],
               ),

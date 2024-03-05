@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tryapp/config/constants/urls.dart';
@@ -9,6 +10,7 @@ class UserController extends GetxController {
   // ignore: unnecessary_cast
   final Rx<UserDetails?> userDetails = (null as UserDetails?).obs;
   var isLoading = false.obs;
+  var isPassengerCheck = false.obs;
   void registerNewUser(
       String name, String address, String dob, String gender) async {
     isLoading(true);
@@ -27,6 +29,8 @@ class UserController extends GetxController {
         SharedPreferences sf = await SharedPreferences.getInstance();
 
         sf.setBool("isLogginned", true);
+        FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+        firebaseMessaging.subscribeToTopic(apiHelper.response.value!.name);
         Get.offAllNamed(
           RoutesNames.userHomePage,
         );
@@ -65,6 +69,7 @@ class UserController extends GetxController {
     SharedPreferences sf = await SharedPreferences.getInstance();
     sf.setBool("isLogginned", true);
     String role = sf.getString("role") ?? "Passenger";
+    isPassengerCheck.value = role == "Passenger";
     return role == "Passenger";
   }
 }

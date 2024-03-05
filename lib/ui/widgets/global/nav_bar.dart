@@ -92,12 +92,14 @@ class NavIconItem extends StatelessWidget {
               Text(
                 name,
                 style: TextStyle(
-                    color: index == selectedIndex
-                        ? AppColor().primary
-                        : Colors.grey.shade500),
+                  color: index == selectedIndex
+                      ? AppColor().primary
+                      : Colors.grey.shade500,
+                  fontSize: 11,
+                ),
               ),
               const SizedBox(
-                height: 5,
+                height: 10,
               ),
             ],
           ),

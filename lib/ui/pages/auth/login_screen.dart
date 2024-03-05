@@ -14,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final phoneNumberData = TextEditingController();
-  final AuthController authController = Get.put(AuthController());
+  final AuthController authController = (AuthController());
 
   @override
   void initState() {

@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:tryapp/config/constants/urls.dart';
 import 'package:tryapp/controllers/bus_controller.dart';
 import 'package:tryapp/helper/api_helper.dart';
@@ -7,6 +9,8 @@ import 'package:tryapp/models/departure_details.dart';
 class DepartureController extends GetxController {
   Rx<bool> isLoading = false.obs;
   RxList<DepartureDetails> departures = RxList<DepartureDetails>([]);
+  RxList<int> selectedSeats = RxList<int>([]);
+  RxList<int> bookedSeats = RxList<int>([]);
   addDeparture(
     String date,
     String fromlocationId,
@@ -22,16 +26,23 @@ class DepartureController extends GetxController {
         method: REQMETHOD.post,
         successStatusCode: 201,
         body: {
-          "busId": busId,
+          "bus": busId,
           "from": fromlocationId,
           "to": toLocationId,
           "time": time,
+          "date": date,
           "amount": pricePerSeat,
         },
         url: addDepartureUrl,
         parseJsonToObject: (json) => DepartureDetails.fromJson(json));
     if (apiHelper.successfullResponse.value) {
       departures.add(apiHelper.response.value!);
+      QuickAlert.show(
+        context: Get.context!,
+        type: QuickAlertType.success,
+        title: 'Departure Added',
+        text: "Departure has been created. You can now get Bookings.",
+      );
     }
     isLoading(false);
   }
@@ -71,6 +82,23 @@ class DepartureController extends GetxController {
           }
           return departures;
         });
+    isLoading(false);
+  }
+
+  Future<void> getBookedSeatsByDepartureId(String departureId) async {
+    isLoading(true);
+    bookedSeats([]);
+    APIHelper<List<int>> apiHelper = APIHelper();
+    await apiHelper.fetch(
+        method: REQMETHOD.get,
+        url: getBookedSeatByDepartureIdUrl(departureId),
+        parseJsonToObject: (json) {
+          for (int a in json) {
+            bookedSeats.add(a);
+          }
+          return bookedSeats;
+        });
+
     isLoading(false);
   }
 }

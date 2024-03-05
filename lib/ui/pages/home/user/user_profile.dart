@@ -1,15 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
+import 'package:tryapp/controllers/bus_controller.dart';
 import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/widgets/global/user_details.dart';
 
 class UserProfile extends StatefulWidget {
   final UserController userController;
+
   const UserProfile({
     super.key,
     required this.userController,
@@ -20,9 +23,18 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
+  BusController busController = BusController();
+
   @override
   void initState() {
+    busController.getMyBuses();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    busController.dispose();
+    super.dispose();
   }
 
   @override
@@ -47,10 +59,24 @@ class _UserProfileState extends State<UserProfile> {
                                   MaterialStateProperty.all<Color>(Colors.red),
                             ),
                             onPressed: () async {
+                              FirebaseMessaging firebaseMessaging =
+                                  FirebaseMessaging.instance;
+
                               FirebaseAuth.instance.signOut();
                               SharedPreferences sf =
                                   await SharedPreferences.getInstance();
-                              sf.setBool("isLogginned", false);
+                              firebaseMessaging.unsubscribeFromTopic(
+                                  widget.userController.userDetails.value?.id ??
+                                      "");
+                              BusController busController = BusController();
+                              String selectedBus =
+                                  await busController.getSelectedBus();
+                              if (selectedBus != "") {
+                                firebaseMessaging
+                                    .unsubscribeFromTopic(selectedBus);
+                              }
+
+                              sf.clear();
                               Get.offAllNamed(RoutesNames.splashScreenPage);
                             },
                             icon: const Icon(
@@ -88,6 +114,7 @@ class _UserProfileState extends State<UserProfile> {
                                   style: Theme.of(context).textTheme.bodySmall),
                             ],
                           ),
+
                           // TextButton.icon(
                           //   onPressed: () {},
                           //   icon: const Icon(Iconsax.edit),
@@ -101,46 +128,72 @@ class _UserProfileState extends State<UserProfile> {
                       const SizedBox(
                         height: 25,
                       ),
-                      Obx(
-                        () {
-                          return UserDetailsFields(
-                            title: 'Full Name',
-                            value:
-                                widget.userController.userDetails.value?.name ??
-                                    '',
-                          );
-                        },
+                      UserDetailsFields(
+                        title: 'Full Name',
+                        value:
+                            widget.userController.userDetails.value?.name ?? '',
                       ),
-                      Obx(
-                        () {
-                          return UserDetailsFields(
-                            title: 'Mobile Number',
-                            value: widget
-                                    .userController.userDetails.value?.mobile ??
+                      UserDetailsFields(
+                        title: 'Mobile Number',
+                        value:
+                            widget.userController.userDetails.value?.mobile ??
                                 '',
-                          );
-                        },
                       ),
-                      // Obx(
-                      //   () {
-                      //     return UserDetailsFields(
-                      //       title: 'Date of Birth (AD)',
-                      //       value:
-                      //           getUserDetailsController.userDetails.value?.dob.isUtc ??
-                      //               "",
-                      //     );
-                      //   },
-                      // ),
-                      Obx(
-                        () {
-                          return UserDetailsFields(
-                            title: 'Address',
-                            value: widget.userController.userDetails.value
-                                    ?.address ??
+                      UserDetailsFields(
+                          title: 'Date of Birth (AD)',
+                          value: widget.userController.userDetails.value?.dob
+                              .toUtc()
+                              .toString()
+                              .substring(0, 10)),
+                      UserDetailsFields(
+                        title: 'Address',
+                        value:
+                            widget.userController.userDetails.value?.address ??
                                 "",
-                          );
-                        },
                       ),
+                      if (!widget.userController.isPassengerCheck.value)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            UserDetailsFields(
+                              title: 'Bus Number',
+                              value: busController.myBuses.first.busnumber,
+                            ),
+                            UserDetailsFields(
+                              title: 'Bus Name',
+                              value: busController.myBuses.first.yatayat,
+                            ),
+                            UserDetailsFields(
+                              title: 'Bus Type',
+                              value: busController.myBuses.first.bustype,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16.0),
+                              child: Text(
+                                'Features',
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ...busController.myBuses.first.features.map(
+                                    (features) => Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Image.asset(
+                                        'asset/images/$features.png',
+                                        height: 30,
+                                        width: 30,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 ),

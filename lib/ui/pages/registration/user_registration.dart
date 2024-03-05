@@ -25,7 +25,7 @@ class _UserRegistrationState extends State<UserRegistration> {
   }
 
   String selectedGender = 'male';
-  final UserController userController = Get.put(UserController());
+  final UserController userController = (UserController());
 
   @override
   Widget build(BuildContext context) {

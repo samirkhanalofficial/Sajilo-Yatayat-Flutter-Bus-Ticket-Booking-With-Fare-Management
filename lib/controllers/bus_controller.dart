@@ -1,4 +1,9 @@
+import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:tryapp/config/constants/urls.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/helper/api_helper.dart';
@@ -6,9 +11,40 @@ import 'package:tryapp/models/bus_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BusController extends GetxController {
+  Rx<String> selectedBus = ''.obs;
   RxList<String> busTypes = RxList([]);
   RxList<BusFeature> busFeatures = RxList([]);
   Rx<bool> isLoading = false.obs;
+
+  Future<List<String>> uploadImages(List<String> imagesFileUrl) async {
+    List<String> urls = [];
+    for (var a in imagesFileUrl) {
+      http.MultipartRequest request = http.MultipartRequest("POST",
+          Uri.parse("https://api.cloudinary.com/v1_1/dmybkl5mt/raw/upload"));
+      request.fields.addAll({
+        "upload_preset": "my-upload",
+        "resource_type": "image",
+      });
+      request.files.add(
+        await http.MultipartFile.fromPath('file', a),
+      );
+
+      var res = await request.send();
+      if (res.statusCode == 200) {
+        var resBody = await res.stream.bytesToString();
+        urls.add(json.decode(resBody)["secure_url"]);
+      } else {
+        QuickAlert.show(
+          context: Get.context!,
+          type: QuickAlertType.error,
+          title: 'Error',
+          text: "Failed to upload files",
+        );
+      }
+    }
+    return urls;
+  }
+
   RxList<BusDetails> myBuses = RxList<BusDetails>([]);
   Future<void> addBus(
     List<String> images,
@@ -21,13 +57,14 @@ class BusController extends GetxController {
     List<String> features,
   ) async {
     isLoading(true);
+    var uploadingImages = await uploadImages(images);
     APIHelper<BusDetails> apiHelper = APIHelper();
     await apiHelper.fetch(
       method: REQMETHOD.post,
       url: addBusUrl,
       successStatusCode: 201,
       body: {
-        "images": images,
+        "images": uploadingImages,
         "busnumber": busNumber,
         "yatayat": yatayat,
         "bustype": busType,
@@ -69,14 +106,27 @@ class BusController extends GetxController {
   }
 
   Future<void> setSelectedBus(String busId) async {
-    SharedPreferences sf = await SharedPreferences.getInstance();
-    sf.setString("myBusId", busId);
+    try {
+      SharedPreferences sf = await SharedPreferences.getInstance();
+
+      FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+
+      sf.setString("myBusId", busId);
+      await firebaseMessaging.subscribeToTopic(busId);
+    } catch (e) {
+      QuickAlert.show(
+        context: Get.context!,
+        type: QuickAlertType.error,
+        title: 'Error',
+        text: e.toString(),
+      );
+    }
   }
 
   Future<String> getSelectedBus() async {
     SharedPreferences sf = await SharedPreferences.getInstance();
-    String selectedBus = sf.getString("myBusId") ?? "";
-    return selectedBus;
+    selectedBus.value = sf.getString("myBusId") ?? "";
+    return selectedBus.value;
   }
 
   Future<void> getBusTypes() async {
@@ -87,7 +137,7 @@ class BusController extends GetxController {
     busFeatures = RxList([
       BusFeature(
         'WIFI',
-        'asset/images/wifi.png',
+        'asset/images/WIFI.png',
       ),
       BusFeature(
         'AC',
@@ -95,7 +145,7 @@ class BusController extends GetxController {
       ),
       BusFeature(
         'TOILET',
-        'asset/images/toilet.png',
+        'asset/images/TOILET.png',
       ),
       BusFeature(
         'TV',
@@ -103,11 +153,11 @@ class BusController extends GetxController {
       ),
       BusFeature(
         'FOOD',
-        'asset/images/food.png',
+        'asset/images/FOOD.png',
       ),
       BusFeature(
         'FAN',
-        'asset/images/fan.png',
+        'asset/images/FAN.png',
       ),
     ]);
   }

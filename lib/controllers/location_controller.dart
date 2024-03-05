@@ -6,6 +6,10 @@ import 'package:tryapp/models/location_details.dart';
 class LocationController extends GetxController {
   RxList<LocationDetails> locations = RxList([]);
   Rx<bool> isLoading = false.obs;
+  // ignore: unnecessary_cast
+  Rx<LocationDetails?> selectedFromLocation = (null as LocationDetails?).obs;
+  // ignore: unnecessary_cast
+  Rx<LocationDetails?> selectedToLocation = (null as LocationDetails?).obs;
   Future<void> getlocations() async {
     isLoading(true);
     locations([]);

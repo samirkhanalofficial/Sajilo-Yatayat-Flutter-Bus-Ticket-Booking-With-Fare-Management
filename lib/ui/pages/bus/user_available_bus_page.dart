@@ -1,29 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+
 import 'package:tryapp/controllers/departure_controller.dart';
+
 import 'package:tryapp/ui/widgets/global/bus/bus_details_card.dart';
 
-class AvilableBusPage extends StatefulWidget {
-  const AvilableBusPage({super.key});
+class UserAvailableBusPage extends StatefulWidget {
+  final String date;
+  final String fromID;
+  final String toID;
+
+  const UserAvailableBusPage(
+      {super.key,
+      required this.date,
+      required this.fromID,
+      required this.toID});
 
   @override
-  State<AvilableBusPage> createState() => _AvilableBusPageState();
+  State<UserAvailableBusPage> createState() => _AvilableBusPageState();
 }
 
-class _AvilableBusPageState extends State<AvilableBusPage> {
-  final DepartureController departureController = DepartureController();
+class _AvilableBusPageState extends State<UserAvailableBusPage> {
+  final DepartureController departureController = (DepartureController());
 
   @override
   void initState() {
-    departureController.getBusDepartures();
+    departureController.getAllDepartures(
+        widget.date, widget.fromID, widget.toID);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // departureController.dispose();
-    super.dispose();
   }
 
   @override
@@ -32,7 +37,8 @@ class _AvilableBusPageState extends State<AvilableBusPage> {
       body: SafeArea(
         child: Obx(
           () => RefreshIndicator(
-            onRefresh: () => departureController.getBusDepartures(),
+            onRefresh: () => departureController.getAllDepartures(
+                widget.date, widget.fromID, widget.toID),
             child: ListView(
               padding: const EdgeInsets.all(13),
               children: [
@@ -43,10 +49,10 @@ class _AvilableBusPageState extends State<AvilableBusPage> {
                   animate: true,
                   repeat: true,
                 ),
-                Text('My Departures',
+                Text('Available Bus',
                     style: Theme.of(context).textTheme.titleLarge),
                 Text(
-                  'See available seats by clicking it.',
+                  'Choose buses from available bus.',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(
@@ -57,8 +63,8 @@ class _AvilableBusPageState extends State<AvilableBusPage> {
                     child: Padding(
                       padding: EdgeInsets.all(30.0),
                       child: SizedBox(
-                        width: 50,
-                        height: 50,
+                        width: 40,
+                        height: 40,
                         child: CircularProgressIndicator(),
                       ),
                     ),

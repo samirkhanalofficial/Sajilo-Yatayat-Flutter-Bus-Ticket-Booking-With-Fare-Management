@@ -1,12 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tryapp/controllers/transaction_controller.dart';
 import 'package:tryapp/ui/widgets/global/loading_botton.dart';
 
-class WithdrawCard extends StatelessWidget {
-  const WithdrawCard({super.key});
+class WithdrawCard extends StatefulWidget {
+  final double amount;
+  const WithdrawCard({
+    super.key,
+    required this.amount,
+  });
+
+  @override
+  State<WithdrawCard> createState() => _WithdrawCardState();
+}
+
+class _WithdrawCardState extends State<WithdrawCard> {
+  final TransactionController transactionController = TransactionController();
+  TextEditingController accountNameController = TextEditingController();
+  TextEditingController bankNameController = TextEditingController();
+  TextEditingController bankNumberController = TextEditingController();
+  @override
+  void dispose() {
+    transactionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 700,
       padding: const EdgeInsets.all(16.0),
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -15,8 +37,7 @@ class WithdrawCard extends StatelessWidget {
           topRight: Radius.circular(58),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
         children: [
           const SizedBox(
             height: 25,
@@ -36,9 +57,10 @@ class WithdrawCard extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          const TextField(
+          TextField(
+            enabled: false,
             decoration: InputDecoration(
-              hintText: '956',
+              hintText: widget.amount.toString(),
             ),
           ),
           const SizedBox(
@@ -48,8 +70,9 @@ class WithdrawCard extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          const TextField(
-            decoration: InputDecoration(
+          TextField(
+            controller: accountNameController,
+            decoration: const InputDecoration(
               hintText: 'Sumit Ray',
             ),
           ),
@@ -60,8 +83,9 @@ class WithdrawCard extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          const TextField(
-            decoration: InputDecoration(
+          TextField(
+            controller: bankNameController,
+            decoration: const InputDecoration(
               hintText: 'NIC ASIA MOBANK',
             ),
           ),
@@ -73,15 +97,26 @@ class WithdrawCard extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          const TextField(
-            decoration: InputDecoration(
+          TextField(
+            controller: bankNumberController,
+            decoration: const InputDecoration(
               hintText: '012567154321076',
             ),
           ),
           const SizedBox(
             height: 45,
           ),
-          LoadingButton(onClick: () {}, buttonName: 'Withdraw')
+          Obx(
+            () => LoadingButton(
+                loading: transactionController.isLoading.value,
+                onClick: () async {
+                  await transactionController.withdraw(
+                      accountNameController.text,
+                      bankNameController.text,
+                      bankNumberController.text);
+                },
+                buttonName: 'Withdraw'),
+          )
         ],
       ),
     );

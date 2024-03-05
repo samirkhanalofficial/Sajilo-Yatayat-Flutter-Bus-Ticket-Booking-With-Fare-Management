@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class SuccessCard extends StatelessWidget {
@@ -30,7 +31,9 @@ class SuccessCard extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.back();
+            },
             child: const Text("Done"),
           )
         ],

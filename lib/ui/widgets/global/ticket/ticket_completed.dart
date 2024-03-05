@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/models/fare_details.dart';
-import 'package:tryapp/ui/pages/bus/seats/pay_fare_bottom_sheet.dart';
 
-class TicketCancelled extends StatefulWidget {
+class TicketCompleted extends StatefulWidget {
   final FareDetails fareDetails;
-  final Function onCancel;
 
-  const TicketCancelled({
+  const TicketCompleted({
     super.key,
     required this.fareDetails,
-    required this.onCancel,
   });
 
   @override
-  State<TicketCancelled> createState() => _TicketCancelledState();
+  State<TicketCompleted> createState() => _TicketCompletedState();
 }
 
-class _TicketCancelledState extends State<TicketCancelled> {
+class _TicketCompletedState extends State<TicketCompleted> {
   UserController userController = (UserController());
   @override
   void initState() {
@@ -83,11 +79,7 @@ class _TicketCancelledState extends State<TicketCancelled> {
                 children: [
                   Text(
                     widget.fareDetails.status,
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: widget.fareDetails.status == 'ACCEPTED'
-                            ? const Color(0xFFC4C816)
-                            : Colors.red),
+                    style: const TextStyle(fontSize: 14, color: Colors.green),
                   ),
                   Text(
                     widget.fareDetails.departure.time,
@@ -108,54 +100,6 @@ class _TicketCancelledState extends State<TicketCancelled> {
             '#${widget.fareDetails.id}',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
-          widget.fareDetails.status == 'ACCEPTED'
-              ? Obx(
-                  () => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      !userController.isPassengerCheck.value
-                          ? const SizedBox.shrink()
-                          : TextButton.icon(
-                              onPressed: () {
-                                Get.bottomSheet(
-                                  PayFareBottomSheet(
-                                    fareDetails: widget.fareDetails,
-                                  ),
-                                  enableDrag: true,
-                                  isScrollControlled: true,
-                                  elevation: 2,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(35),
-                                      topRight: Radius.circular(35),
-                                    ),
-                                  ),
-                                  backgroundColor: Colors.white,
-                                );
-                              },
-                              icon: const Icon(Icons.payment),
-                              label: const Text('PayNow'),
-                            ),
-                      TextButton.icon(
-                        onPressed: () {
-                          widget.onCancel();
-                        },
-                        icon: const Icon(
-                          Icons.cancel,
-                          color: Colors.red,
-                        ),
-                        label: const Text(
-                          'Cancel',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.red,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : const SizedBox(),
         ],
       ),
     );
