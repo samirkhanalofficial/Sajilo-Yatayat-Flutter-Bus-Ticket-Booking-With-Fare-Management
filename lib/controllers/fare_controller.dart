@@ -164,7 +164,7 @@ class FareController extends GetxController {
           apiHelper.response.value!.amount;
       fares.firstWhere((element) => element.id == fareId).isFaredByUser =
           apiHelper.response.value!.isFaredByUser;
-      print(apiHelper.response.value!.isFaredByUser);
+
       Get.back();
     }
     isLoading(false);

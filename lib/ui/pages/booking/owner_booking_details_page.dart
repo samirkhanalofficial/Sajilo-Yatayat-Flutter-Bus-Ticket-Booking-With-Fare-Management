@@ -79,6 +79,8 @@ class _UserBookingDetailsPageState extends State<OwnerBookingDetailsPage> {
                       child: fareData.status == 'PAID'
                           ? TicketBooked(
                               fareDetails: fareData,
+                              onCancel: () =>
+                                  fareController.cancelFare(fareData.id),
                             )
                           : fareData.status == 'CANCELLED' ||
                                   fareData.status == 'ACCEPTED' ||
