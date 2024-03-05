@@ -98,7 +98,7 @@ class _TicketBookedState extends State<TicketBooked> {
               TextButton.icon(
                 onPressed: () {
                   Get.to(() => GenerateQrPage(
-                        fareId: widget.fareDetails.id,
+                        fare: widget.fareDetails,
                       ));
                 },
                 icon: const Icon(Icons.document_scanner_outlined),

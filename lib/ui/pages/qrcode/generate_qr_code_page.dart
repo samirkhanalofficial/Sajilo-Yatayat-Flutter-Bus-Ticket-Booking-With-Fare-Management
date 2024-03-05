@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:tryapp/models/fare_details.dart';
 
 class GenerateQrPage extends StatelessWidget {
-  final String fareId;
-  const GenerateQrPage({super.key, required this.fareId});
+  final FareDetails fare;
+  const GenerateQrPage({super.key, required this.fare});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class GenerateQrPage extends StatelessWidget {
                   color: Colors.white,
                 ),
                 child: QrImageView(
-                  data: fareId,
+                  data: fare.id.toString(),
                   version: QrVersions.auto,
                   size: 320,
                   gapless: false,

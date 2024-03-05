@@ -4,6 +4,7 @@ import 'package:tryapp/controllers/fare_controller.dart';
 import 'package:tryapp/ui/widgets/global/ticket/ticket_bargain.dart';
 import 'package:tryapp/ui/widgets/global/ticket/ticket_booked.dart';
 import 'package:tryapp/ui/widgets/global/ticket/ticket_cancelled.dart';
+import 'package:tryapp/ui/widgets/global/ticket/ticket_completed.dart';
 import 'package:tryapp/ui/widgets/global/wallet/bargain_current_fare_card.dart';
 
 class UserBookingDetailsPage extends StatefulWidget {
@@ -75,35 +76,37 @@ class _UserBookingDetailsPageState extends State<UserBookingDetailsPage> {
                   ...fareController.fares.map(
                     (fareData) => Padding(
                       padding: const EdgeInsets.only(bottom: 16.0),
-                      child: fareData.status == 'PAID'
-                          ? TicketBooked(
-                              fareDetails: fareData,
-                              onCancel: () =>
-                                  fareController.cancelFare(fareData.id),
-                            )
-                          : fareData.status == 'CANCELLED' ||
-                                  fareData.status == 'ACCEPTED' ||
-                                  fareData.status == 'REJECTED'
-                              ? TicketCancelled(
+                      child: fareData.status == 'COMPLETED'
+                          ? TicketCompleted(fareDetails: fareData)
+                          : fareData.status == 'PAID'
+                              ? TicketBooked(
                                   fareDetails: fareData,
                                   onCancel: () =>
                                       fareController.cancelFare(fareData.id),
                                 )
-                              : TicketBargan(
-                                  fareDetails: fareData,
-                                  onAccept: () =>
-                                      fareController.acceptFare(fareData.id),
-                                  onReject: () =>
-                                      fareController.rejectFare(fareData.id),
-                                  onCancel: () =>
-                                      fareController.cancelFare(fareData.id),
-                                  onProposeNewFare: () {
-                                    Get.bottomSheet(BargainFairCard(
+                              : fareData.status == 'CANCELLED' ||
+                                      fareData.status == 'ACCEPTED' ||
+                                      fareData.status == 'REJECTED'
+                                  ? TicketCancelled(
                                       fareDetails: fareData,
-                                      fareController: fareController,
-                                    ));
-                                  },
-                                ),
+                                      onCancel: () => fareController
+                                          .cancelFare(fareData.id),
+                                    )
+                                  : TicketBargan(
+                                      fareDetails: fareData,
+                                      onAccept: () => fareController
+                                          .acceptFare(fareData.id),
+                                      onReject: () => fareController
+                                          .rejectFare(fareData.id),
+                                      onCancel: () => fareController
+                                          .cancelFare(fareData.id),
+                                      onProposeNewFare: () {
+                                        Get.bottomSheet(BargainFairCard(
+                                          fareDetails: fareData,
+                                          fareController: fareController,
+                                        ));
+                                      },
+                                    ),
                     ),
                   ),
               ],

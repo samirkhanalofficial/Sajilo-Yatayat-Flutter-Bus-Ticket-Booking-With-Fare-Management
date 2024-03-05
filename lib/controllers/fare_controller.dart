@@ -6,6 +6,7 @@ import 'package:tryapp/helper/api_helper.dart';
 import 'package:tryapp/models/fare_details.dart';
 import 'package:tryapp/ui/pages/bus/seats/pay_fare_bottom_sheet.dart';
 import 'package:tryapp/ui/pages/home/user_home.dart';
+import 'package:tryapp/ui/widgets/global/wallet/success_card.dart';
 
 class FareController extends GetxController {
   Rx<bool> isLoading = false.obs;
@@ -141,8 +142,9 @@ class FareController extends GetxController {
         url: completeFareUrl(fareId),
         parseJsonToObject: (json) => FareDetails.fromJson(json));
     if (apiHelper.successfullResponse.value) {
-      fares.firstWhere((element) => element.id == fareId).status =
-          apiHelper.response.value!.status;
+      // fares.firstWhere((element) => element.id == fareId).status =
+      //     apiHelper.response.value!.status;
+      Get.bottomSheet(const SuccessCard());
     }
     isLoading(false);
   }
