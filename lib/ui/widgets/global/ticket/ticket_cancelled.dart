@@ -106,49 +106,51 @@ class _TicketCancelledState extends State<TicketCancelled> {
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           widget.fareDetails.status == 'ACCEPTED'
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    userController.isPassengerCheck.value
-                        ? TextButton.icon(
-                            onPressed: () {
-                              Get.bottomSheet(
-                                PayFareBottomSheet(
-                                  fareDetails: widget.fareDetails,
-                                ),
-                                enableDrag: true,
-                                isScrollControlled: true,
-                                elevation: 2,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(35),
-                                    topRight: Radius.circular(35),
+              ? Obx(
+                  () => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      userController.isPassengerCheck.value
+                          ? TextButton.icon(
+                              onPressed: () {
+                                Get.bottomSheet(
+                                  PayFareBottomSheet(
+                                    fareDetails: widget.fareDetails,
                                   ),
-                                ),
-                                backgroundColor: Colors.white,
-                              );
-                            },
-                            icon: const Icon(Icons.payment),
-                            label: const Text('PayNow'),
-                          )
-                        : const SizedBox.shrink(),
-                    TextButton.icon(
-                      onPressed: () {
-                        widget.onCancel();
-                      },
-                      icon: const Icon(
-                        Icons.cancel,
-                        color: Colors.red,
-                      ),
-                      label: const Text(
-                        'Cancel',
-                        style: TextStyle(
-                          fontSize: 16,
+                                  enableDrag: true,
+                                  isScrollControlled: true,
+                                  elevation: 2,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(35),
+                                      topRight: Radius.circular(35),
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.white,
+                                );
+                              },
+                              icon: const Icon(Icons.payment),
+                              label: const Text('PayNow'),
+                            )
+                          : const SizedBox.shrink(),
+                      TextButton.icon(
+                        onPressed: () {
+                          widget.onCancel();
+                        },
+                        icon: const Icon(
+                          Icons.cancel,
                           color: Colors.red,
                         ),
+                        label: const Text(
+                          'Cancel',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.red,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 )
               : const SizedBox(),
         ],
