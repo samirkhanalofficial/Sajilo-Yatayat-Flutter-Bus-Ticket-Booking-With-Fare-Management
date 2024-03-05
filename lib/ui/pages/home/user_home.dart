@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:tryapp/controllers/location_controller.dart';
 import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/pages/booking/owner_booking_details_page.dart';
+import 'package:tryapp/ui/pages/qrcode/scan_qr_code_page.dart';
 import 'package:tryapp/ui/pages/registration/owner/owner_home_page.dart';
 import 'package:tryapp/ui/pages/registration/user/search_bus.dart';
 import 'package:tryapp/ui/pages/booking/user_booking_details_page.dart';
@@ -77,7 +79,9 @@ class _UserHomeState extends State<UserHome> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(Iconsax.scan),
-        onPressed: () {},
+        onPressed: () {
+          Get.to(() => QRCodeScannerApp());
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
