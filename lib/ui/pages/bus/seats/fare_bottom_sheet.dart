@@ -42,10 +42,11 @@ class _FareBottomSheetState extends State<FareBottomSheet> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 300,
-      child: Column(
+      child: ListView(
+        padding: const EdgeInsets.all(16),
         children: [
           const SizedBox(
-            height: 60,
+            height: 20,
           ),
           Text('Book seat', style: Theme.of(context).textTheme.titleLarge),
           Padding(
@@ -54,7 +55,13 @@ class _FareBottomSheetState extends State<FareBottomSheet> {
                 'After you fare, it can only proceed ahead after another person approves it.',
                 style: Theme.of(context).textTheme.bodyLarge),
           ),
+          const SizedBox(
+            height: 10,
+          ),
           PinInputFiled(length: 5, controller: priceController),
+          const SizedBox(
+            height: 16,
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Obx(

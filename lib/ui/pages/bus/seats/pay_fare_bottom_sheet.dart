@@ -35,10 +35,11 @@ class _PayFareBottomSheetState extends State<PayFareBottomSheet> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 500,
-      child: Column(
+      child: ListView(
+        padding: const EdgeInsets.all(16),
         children: [
           const SizedBox(
-            height: 60,
+            height: 20,
           ),
           Text('Pay to Confirm', style: Theme.of(context).textTheme.titleLarge),
           Padding(

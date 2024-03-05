@@ -244,6 +244,7 @@ class _AddBusPageState extends State<AddBusPage> {
                       style: Theme.of(context).textTheme.titleSmall),
                   Obx(
                     () => GridView.count(
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       mainAxisSpacing: 0.1,
                       crossAxisCount: 3,

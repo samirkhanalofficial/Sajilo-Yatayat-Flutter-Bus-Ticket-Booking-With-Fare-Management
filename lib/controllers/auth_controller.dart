@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,6 +40,7 @@ class AuthController extends GetxController {
   }
 
   void verifyOtp(String otp, String vId) async {
+    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
       isLoading.value = true;
@@ -50,6 +52,7 @@ class AuthController extends GetxController {
       await auth.signInWithCredential(credential);
       UserController userController = UserController();
       bool userExists = await userController.userExists();
+
       if (!userExists) {
         Get.offAllNamed(
           RoutesNames.userRegistrationPage,
@@ -59,6 +62,9 @@ class AuthController extends GetxController {
         String role = sf.getString("role") ?? "Passenger";
         if (role == "Passenger") {
           sf.setBool("isLogginned", true);
+          firebaseMessaging
+              .subscribeToTopic(userController.userDetails.value!.id);
+
           Get.offAllNamed(
             RoutesNames.userHomePage,
           );
@@ -72,6 +78,7 @@ class AuthController extends GetxController {
           } else {
             sf.setBool("isLogginned", true);
             busController.setSelectedBus(busController.myBuses[0].id);
+            firebaseMessaging.subscribeToTopic(busController.myBuses[0].id);
             Get.offAllNamed(
               RoutesNames.userHomePage,
             );
