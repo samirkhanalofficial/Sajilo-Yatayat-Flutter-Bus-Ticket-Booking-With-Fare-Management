@@ -106,11 +106,17 @@ class BusController extends GetxController {
   }
 
   Future<void> setSelectedBus(String busId) async {
-    SharedPreferences sf = await SharedPreferences.getInstance();
+    try {
+      SharedPreferences sf = await SharedPreferences.getInstance();
 
-    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-    firebaseMessaging.subscribeToTopic(await getSelectedBus());
-    sf.setString("myBusId", busId);
+      FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+
+      sf.setString("myBusId", busId);
+      await firebaseMessaging.subscribeToTopic(busId);
+    } catch (e) {
+      print("setting selected bus error");
+      print(e);
+    }
   }
 
   Future<String> getSelectedBus() async {

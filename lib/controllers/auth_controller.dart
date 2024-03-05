@@ -78,7 +78,6 @@ class AuthController extends GetxController {
           } else {
             sf.setBool("isLogginned", true);
             busController.setSelectedBus(busController.myBuses[0].id);
-            firebaseMessaging.subscribeToTopic(busController.myBuses[0].id);
             Get.offAllNamed(
               RoutesNames.userHomePage,
             );
