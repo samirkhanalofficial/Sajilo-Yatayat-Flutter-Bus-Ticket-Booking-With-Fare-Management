@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tryapp/models/fare_details.dart';
+import 'package:tryapp/ui/pages/qrcode/generate_qr_code_page.dart';
 
 class TicketBooked extends StatelessWidget {
   final FareDetails fareDetails;
@@ -86,7 +88,11 @@ class TicketBooked extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => GenerateQrPage(
+                        fareId: fareDetails.id,
+                      ));
+                },
                 icon: const Icon(Icons.document_scanner_outlined),
                 label: const Text(
                   'Show QR',
