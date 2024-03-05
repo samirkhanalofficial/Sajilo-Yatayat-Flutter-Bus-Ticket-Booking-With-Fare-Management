@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:tryapp/config/constants/urls.dart';
 import 'package:tryapp/controllers/bus_controller.dart';
 import 'package:tryapp/helper/api_helper.dart';
 import 'package:tryapp/models/departure_details.dart';
+import 'package:tryapp/ui/widgets/global/bus/departure_added_sheet.dart';
 
 class DepartureController extends GetxController {
   Rx<bool> isLoading = false.obs;
@@ -37,11 +36,8 @@ class DepartureController extends GetxController {
         parseJsonToObject: (json) => DepartureDetails.fromJson(json));
     if (apiHelper.successfullResponse.value) {
       departures.add(apiHelper.response.value!);
-      QuickAlert.show(
-        context: Get.context!,
-        type: QuickAlertType.success,
-        title: 'Departure Added',
-        text: "Departure has been created. You can now get Bookings.",
+      Get.bottomSheet(
+        const DepartureAdded(),
       );
     }
     isLoading(false);

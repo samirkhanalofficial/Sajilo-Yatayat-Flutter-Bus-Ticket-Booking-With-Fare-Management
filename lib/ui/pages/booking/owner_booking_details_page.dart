@@ -62,6 +62,16 @@ class _UserBookingDetailsPageState extends State<OwnerBookingDetailsPage> {
                 const SizedBox(
                   height: 25,
                 ),
+                if (fareController.fares.isEmpty)
+                  const SizedBox(
+                    height: 60,
+                  ),
+                Center(
+                  child: Image.asset(
+                    'asset/images/nodata.png',
+                    width: 150,
+                  ),
+                ),
                 if (fareController.isLoading.value)
                   const Center(
                     child: Padding(

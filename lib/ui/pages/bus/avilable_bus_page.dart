@@ -63,6 +63,8 @@ class _AvilableBusPageState extends State<AvilableBusPage> {
                       ),
                     ),
                   ),
+
+                  
                 if (!departureController.isLoading.value)
                   ...departureController.departures.map(
                     (departureData) => Padding(

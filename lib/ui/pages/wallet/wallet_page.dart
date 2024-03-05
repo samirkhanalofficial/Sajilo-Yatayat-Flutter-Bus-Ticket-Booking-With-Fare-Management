@@ -80,6 +80,16 @@ class _WalletPageState extends State<WalletPage> {
               const SizedBox(
                 height: 25,
               ),
+              if (transactionController.transactions.isEmpty)
+                const SizedBox(
+                  height: 60,
+                ),
+              Center(
+                child: Image.asset(
+                  'asset/images/nodata.png',
+                  width: 150,
+                ),
+              ),
               if (transactionController.isLoading.value)
                 const Padding(
                   padding: EdgeInsets.all(28.0),
