@@ -104,7 +104,6 @@ class FareController extends GetxController {
 
   Future<void> rejectFare(String fareId) async {
     isLoading(true);
-    fares([]);
     APIHelper<FareDetails> apiHelper = APIHelper();
     await apiHelper.fetch(
         method: REQMETHOD.patch,
@@ -120,7 +119,6 @@ class FareController extends GetxController {
 
   Future<void> cancelFare(String fareId) async {
     isLoading(true);
-    fares([]);
     APIHelper<FareDetails> apiHelper = APIHelper();
     await apiHelper.fetch(
         method: REQMETHOD.patch,
@@ -136,7 +134,6 @@ class FareController extends GetxController {
 
   Future<void> completeFare(String fareId) async {
     isLoading(true);
-    fares([]);
     APIHelper<FareDetails> apiHelper = APIHelper();
     await apiHelper.fetch(
         body: {},
@@ -152,7 +149,6 @@ class FareController extends GetxController {
 
   Future<void> changePriceAndOfferFare(String fareId, double amount) async {
     isLoading(true);
-    fares([]);
     APIHelper<FareDetails> apiHelper = APIHelper();
     await apiHelper.fetch(
         method: REQMETHOD.patch,
@@ -166,6 +162,10 @@ class FareController extends GetxController {
           apiHelper.response.value!.status;
       fares.firstWhere((element) => element.id == fareId).amount =
           apiHelper.response.value!.amount;
+      fares.firstWhere((element) => element.id == fareId).isFaredByUser =
+          apiHelper.response.value!.isFaredByUser;
+      print(apiHelper.response.value!.isFaredByUser);
+      Get.back();
     }
     isLoading(false);
   }

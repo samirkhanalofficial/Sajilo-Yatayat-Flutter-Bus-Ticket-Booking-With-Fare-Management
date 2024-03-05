@@ -4,6 +4,7 @@ import 'package:tryapp/controllers/fare_controller.dart';
 import 'package:tryapp/ui/widgets/global/ticket/ticket_bargain.dart';
 import 'package:tryapp/ui/widgets/global/ticket/ticket_booked.dart';
 import 'package:tryapp/ui/widgets/global/ticket/ticket_cancelled.dart';
+import 'package:tryapp/ui/widgets/global/wallet/bargain_current_fare_card.dart';
 
 class UserBookingDetailsPage extends StatefulWidget {
   const UserBookingDetailsPage({super.key});
@@ -13,11 +14,17 @@ class UserBookingDetailsPage extends StatefulWidget {
 }
 
 class _UserBookingDetailsPageState extends State<UserBookingDetailsPage> {
-  final FareController fareController = (FareController());
+  final FareController fareController = FareController();
   @override
   void initState() {
     fareController.getUsersFare();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    fareController.dispose();
+    super.dispose();
   }
 
   @override
@@ -77,6 +84,8 @@ class _UserBookingDetailsPageState extends State<UserBookingDetailsPage> {
                                   fareData.status == 'REJECTED'
                               ? TicketCancelled(
                                   fareDetails: fareData,
+                                  onCancel: () =>
+                                      fareController.cancelFare(fareData.id),
                                 )
                               : TicketBargan(
                                   fareDetails: fareData,
@@ -84,6 +93,14 @@ class _UserBookingDetailsPageState extends State<UserBookingDetailsPage> {
                                       fareController.acceptFare(fareData.id),
                                   onReject: () =>
                                       fareController.rejectFare(fareData.id),
+                                  onCancel: () =>
+                                      fareController.cancelFare(fareData.id),
+                                  onProposeNewFare: () {
+                                    Get.bottomSheet(BargainFairCard(
+                                      fareDetails: fareData,
+                                      fareController: fareController,
+                                    ));
+                                  },
                                 ),
                     ),
                   ),

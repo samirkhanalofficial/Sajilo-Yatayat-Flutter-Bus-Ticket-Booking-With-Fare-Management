@@ -3,7 +3,9 @@ import 'package:tryapp/models/fare_details.dart';
 
 class TicketCancelled extends StatelessWidget {
   final FareDetails fareDetails;
-  const TicketCancelled({super.key, required this.fareDetails});
+  final Function onCancel;
+  const TicketCancelled(
+      {super.key, required this.fareDetails, required this.onCancel});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +82,35 @@ class TicketCancelled extends StatelessWidget {
           Text(
             '#${fareDetails.id}',
             style: Theme.of(context).textTheme.bodyMedium,
-          )
+          ),
+          fareDetails.status == 'ACCEPTED'
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.payment),
+                      label: const Text('PayNow'),
+                    ),
+                    TextButton.icon(
+                      onPressed: () {
+                        onCancel();
+                      },
+                      icon: const Icon(
+                        Icons.cancel,
+                        color: Colors.red,
+                      ),
+                      label: const Text(
+                        'Cancel',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : const SizedBox(),
         ],
       ),
     );
