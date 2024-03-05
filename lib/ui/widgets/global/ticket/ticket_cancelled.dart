@@ -1,11 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/models/fare_details.dart';
+import 'package:tryapp/ui/pages/bus/seats/pay_fare_bottom_sheet.dart';
 
-class TicketCancelled extends StatelessWidget {
+class TicketCancelled extends StatefulWidget {
   final FareDetails fareDetails;
   final Function onCancel;
   const TicketCancelled(
       {super.key, required this.fareDetails, required this.onCancel});
+
+  @override
+  State<TicketCancelled> createState() => _TicketCancelledState();
+}
+
+class _TicketCancelledState extends State<TicketCancelled> {
+  UserController userController = (UserController());
+  @override
+  void initState() {
+    userController.isPassenger();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    userController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +49,7 @@ class TicketCancelled extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "${fareDetails.departure.from.name} to ${fareDetails.departure.to.name}",
+            "${widget.fareDetails.departure.from.name} to ${widget.fareDetails.departure.to.name}",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(
@@ -40,15 +62,15 @@ class TicketCancelled extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    fareDetails.amount.toString(),
+                    widget.fareDetails.amount.toString(),
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Text(
-                    fareDetails.bus.busnumber,
+                    widget.fareDetails.bus.busnumber,
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
                   Text(
-                    "Seats: ${fareDetails.seats} ",
+                    "Seats: ${widget.fareDetails.seats} ",
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
@@ -57,19 +79,19 @@ class TicketCancelled extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    fareDetails.status,
+                    widget.fareDetails.status,
                     style: TextStyle(
                         fontSize: 14,
-                        color: fareDetails.status == 'ACCEPTED'
+                        color: widget.fareDetails.status == 'ACCEPTED'
                             ? const Color(0xFFC4C816)
                             : Colors.red),
                   ),
                   Text(
-                    fareDetails.departure.time,
+                    widget.fareDetails.departure.time,
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Text(
-                    fareDetails.departure.date,
+                    widget.fareDetails.departure.date,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
@@ -80,21 +102,39 @@ class TicketCancelled extends StatelessWidget {
             height: 6,
           ),
           Text(
-            '#${fareDetails.id}',
+            '#${widget.fareDetails.id}',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
-          fareDetails.status == 'ACCEPTED'
+          widget.fareDetails.status == 'ACCEPTED'
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.payment),
-                      label: const Text('PayNow'),
-                    ),
+                    userController.isPassengerCheck.value
+                        ? TextButton.icon(
+                            onPressed: () {
+                              Get.bottomSheet(
+                                PayFareBottomSheet(
+                                  fareDetails: widget.fareDetails,
+                                ),
+                                enableDrag: true,
+                                isScrollControlled: true,
+                                elevation: 2,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(35),
+                                    topRight: Radius.circular(35),
+                                  ),
+                                ),
+                                backgroundColor: Colors.white,
+                              );
+                            },
+                            icon: const Icon(Icons.payment),
+                            label: const Text('PayNow'),
+                          )
+                        : const SizedBox.shrink(),
                     TextButton.icon(
                       onPressed: () {
-                        onCancel();
+                        widget.onCancel();
                       },
                       icon: const Icon(
                         Icons.cancel,
