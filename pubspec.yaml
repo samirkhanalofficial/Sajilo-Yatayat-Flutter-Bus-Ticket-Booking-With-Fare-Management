@@ -52,7 +52,6 @@ dependencies:
   firebase_messaging: ^14.7.17
   flutter_local_notifications: ^16.3.2
   url_launcher: ^6.2.5
-  qr_bar_code_scanner_dialog: ^0.0.5
 
 dev_dependencies:
   flutter_test:
