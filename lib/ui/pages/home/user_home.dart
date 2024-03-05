@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:qr_bar_code_scanner_dialog/qr_bar_code_scanner_dialog.dart';
 import 'package:tryapp/controllers/location_controller.dart';
 import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/pages/booking/owner_booking_details_page.dart';
 import 'package:tryapp/ui/pages/qrcode/scan_qr_code_page.dart';
-import 'package:tryapp/ui/pages/registration/owner/owner_home_page.dart';
-import 'package:tryapp/ui/pages/registration/user/search_bus.dart';
+import 'package:tryapp/ui/pages/home/owner_home_page.dart';
+import 'package:tryapp/ui/pages/bus/search_bus.dart';
 import 'package:tryapp/ui/pages/booking/user_booking_details_page.dart';
-import 'package:tryapp/ui/pages/registration/user/user_profile.dart';
+import 'package:tryapp/ui/pages/home/user/user_profile.dart';
 import 'package:tryapp/ui/pages/wallet/wallet_page.dart';
 import 'package:tryapp/ui/widgets/global/nav_bar.dart';
 
@@ -22,6 +23,8 @@ class UserHome extends StatefulWidget {
 
 class _UserHomeState extends State<UserHome> {
   int currentPage = 0;
+  final _qrBarCodeScannerDialogPlugin = QrBarCodeScannerDialog();
+  String? code;
   UserController userController = (UserController());
   final LocationController locationController = (LocationController());
 
@@ -80,7 +83,13 @@ class _UserHomeState extends State<UserHome> {
         backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(Iconsax.scan),
         onPressed: () {
-          Get.to(() => const QRCodeScannerApp());
+          _qrBarCodeScannerDialogPlugin.getScannedQrBarCode(
+              context: context,
+              onCode: (code) {
+                setState(() {
+                  this.code = code;
+                });
+              });
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
