@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
+import 'package:tryapp/controllers/bus_controller.dart';
 import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/ui/widgets/global/user_details.dart';
 
@@ -47,10 +49,24 @@ class _UserProfileState extends State<UserProfile> {
                                   MaterialStateProperty.all<Color>(Colors.red),
                             ),
                             onPressed: () async {
+                              FirebaseMessaging firebaseMessaging =
+                                  FirebaseMessaging.instance;
+
                               FirebaseAuth.instance.signOut();
                               SharedPreferences sf =
                                   await SharedPreferences.getInstance();
-                              sf.setBool("isLogginned", false);
+                              firebaseMessaging.unsubscribeFromTopic(
+                                  widget.userController.userDetails.value?.id ??
+                                      "");
+                              BusController busController = BusController();
+                              String selectedBus =
+                                  await busController.getSelectedBus();
+                              if (selectedBus != "") {
+                                firebaseMessaging
+                                    .unsubscribeFromTopic(selectedBus);
+                              }
+
+                              sf.clear();
                               Get.offAllNamed(RoutesNames.splashScreenPage);
                             },
                             icon: const Icon(

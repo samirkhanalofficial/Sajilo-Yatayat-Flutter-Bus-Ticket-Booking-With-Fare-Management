@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tryapp/config/constants/urls.dart';
@@ -28,6 +29,8 @@ class UserController extends GetxController {
         SharedPreferences sf = await SharedPreferences.getInstance();
 
         sf.setBool("isLogginned", true);
+        FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+        firebaseMessaging.subscribeToTopic(apiHelper.response.value!.name);
         Get.offAllNamed(
           RoutesNames.userHomePage,
         );
