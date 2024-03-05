@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tryapp/models/fare_details.dart';
 import 'package:tryapp/ui/pages/qrcode/generate_qr_code_page.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-class TicketBooked extends StatelessWidget {
+class TicketBooked extends StatefulWidget {
   final FareDetails fareDetails;
+  final Function onCancel;
 
-  const TicketBooked({super.key, required this.fareDetails});
+  const TicketBooked(
+      {super.key, required this.fareDetails, required this.onCancel});
 
+  @override
+  State<TicketBooked> createState() => _TicketBookedState();
+}
+
+class _TicketBookedState extends State<TicketBooked> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +36,7 @@ class TicketBooked extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "${fareDetails.departure.from.name} to ${fareDetails.departure.to.name}",
+            "${widget.fareDetails.departure.from.name} to ${widget.fareDetails.departure.to.name}",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(
@@ -41,22 +49,22 @@ class TicketBooked extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Rs. ${fareDetails.amount}",
+                    "Rs. ${widget.fareDetails.amount}",
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Text(
-                    fareDetails.bus.busnumber,
+                    widget.fareDetails.bus.busnumber,
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
                   Text(
-                    "Seats: ${fareDetails.seats}",
+                    "Seats: ${widget.fareDetails.seats}",
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   const SizedBox(
                     height: 8,
                   ),
                   Text(
-                    "#${fareDetails.id}",
+                    "#${widget.fareDetails.id}",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
@@ -65,15 +73,15 @@ class TicketBooked extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    fareDetails.status,
+                    widget.fareDetails.status,
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                   Text(
-                    fareDetails.departure.time,
+                    widget.fareDetails.departure.time,
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Text(
-                    fareDetails.departure.date,
+                    widget.fareDetails.departure.date,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
@@ -90,7 +98,7 @@ class TicketBooked extends StatelessWidget {
               TextButton.icon(
                 onPressed: () {
                   Get.to(() => GenerateQrPage(
-                        fareId: fareDetails.id,
+                        fareId: widget.fareDetails.id,
                       ));
                 },
                 icon: const Icon(Icons.document_scanner_outlined),
@@ -100,7 +108,10 @@ class TicketBooked extends StatelessWidget {
                 ),
               ),
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  launchUrlString(
+                      "tel://${widget.fareDetails.isFaredByUser ? widget.fareDetails.bus.owners.first.mobile : widget.fareDetails.faredBy.mobile}");
+                },
                 icon: const Icon(Icons.call),
                 label: const Text(
                   'Call',
@@ -108,7 +119,9 @@ class TicketBooked extends StatelessWidget {
                 ),
               ),
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  widget.onCancel();
+                },
                 icon: const Icon(
                   Icons.cancel,
                   color: Colors.red,

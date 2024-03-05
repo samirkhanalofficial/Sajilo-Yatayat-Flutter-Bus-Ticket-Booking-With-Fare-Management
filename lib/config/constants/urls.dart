@@ -1,5 +1,9 @@
 // const baseUrl = 'https://sajiloyatayatbackend.samirk.com.np';
+<<<<<<< Updated upstream
 const baseUrl = 'https://nfzvvxpn-3001.euw.devtunnels.ms';
+=======
+const baseUrl = 'http://192.168.1.97:3001';
+>>>>>>> Stashed changes
 const registerUserUrl = '$baseUrl/user/create';
 const getUserDetailsUrl = '$baseUrl/user/mydetails';
 
