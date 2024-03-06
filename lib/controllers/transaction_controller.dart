@@ -8,35 +8,60 @@ import 'package:tryapp/ui/pages/home/user_home.dart';
 class TransactionController extends GetxController {
   RxList<TransactionDetails> transactions = RxList([]);
   Rx<bool> isLoading = false.obs;
-  Future<void> getUsersTransactions() async {
-    isLoading(true);
-    transactions([]);
+  Rx<bool> isFirstTime = true.obs;
+
+  Future<void> getUsersTransactions({bool shouldReload = false}) async {
+    if (isFirstTime.value) {
+      isLoading(true);
+    }
     APIHelper<List<TransactionDetails>> apiHelper = APIHelper();
     await apiHelper.fetch(
         method: REQMETHOD.get,
         url: getUsersTransactionsUrl,
+        isFirstTime: shouldReload,
         parseJsonToObject: (json) {
+          transactions([]);
+
           for (var a in json) {
             transactions.add(TransactionDetails.fromJson(a));
           }
           return transactions;
         });
+    if (apiHelper.successfullResponse.value) {
+      if (shouldReload) {
+        Future.delayed(const Duration(seconds: 3),
+            () async => await getUsersTransactions(shouldReload: true));
+      }
+      isFirstTime(false);
+    }
     isLoading(false);
   }
 
-  Future<void> getBusTransactions() async {
-    isLoading(true);
-    transactions([]);
+  Future<void> getBusTransactions({bool shouldReload = false}) async {
+    if (isFirstTime.value) {
+      isLoading(true);
+    }
     APIHelper<List<TransactionDetails>> apiHelper = APIHelper();
     await apiHelper.fetch(
         method: REQMETHOD.get,
         url: getBusTransactionsUrl(await BusController().getSelectedBus()),
+        isFirstTime: shouldReload,
         parseJsonToObject: (json) {
+          transactions([]);
+
           for (var a in json) {
             transactions.add(TransactionDetails.fromJson(a));
           }
           return transactions;
         });
+
+    if (apiHelper.successfullResponse.value) {
+      if (shouldReload) {
+        Future.delayed(const Duration(seconds: 3),
+            () async => await getBusTransactions(shouldReload: true));
+      }
+      isFirstTime(false);
+    }
     isLoading(false);
   }
 

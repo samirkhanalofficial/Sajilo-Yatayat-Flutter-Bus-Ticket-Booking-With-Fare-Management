@@ -18,7 +18,7 @@ class _UserBookingDetailsPageState extends State<UserBookingDetailsPage> {
   final FareController fareController = FareController();
   @override
   void initState() {
-    fareController.getUsersFare();
+    fareController.getUsersFare(shouldReload: true);
     super.initState();
   }
 
@@ -72,16 +72,14 @@ class _UserBookingDetailsPageState extends State<UserBookingDetailsPage> {
                       ),
                     ),
                   ),
-                if (fareController.fares.isEmpty)
-                  const SizedBox(
-                    height: 60,
+                if (!fareController.isLoading.value &&
+                    fareController.fares.isEmpty)
+                  Center(
+                    child: Image.asset(
+                      'asset/images/nodata.png',
+                      width: 150,
+                    ),
                   ),
-                Center(
-                  child: Image.asset(
-                    'asset/images/nodata.png',
-                    width: 150,
-                  ),
-                ),
                 if (!fareController.isLoading.value)
                   ...fareController.fares.map(
                     (fareData) => Padding(

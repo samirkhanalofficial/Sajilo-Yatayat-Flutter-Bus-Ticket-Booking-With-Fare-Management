@@ -15,6 +15,7 @@ class BusController extends GetxController {
   RxList<String> busTypes = RxList([]);
   RxList<BusFeature> busFeatures = RxList([]);
   Rx<bool> isLoading = false.obs;
+  Rx<bool> isFirstTime = true.obs;
 
   Future<List<String>> uploadImages(List<String> imagesFileUrl) async {
     List<String> urls = [];
@@ -57,6 +58,8 @@ class BusController extends GetxController {
     List<String> features,
   ) async {
     isLoading(true);
+    myBuses([]);
+
     var uploadingImages = await uploadImages(images);
     APIHelper<BusDetails> apiHelper = APIHelper();
     await apiHelper.fetch(
@@ -88,19 +91,30 @@ class BusController extends GetxController {
     isLoading(false);
   }
 
-  Future<void> getMyBuses() async {
-    isLoading(true);
-    myBuses([]);
+  Future<void> getMyBuses({bool shouldReload = false}) async {
+    if (isFirstTime.value) {
+      isLoading(true);
+    }
     APIHelper<List<BusDetails>> apiHelper = APIHelper<List<BusDetails>>();
     await apiHelper.fetch(
         method: REQMETHOD.get,
+        isFirstTime: shouldReload,
         url: getmyBusesUrl,
         parseJsonToObject: (json) {
+          myBuses([]);
+
           for (var a in json) {
             myBuses.add(BusDetails.fromJson(a));
           }
           return myBuses;
         });
+    if (apiHelper.successfullResponse.value) {
+      if (shouldReload) {
+        Future.delayed(const Duration(seconds: 3),
+            () async => await getMyBuses(shouldReload: true));
+      }
+      isFirstTime(false);
+    }
 
     isLoading(false);
   }

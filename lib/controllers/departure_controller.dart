@@ -7,6 +7,7 @@ import 'package:tryapp/ui/widgets/global/bus/departure_added_sheet.dart';
 
 class DepartureController extends GetxController {
   Rx<bool> isLoading = false.obs;
+  Rx<bool> isFirstTime = false.obs;
   RxList<DepartureDetails> departures = RxList<DepartureDetails>([]);
   RxList<int> selectedSeats = RxList<int>([]);
   RxList<int> bookedSeats = RxList<int>([]);
@@ -81,20 +82,41 @@ class DepartureController extends GetxController {
     isLoading(false);
   }
 
-  Future<void> getBookedSeatsByDepartureId(String departureId) async {
-    isLoading(true);
-    bookedSeats([]);
+  Future<void> getBookedSeatsByDepartureId(String departureId,
+      {bool shouldReload = false}) async {
+    if (isFirstTime.value) {
+      isLoading(true);
+    }
     APIHelper<List<int>> apiHelper = APIHelper();
     await apiHelper.fetch(
         method: REQMETHOD.get,
+        isFirstTime: isFirstTime.value,
         url: getBookedSeatByDepartureIdUrl(departureId),
         parseJsonToObject: (json) {
+          bookedSeats([]);
+
           for (int a in json) {
             bookedSeats.add(a);
           }
           return bookedSeats;
         });
-
+    if (apiHelper.successfullResponse.value) {
+      for (var sSeat in selectedSeats) {
+        if (bookedSeats.contains(sSeat)) {
+          selectedSeats.removeWhere((element) => element == sSeat);
+        }
+      }
+      if (shouldReload) {
+        Future.delayed(
+          const Duration(seconds: 3),
+          () async => await getBookedSeatsByDepartureId(
+            departureId,
+            shouldReload: true,
+          ),
+        );
+      }
+      isFirstTime(false);
+    }
     isLoading(false);
   }
 }

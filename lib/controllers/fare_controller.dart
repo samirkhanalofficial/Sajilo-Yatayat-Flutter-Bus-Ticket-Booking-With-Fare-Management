@@ -11,6 +11,8 @@ import 'package:tryapp/ui/widgets/global/wallet/success_card.dart';
 class FareController extends GetxController {
   Rx<bool> isLoading = false.obs;
   RxList<FareDetails> fares = RxList<FareDetails>([]);
+  Rx<bool> isFirstTime = true.obs;
+
   addFare(
     String departureId,
     List<int> seats,
@@ -56,35 +58,56 @@ class FareController extends GetxController {
     isLoading(false);
   }
 
-  Future<void> getUsersFare() async {
-    isLoading(true);
-    fares([]);
+  Future<void> getUsersFare({bool shouldReload = false}) async {
+    if (isFirstTime.value) {
+      isLoading(true);
+    }
     APIHelper<List<FareDetails>> apiHelper = APIHelper();
     await apiHelper.fetch(
         method: REQMETHOD.get,
         url: getUserFareUrl,
+        isFirstTime: shouldReload,
         parseJsonToObject: (json) {
+          fares([]);
           for (var a in json) {
             fares.add(FareDetails.fromJson(a));
           }
           return fares;
         });
+    if (apiHelper.successfullResponse.value) {
+      if (shouldReload) {
+        Future.delayed(const Duration(seconds: 3),
+            () async => await getUsersFare(shouldReload: true));
+      }
+      isFirstTime(false);
+    }
     isLoading(false);
   }
 
-  Future<void> getBusFares() async {
-    isLoading(true);
-    fares([]);
+  Future<void> getBusFares({bool shouldReload = false}) async {
+    if (isFirstTime.value) {
+      isLoading(true);
+    }
     APIHelper<List<FareDetails>> apiHelper = APIHelper();
     await apiHelper.fetch(
         method: REQMETHOD.get,
+        isFirstTime: shouldReload,
         url: getBusFaresUrl(await BusController().getSelectedBus()),
         parseJsonToObject: (json) {
+          fares([]);
+
           for (var a in json) {
             fares.add(FareDetails.fromJson(a));
           }
           return fares;
         });
+    if (apiHelper.successfullResponse.value) {
+      if (shouldReload) {
+        Future.delayed(const Duration(seconds: 3),
+            () async => await getBusFares(shouldReload: true));
+      }
+      isFirstTime(false);
+    }
     isLoading(false);
   }
 

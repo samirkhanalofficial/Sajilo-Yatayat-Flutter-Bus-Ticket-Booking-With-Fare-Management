@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:tryapp/ui/pages/booking/user_booking_details_page.dart';
+import 'package:tryapp/ui/pages/bus/avilable_bus_page.dart';
 
 class DepartureAdded extends StatelessWidget {
   const DepartureAdded({super.key});
@@ -43,7 +43,7 @@ class DepartureAdded extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Get.to(() => const UserBookingDetailsPage());
+                  Get.to(() => const AvilableBusPage());
                 },
                 child: const Text("View Your Departures"),
               )

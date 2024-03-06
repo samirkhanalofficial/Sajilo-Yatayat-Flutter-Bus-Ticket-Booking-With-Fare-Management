@@ -25,7 +25,8 @@ class _SeatBookingPageState extends State<SeatBookingPage> {
   @override
   void initState() {
     userController.isPassenger();
-    departureController.getBookedSeatsByDepartureId(widget.departure.id);
+    departureController.getBookedSeatsByDepartureId(widget.departure.id,
+        shouldReload: true);
     super.initState();
   }
 

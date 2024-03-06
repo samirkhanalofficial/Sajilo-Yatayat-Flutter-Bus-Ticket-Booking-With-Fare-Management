@@ -97,19 +97,20 @@ class _UserProfileState extends State<UserProfile> {
                               viewportFraction: 0.9,
                             ),
                             children: [
-                              ...busController.myBuses.first.images.map(
-                                (imageUrl) => Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(19),
-                                    child: Container(
-                                      color: Colors.black,
-                                      child: CachedNetworkImage(
-                                          imageUrl: imageUrl),
+                              if (busController.myBuses.isNotEmpty)
+                                ...busController.myBuses.first.images.map(
+                                  (imageUrl) => Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(19),
+                                      child: Container(
+                                        color: Colors.black,
+                                        child: CachedNetworkImage(
+                                            imageUrl: imageUrl),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
                             ],
                           ),
                         ),
@@ -179,48 +180,49 @@ class _UserProfileState extends State<UserProfile> {
                                 "",
                       ),
                       if (!widget.userController.isPassengerCheck.value)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            UserDetailsFields(
-                              title: 'Bus Number',
-                              value: busController.myBuses.first.busnumber,
-                            ),
-                            UserDetailsFields(
-                              title: 'Bus Name',
-                              value: busController.myBuses.first.yatayat,
-                            ),
-                            UserDetailsFields(
-                              title: 'Bus Type',
-                              value: busController.myBuses.first.bustype,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16.0),
-                              child: Text(
-                                'Features',
-                                style: Theme.of(context).textTheme.titleSmall,
+                        if (busController.myBuses.isNotEmpty)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              UserDetailsFields(
+                                title: 'Bus Number',
+                                value: busController.myBuses.first.busnumber,
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  ...busController.myBuses.first.features.map(
-                                    (features) => Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: Image.asset(
-                                        'asset/images/$features.png',
-                                        height: 30,
-                                        width: 30,
+                              UserDetailsFields(
+                                title: 'Bus Name',
+                                value: busController.myBuses.first.yatayat,
+                              ),
+                              UserDetailsFields(
+                                title: 'Bus Type',
+                                value: busController.myBuses.first.bustype,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16.0),
+                                child: Text(
+                                  'Features',
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ...busController.myBuses.first.features.map(
+                                      (features) => Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: Image.asset(
+                                          'asset/images/$features.png',
+                                          height: 30,
+                                          width: 30,
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
                     ],
                   ),
                 ),

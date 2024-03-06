@@ -23,7 +23,7 @@ class _MyBalanceCardState extends State<MyBalanceCard> {
   @override
   void initState() {
     initilizeUI();
-    busController.getMyBuses();
+    busController.getMyBuses(shouldReload: true);
     super.initState();
   }
 
@@ -85,14 +85,17 @@ class _MyBalanceCardState extends State<MyBalanceCard> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(
-                          'Rs. ${busController.myBuses.where((p0) => p0.id == busController.selectedBus.value).first.balance}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 38,
+                        if (busController.myBuses.isNotEmpty)
+                          Obx(
+                            () => Text(
+                              'Rs. ${busController.myBuses.where((p0) => p0.id == busController.selectedBus.value).first.balance}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 38,
+                              ),
+                            ),
                           ),
-                        ),
                         const SizedBox(
                           height: 10,
                         ),
