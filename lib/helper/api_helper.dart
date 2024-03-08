@@ -46,6 +46,7 @@ class APIHelper<T> extends GetxController {
           break;
       }
       var resBody = json.decode(res.body);
+      print(resBody);
       if (res.statusCode == successStatusCode) {
         successfullResponse(true);
         response.value = parseJsonToObject(resBody);
