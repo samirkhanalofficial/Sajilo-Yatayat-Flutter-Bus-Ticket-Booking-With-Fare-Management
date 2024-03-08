@@ -30,7 +30,7 @@ class UserController extends GetxController {
 
         sf.setBool("isLogginned", true);
         FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-        firebaseMessaging.subscribeToTopic(apiHelper.response.value!.name);
+        firebaseMessaging.subscribeToTopic(apiHelper.response.value!.id);
         Get.offAllNamed(
           RoutesNames.userHomePage,
         );
