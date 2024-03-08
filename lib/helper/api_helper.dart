@@ -56,7 +56,6 @@ class APIHelper<T> extends GetxController {
     } catch (e) {
       successfullResponse(false);
       error.value.message = e.toString();
-
       if (!testMode) {
         if (isFirstTime) {
           QuickAlert.show(

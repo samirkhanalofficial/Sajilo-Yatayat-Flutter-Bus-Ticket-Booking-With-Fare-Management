@@ -58,7 +58,7 @@ class _TicketBookedState extends State<TicketBooked> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Rs. ${widget.fareDetails.amount}",
+                    "Rs. ${widget.fareDetails.amount} ( ${widget.fareDetails.faredBy.name} ) ",
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Text(

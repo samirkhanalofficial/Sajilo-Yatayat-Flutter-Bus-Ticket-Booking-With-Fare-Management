@@ -1,14 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tryapp/config/routes/routes_names.dart';
+import 'package:tryapp/config/colors/app_color.dart';
 import 'package:tryapp/controllers/bus_controller.dart';
 import 'package:tryapp/controllers/user_controller.dart';
+import 'package:tryapp/ui/widgets/global/switch_user_bottom_sheet.dart';
 import 'package:tryapp/ui/widgets/global/user_details.dart';
 
 class UserProfile extends StatefulWidget {
@@ -25,10 +23,14 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   BusController busController = BusController();
+  initilizeUi() async {
+    await busController.getMyBuses();
+    await busController.getSelectedBus();
+  }
 
   @override
   void initState() {
-    busController.getMyBuses();
+    initilizeUi();
     super.initState();
   }
 
@@ -46,48 +48,10 @@ class _UserProfileState extends State<UserProfile> {
           () => widget.userController.isLoading.value
               ? const Center(child: CircularProgressIndicator())
               : RefreshIndicator(
-                  onRefresh: () => widget.userController.getUserDetail(),
+                  onRefresh: () => initilizeUi(),
                   child: ListView(
                     padding: const EdgeInsets.all(16),
                     children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton.icon(
-                            style: ButtonStyle(
-                              foregroundColor:
-                                  MaterialStateProperty.all<Color>(Colors.red),
-                            ),
-                            onPressed: () async {
-                              FirebaseMessaging firebaseMessaging =
-                                  FirebaseMessaging.instance;
-
-                              FirebaseAuth.instance.signOut();
-                              SharedPreferences sf =
-                                  await SharedPreferences.getInstance();
-                              firebaseMessaging.unsubscribeFromTopic(
-                                  widget.userController.userDetails.value?.id ??
-                                      "");
-                              BusController busController = BusController();
-                              String selectedBus =
-                                  await busController.getSelectedBus();
-                              if (selectedBus != "") {
-                                firebaseMessaging
-                                    .unsubscribeFromTopic(selectedBus);
-                              }
-
-                              sf.clear();
-                              Get.offAllNamed(RoutesNames.splashScreenPage);
-                            },
-                            icon: const Icon(
-                              Iconsax.logout_1,
-                              size: 25,
-                            ),
-                            label: const Text("Logout"),
-                          ),
-                        ],
-                      ),
                       if (!widget.userController.isPassengerCheck.value)
                         AspectRatio(
                           aspectRatio: 16 / 9,
@@ -97,8 +61,11 @@ class _UserProfileState extends State<UserProfile> {
                               viewportFraction: 0.9,
                             ),
                             children: [
-                              if (busController.myBuses.isNotEmpty)
-                                ...busController.myBuses.first.images.map(
+                              if (busController.selectedBusbusDetails.value !=
+                                  null)
+                                ...busController
+                                    .selectedBusbusDetails.value!.images
+                                    .map(
                                   (imageUrl) => Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: ClipRRect(
@@ -132,15 +99,19 @@ class _UserProfileState extends State<UserProfile> {
                           const SizedBox(
                             width: 10,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('My Profile',
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium),
-                              Text('This information identifies you',
-                                  style: Theme.of(context).textTheme.bodySmall),
-                            ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('My Profile',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium),
+                                Text('This information identifies you',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall),
+                              ],
+                            ),
                           ),
 
                           // TextButton.icon(
@@ -151,6 +122,30 @@ class _UserProfileState extends State<UserProfile> {
                           //     style: TextStyle(fontSize: 16),
                           //   ),
                           // )
+
+                          IconButton(
+                            onPressed: () {
+                              Get.bottomSheet(
+                                SwitchUserBottomSheet(
+                                  busController: busController,
+                                  userController: widget.userController,
+                                ),
+                                elevation: 2,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(35),
+                                    topRight: Radius.circular(35),
+                                  ),
+                                ),
+                                backgroundColor: Colors.white,
+                              );
+                            },
+                            icon: Icon(
+                              Iconsax.logout_1,
+                              size: 35,
+                              color: AppColor().primary,
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(
@@ -180,21 +175,24 @@ class _UserProfileState extends State<UserProfile> {
                                 "",
                       ),
                       if (!widget.userController.isPassengerCheck.value)
-                        if (busController.myBuses.isNotEmpty)
+                        if (busController.selectedBusbusDetails.value != null)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               UserDetailsFields(
                                 title: 'Bus Number',
-                                value: busController.myBuses.first.busnumber,
+                                value: busController
+                                    .selectedBusbusDetails.value!.busnumber,
                               ),
                               UserDetailsFields(
                                 title: 'Bus Name',
-                                value: busController.myBuses.first.yatayat,
+                                value: busController
+                                    .selectedBusbusDetails.value!.yatayat,
                               ),
                               UserDetailsFields(
                                 title: 'Bus Type',
-                                value: busController.myBuses.first.bustype,
+                                value: busController
+                                    .selectedBusbusDetails.value!.bustype,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 16.0),
@@ -208,7 +206,9 @@ class _UserProfileState extends State<UserProfile> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    ...busController.myBuses.first.features.map(
+                                    ...busController
+                                        .selectedBusbusDetails.value!.features
+                                        .map(
                                       (features) => Padding(
                                         padding: const EdgeInsets.all(2.0),
                                         child: Image.asset(

@@ -31,7 +31,8 @@ class _UserHomeState extends State<UserHome> {
   List<Widget> pageList = const [Scaffold()];
 
   initializeUI() async {
-    if (await userController.isPassenger()) {
+    await userController.isPassenger();
+    if (userController.isPassengerCheck.value) {
       pageList = [
         SearchBusPage(
           locationController: locationController,

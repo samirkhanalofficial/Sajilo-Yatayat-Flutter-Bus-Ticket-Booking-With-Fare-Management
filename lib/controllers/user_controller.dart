@@ -10,7 +10,7 @@ class UserController extends GetxController {
   // ignore: unnecessary_cast
   final Rx<UserDetails?> userDetails = (null as UserDetails?).obs;
   var isLoading = false.obs;
-  var isPassengerCheck = false.obs;
+  var isPassengerCheck = true.obs;
   void registerNewUser(
       String name, String address, String dob, String gender) async {
     isLoading(true);
@@ -71,5 +71,10 @@ class UserController extends GetxController {
     String role = sf.getString("role") ?? "Passenger";
     isPassengerCheck.value = role == "Passenger";
     return role == "Passenger";
+  }
+
+  Future<void> setRole(String role) async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    await sf.setString("role", role);
   }
 }
