@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tryapp/controllers/user_controller.dart';
 import 'package:tryapp/models/fare_details.dart';
 import 'package:tryapp/ui/pages/qrcode/generate_qr_code_page.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -16,6 +17,14 @@ class TicketBooked extends StatefulWidget {
 }
 
 class _TicketBookedState extends State<TicketBooked> {
+  UserController userController = UserController();
+
+  @override
+  void initState() {
+    userController.isPassenger();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -95,22 +104,24 @@ class _TicketBookedState extends State<TicketBooked> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextButton.icon(
-                onPressed: () {
-                  Get.to(() => GenerateQrPage(
-                        fare: widget.fareDetails,
-                      ));
-                },
-                icon: const Icon(Icons.document_scanner_outlined),
-                label: const Text(
-                  'Show QR',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
+              userController.isPassengerCheck.value
+                  ? TextButton.icon(
+                      onPressed: () {
+                        Get.to(() => GenerateQrPage(
+                              fare: widget.fareDetails,
+                            ));
+                      },
+                      icon: const Icon(Icons.document_scanner_outlined),
+                      label: const Text(
+                        'Show QR',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
               TextButton.icon(
                 onPressed: () {
                   launchUrlString(
-                      "tel://${widget.fareDetails.isFaredByUser ? widget.fareDetails.bus.owners.first.mobile : widget.fareDetails.faredBy.mobile}");
+                      "tel://${userController.isPassengerCheck.value ? widget.fareDetails.bus.owners.first.mobile : widget.fareDetails.faredBy.mobile}");
                 },
                 icon: const Icon(Icons.call),
                 label: const Text(

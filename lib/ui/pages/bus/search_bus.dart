@@ -123,7 +123,7 @@ class _SearchBusPageState extends State<SearchBusPage> {
           const SizedBox(
             height: 16,
           ),
-          Text('From', style: Theme.of(context).textTheme.titleSmall),
+          Text('Date', style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(
             height: 16,
           ),
