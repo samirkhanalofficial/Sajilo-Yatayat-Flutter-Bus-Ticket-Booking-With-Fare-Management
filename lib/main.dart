@@ -72,8 +72,6 @@ void showFlutterNotification(RemoteMessage message) {
           channel.name,
           channelDescription: channel.description,
           icon: 'launch_background',
-          playSound: true,
-          channelShowBadge: true,
         ),
       ),
     );
@@ -86,13 +84,10 @@ late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Set the background messaging handler early on, as a named top-level function
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.instance.requestPermission();
   FirebaseMessaging.onMessage.listen((message) async {
-    await setupFlutterNotifications();
-
-    showFlutterNotification(message);
+    _firebaseMessagingBackgroundHandler(message);
   });
 
   if (!kIsWeb) {
