@@ -17,13 +17,13 @@ class _MyBalanceCardState extends State<MyBalanceCard> {
   BusController busController = BusController();
 
   initilizeUI() async {
+    await busController.getMyBuses(shouldReload: true);
     await busController.getSelectedBus();
   }
 
   @override
   void initState() {
     initilizeUI();
-    busController.getMyBuses();
     super.initState();
   }
 
@@ -85,14 +85,17 @@ class _MyBalanceCardState extends State<MyBalanceCard> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(
-                          'Rs. ${busController.myBuses.where((p0) => p0.id == busController.selectedBus.value).first.balance}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 38,
+                        if (busController.selectedBusbusDetails.value != null)
+                          Obx(
+                            () => Text(
+                              'Rs. ${busController.selectedBusbusDetails.value!.balance}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 38,
+                              ),
+                            ),
                           ),
-                        ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -128,12 +131,8 @@ class _MyBalanceCardState extends State<MyBalanceCard> {
                         onTap: () {
                           Get.bottomSheet(
                               WithdrawCard(
-                                  amount: busController.myBuses
-                                      .where((p0) =>
-                                          p0.id ==
-                                          busController.selectedBus.value)
-                                      .first
-                                      .balance),
+                                  amount: busController
+                                      .selectedBusbusDetails.value!.balance),
                               isScrollControlled: false);
                         },
                         child: const Padding(

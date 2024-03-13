@@ -19,7 +19,7 @@ class _UserBookingDetailsPageState extends State<OwnerBookingDetailsPage> {
   final FareController fareController = (FareController());
   @override
   void initState() {
-    fareController.getBusFares();
+    fareController.getBusFares(shouldReload: true);
     super.initState();
   }
 
@@ -71,6 +71,14 @@ class _UserBookingDetailsPageState extends State<OwnerBookingDetailsPage> {
                         height: 50,
                         child: CircularProgressIndicator(),
                       ),
+                    ),
+                  ),
+                if (!fareController.isLoading.value &&
+                    fareController.fares.isEmpty)
+                  Center(
+                    child: Image.asset(
+                      'asset/images/nodata.png',
+                      width: 150,
                     ),
                   ),
                 if (!fareController.isLoading.value)

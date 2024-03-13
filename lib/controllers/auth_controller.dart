@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tryapp/config/routes/routes_names.dart';
 import 'package:tryapp/controllers/bus_controller.dart';
 import 'package:tryapp/controllers/user_controller.dart';
+import 'package:tryapp/models/bus_details.dart';
 import 'package:tryapp/ui/pages/registration/arguments/verify_page_argument.dart';
 
 class AuthController extends GetxController {
@@ -77,6 +78,9 @@ class AuthController extends GetxController {
             );
           } else {
             sf.setBool("isLogginned", true);
+            for (BusDetails bus in busController.myBuses) {
+              await firebaseMessaging.subscribeToTopic(bus.id);
+            }
             busController.setSelectedBus(busController.myBuses[0].id);
             Get.offAllNamed(
               RoutesNames.userHomePage,

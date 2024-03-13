@@ -20,6 +20,7 @@ class APIHelper<T> extends GetxController {
     int successStatusCode = 200,
     required Function parseJsonToObject,
     bool testMode = false,
+    bool isFirstTime = true,
   }) async {
     successfullResponse(false);
     late http.Response res;
@@ -45,6 +46,7 @@ class APIHelper<T> extends GetxController {
           break;
       }
       var resBody = json.decode(res.body);
+      print(resBody);
       if (res.statusCode == successStatusCode) {
         successfullResponse(true);
         response.value = parseJsonToObject(resBody);
@@ -55,14 +57,15 @@ class APIHelper<T> extends GetxController {
     } catch (e) {
       successfullResponse(false);
       error.value.message = e.toString();
-
       if (!testMode) {
-        QuickAlert.show(
-          context: Get.context!,
-          type: QuickAlertType.error,
-          title: 'Error',
-          text: e.toString(),
-        );
+        if (isFirstTime) {
+          QuickAlert.show(
+            context: Get.context!,
+            type: QuickAlertType.error,
+            title: 'Error',
+            text: e.toString(),
+          );
+        }
       }
     }
   }

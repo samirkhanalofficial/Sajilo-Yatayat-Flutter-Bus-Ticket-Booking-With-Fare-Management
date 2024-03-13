@@ -12,9 +12,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class BusController extends GetxController {
   Rx<String> selectedBus = ''.obs;
+  final Rx<BusDetails?> selectedBusbusDetails = (null as BusDetails?).obs;
   RxList<String> busTypes = RxList([]);
   RxList<BusFeature> busFeatures = RxList([]);
   Rx<bool> isLoading = false.obs;
+  Rx<bool> isFirstTime = true.obs;
 
   Future<List<String>> uploadImages(List<String> imagesFileUrl) async {
     List<String> urls = [];
@@ -57,6 +59,8 @@ class BusController extends GetxController {
     List<String> features,
   ) async {
     isLoading(true);
+    myBuses([]);
+
     var uploadingImages = await uploadImages(images);
     APIHelper<BusDetails> apiHelper = APIHelper();
     await apiHelper.fetch(
@@ -78,8 +82,11 @@ class BusController extends GetxController {
     if (apiHelper.successfullResponse.value) {
       SharedPreferences sf = await SharedPreferences.getInstance();
       myBuses.add(apiHelper.response.value!);
+      FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+      firebaseMessaging.subscribeToTopic(apiHelper.response.value!.id);
       setSelectedBus(apiHelper.response.value!.id);
       sf.setBool("isLogginned", true);
+      sf.setString("role", "Driver");
 
       Get.offAllNamed(
         RoutesNames.userHomePage,
@@ -88,19 +95,30 @@ class BusController extends GetxController {
     isLoading(false);
   }
 
-  Future<void> getMyBuses() async {
-    isLoading(true);
-    myBuses([]);
+  Future<void> getMyBuses({bool shouldReload = false}) async {
+    if (isFirstTime.value) {
+      isLoading(true);
+    }
     APIHelper<List<BusDetails>> apiHelper = APIHelper<List<BusDetails>>();
     await apiHelper.fetch(
         method: REQMETHOD.get,
+        isFirstTime: shouldReload,
         url: getmyBusesUrl,
         parseJsonToObject: (json) {
+          myBuses([]);
+
           for (var a in json) {
             myBuses.add(BusDetails.fromJson(a));
           }
           return myBuses;
         });
+    if (apiHelper.successfullResponse.value) {
+      if (shouldReload) {
+        Future.delayed(const Duration(seconds: 3),
+            () async => await getMyBuses(shouldReload: true));
+      }
+      isFirstTime(false);
+    }
 
     isLoading(false);
   }
@@ -108,11 +126,7 @@ class BusController extends GetxController {
   Future<void> setSelectedBus(String busId) async {
     try {
       SharedPreferences sf = await SharedPreferences.getInstance();
-
-      FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-
-      sf.setString("myBusId", busId);
-      await firebaseMessaging.subscribeToTopic(busId);
+      await sf.setString("myBusId", busId);
     } catch (e) {
       QuickAlert.show(
         context: Get.context!,
@@ -126,6 +140,11 @@ class BusController extends GetxController {
   Future<String> getSelectedBus() async {
     SharedPreferences sf = await SharedPreferences.getInstance();
     selectedBus.value = sf.getString("myBusId") ?? "";
+    if (myBuses.isNotEmpty && selectedBus.value != "") {
+      selectedBusbusDetails(
+          myBuses.where((p0) => p0.id == selectedBus.value).first);
+    }
+
     return selectedBus.value;
   }
 

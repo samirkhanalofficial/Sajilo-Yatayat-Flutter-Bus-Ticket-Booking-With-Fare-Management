@@ -73,7 +73,7 @@ class _TicketBarganState extends State<TicketBargan> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Rs. ${widget.fareDetails.amount}",
+                            "Rs. ${widget.fareDetails.amount} ( ${widget.fareDetails.faredBy.name} ) ",
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                           Text(

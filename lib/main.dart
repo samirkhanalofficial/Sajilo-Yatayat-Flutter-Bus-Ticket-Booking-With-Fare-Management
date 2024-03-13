@@ -84,11 +84,10 @@ late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Set the background messaging handler early on, as a named top-level function
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.instance.requestPermission();
-  FirebaseMessaging.onMessage.listen((message) {
-    showFlutterNotification(message);
+  FirebaseMessaging.onMessage.listen((message) async {
+    _firebaseMessagingBackgroundHandler(message);
   });
 
   if (!kIsWeb) {

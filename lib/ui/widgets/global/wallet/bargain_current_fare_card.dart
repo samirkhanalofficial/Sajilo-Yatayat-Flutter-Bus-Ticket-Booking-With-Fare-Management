@@ -67,6 +67,7 @@ class _CurrentFairCardState extends State<BargainFairCard> {
             decoration: const InputDecoration(
               hintText: '4000',
             ),
+            keyboardType: TextInputType.number,
           ),
           const SizedBox(
             height: 30,

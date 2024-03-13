@@ -61,7 +61,7 @@ class _TicketCompletedState extends State<TicketCompleted> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.fareDetails.amount.toString(),
+                    "${widget.fareDetails.amount.toString()} ( ${widget.fareDetails.faredBy.name} ) ",
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Text(

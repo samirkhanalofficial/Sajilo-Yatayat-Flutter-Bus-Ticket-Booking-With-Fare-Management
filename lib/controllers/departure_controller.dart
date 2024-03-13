@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:tryapp/config/constants/urls.dart';
 import 'package:tryapp/controllers/bus_controller.dart';
 import 'package:tryapp/helper/api_helper.dart';
 import 'package:tryapp/models/departure_details.dart';
+import 'package:tryapp/ui/widgets/global/bus/departure_added_sheet.dart';
 
 class DepartureController extends GetxController {
   Rx<bool> isLoading = false.obs;
+  Rx<bool> isFirstTime = false.obs;
   RxList<DepartureDetails> departures = RxList<DepartureDetails>([]);
   RxList<int> selectedSeats = RxList<int>([]);
   RxList<int> bookedSeats = RxList<int>([]);
@@ -37,11 +37,8 @@ class DepartureController extends GetxController {
         parseJsonToObject: (json) => DepartureDetails.fromJson(json));
     if (apiHelper.successfullResponse.value) {
       departures.add(apiHelper.response.value!);
-      QuickAlert.show(
-        context: Get.context!,
-        type: QuickAlertType.success,
-        title: 'Departure Added',
-        text: "Departure has been created. You can now get Bookings.",
+      Get.bottomSheet(
+        const DepartureAdded(),
       );
     }
     isLoading(false);
@@ -85,20 +82,41 @@ class DepartureController extends GetxController {
     isLoading(false);
   }
 
-  Future<void> getBookedSeatsByDepartureId(String departureId) async {
-    isLoading(true);
-    bookedSeats([]);
+  Future<void> getBookedSeatsByDepartureId(String departureId,
+      {bool shouldReload = false}) async {
+    if (isFirstTime.value) {
+      isLoading(true);
+    }
     APIHelper<List<int>> apiHelper = APIHelper();
     await apiHelper.fetch(
         method: REQMETHOD.get,
+        isFirstTime: isFirstTime.value,
         url: getBookedSeatByDepartureIdUrl(departureId),
         parseJsonToObject: (json) {
+          bookedSeats([]);
+
           for (int a in json) {
             bookedSeats.add(a);
           }
           return bookedSeats;
         });
-
+    if (apiHelper.successfullResponse.value) {
+      for (var sSeat in selectedSeats) {
+        if (bookedSeats.contains(sSeat)) {
+          selectedSeats.removeWhere((element) => element == sSeat);
+        }
+      }
+      if (shouldReload) {
+        Future.delayed(
+          const Duration(seconds: 3),
+          () async => await getBookedSeatsByDepartureId(
+            departureId,
+            shouldReload: true,
+          ),
+        );
+      }
+      isFirstTime(false);
+    }
     isLoading(false);
   }
 }

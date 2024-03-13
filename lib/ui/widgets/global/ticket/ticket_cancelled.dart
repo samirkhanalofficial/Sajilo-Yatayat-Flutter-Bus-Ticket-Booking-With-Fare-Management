@@ -65,7 +65,7 @@ class _TicketCancelledState extends State<TicketCancelled> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.fareDetails.amount.toString(),
+                    "Rs. ${widget.fareDetails.amount.toString()} ( ${widget.fareDetails.faredBy.name} ) ",
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Text(

@@ -309,6 +309,7 @@ class _AddBusPageState extends State<AddBusPage> {
                               decoration: const InputDecoration(
                                 hintText: '10',
                               ),
+                              keyboardType: TextInputType.number,
                             ),
                           )
                         ],
@@ -328,6 +329,7 @@ class _AddBusPageState extends State<AddBusPage> {
                               decoration: const InputDecoration(
                                 hintText: '10',
                               ),
+                              keyboardType: TextInputType.number,
                             ),
                           )
                         ],

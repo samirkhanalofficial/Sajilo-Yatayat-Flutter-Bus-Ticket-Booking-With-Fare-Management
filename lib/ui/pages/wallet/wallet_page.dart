@@ -19,9 +19,9 @@ class _WalletPageState extends State<WalletPage> {
     await userController.isPassenger();
     await userController.getUserDetail();
     if (userController.isPassengerCheck.value) {
-      await transactionController.getUsersTransactions();
+      await transactionController.getUsersTransactions(shouldReload: true);
     } else {
-      await transactionController.getBusTransactions();
+      await transactionController.getBusTransactions(shouldReload: true);
     }
   }
 
@@ -80,6 +80,13 @@ class _WalletPageState extends State<WalletPage> {
               const SizedBox(
                 height: 25,
               ),
+              if (transactionController.transactions.isEmpty)
+                Center(
+                  child: Image.asset(
+                    'asset/images/nodata.png',
+                    width: 150,
+                  ),
+                ),
               if (transactionController.isLoading.value)
                 const Padding(
                   padding: EdgeInsets.all(28.0),
