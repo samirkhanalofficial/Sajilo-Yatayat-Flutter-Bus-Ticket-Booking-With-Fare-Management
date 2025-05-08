@@ -8,6 +8,7 @@ Minor project done by the following team members:
 - Samir Khanal
 
 ## Getting Started
+Before starting make sure you generate `lib/firebase_options.dart` using firebase. Also make sure you include the `android/app/google-service.json`. It can be downloaded from firebase console.
 
 1. clone the project
 
