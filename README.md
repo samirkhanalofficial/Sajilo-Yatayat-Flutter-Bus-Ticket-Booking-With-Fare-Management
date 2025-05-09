@@ -34,7 +34,9 @@ Before starting make sure you generate `lib/firebase_options.dart` using firebas
    flutter run
    ```
 
-
+## Demo
+Demo Backend Deployed Url : https://sajiloyatayatbackend.samirk.com.np <br/>
+Demo App Link : https://play.google.com/store/apps/details?id=com.sajiloyatayat&hl=en
 
 ## Credits
 
