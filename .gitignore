@@ -47,3 +47,4 @@ app.*.map.json
 /lib/models/*.g.dart
 key.properties
 key.jks
+firebase_options.dart
